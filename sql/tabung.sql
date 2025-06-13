@@ -41,3 +41,18 @@ funding_amount INT NOT NULL,
 funding_receipt VARCHAR(255) NOT NULL,
 created TIMESTAMP DEFAULT NOW()
 );
+
+INSERT INTO months(month_name) 
+VALUES 
+("January"),
+( "February"),
+("March"),
+( "April"),
+( "May"),
+("June"),
+("July"),
+("August"),
+("September"),
+("October"),
+("November"),
+("December");

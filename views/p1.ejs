@@ -1,0 +1,47 @@
+<head>
+    <link href= 'https://fonts.googleapis.com/css?family=Roboto:100,300,400' rel= 'stylesheet'>
+    <link rel = 'stylesheet' href = '/home.css'/>
+</head>
+
+<body>
+    <header class= 'header'>
+        <nav class= 'navbar'>
+            <ul class= 'nav-buttons'>
+                <form method= 'GET' action= "/">
+                    <button> Home </button>
+                </form>
+                <form method= 'GET' action= "/pg1">
+                    <button> P1 </button>
+                </form>
+            </ul>
+        </nav>
+    </header>  
+
+    <div class="flex-container">
+        <div class="container">
+            <h1 class= 'title'> Register User </h1>
+            <form method= 'POST' action= '/adduser'>
+                <input type= 'text' name= 'name' class= 'form' placeholder= 'Enter User Name'>
+                <input type= 'text' name= 'nickname' class= 'form' placeholder= 'Enter Nickname'>
+                <button> Submit </button>
+            </form>
+        </div>
+
+        <div class="container">
+            <h1 class= 'title'> Register User </h1>
+            <form method='POST' action='/adduser'>
+              <input type='text' name='name' class='form' placeholder='Enter User Name' required>
+              <input type='text' name='nickname' class='form' placeholder='Enter Nickname' required>
+            
+              <select name="role_id" class='form' required>
+                <option value="">Select a Role</option>
+                <% roles.forEach(function(role) { %>
+                  <option value="<%= role.id %>"><%= role.role_name %></option>
+                <% }); %>
+              </select>
+            
+              <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
