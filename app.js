@@ -29,6 +29,18 @@ app.get('/users', function(req, res){
     res.render('users');
 });
 
+// app.get('/monthly', function(req, res){
+//     res.render('monthly');
+// });
+
+app.get('/monthly', function(req, res){
+  const usersquery = 'SELECT * FROM users';
+  connection.query(usersquery, function(error, users) {
+    if (error) throw error;
+    res.render('monthly', { users: users });  
+  });
+});
+
 app.post('/addusers', function(req, res){
   var adduser = {
     username: req.body.users_name,

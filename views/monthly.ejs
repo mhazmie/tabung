@@ -1,6 +1,6 @@
 <head>
     <link href= 'https://fonts.googleapis.com/css?family=Roboto:100,300,400' rel= 'stylesheet'>
-    <link rel = 'stylesheet' href = '/home.css'/>
+    <link rel = 'stylesheet' href = '/monthly.css'/>
 </head>
 
 <body>
@@ -22,7 +22,17 @@
 
     <div class="flex-container">
         <div class="container">
-            <h1 class= 'title'> Tabung </h1>
+            <h1 class= 'title'> Register User </h1>
+            <form method= 'POST' action= '/addusers'>
+                <select name="userlist" class='form' required>
+                  <option value="">Select User</option>
+                  <% users.forEach(function(users) { %>
+                    <option value="<%= users.users_name%>"><%= users.nickname %></option>
+                  <% }); %>
+                </select>
+            
+                <button type="submit">Submit</button>
+            </form>
         </div>
     </div>
 </body>
