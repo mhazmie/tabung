@@ -21,32 +21,18 @@ app.listen(port, function () {
   console.log('Server is running on', domain, port);
 });
 
-// app.get('/', function(req, res){
-//     var getmonth = ('SELECT * FROM months');
-//     connection.query(getmonth, function(error, results)
-//     {if (error) throw error;
-//       res.render('/home', {months:months});
-//     }
-//   );
-// });
-
 app.get('/', function(req, res){
     res.render('home');
 });
 
-// app.get('/pg1', function(req, res){
-//     var getmonth = ('SELECT * FROM months');
-//     connection.query(getmonth, function(error, results)
-//     {if (error) throw error;
-//       res.render('/pg1', {months:months});
-//     }
-//   );
-// });
+app.get('/users', function(req, res){
+    res.render('users');
+});
 
-app.post('/adduser', function(req, res){
+app.post('/addusers', function(req, res){
   var adduser = {
-    username: req.body.name,
-    nickname: req.body.nickname
+    username: req.body.users_name,
+    nickname: req.body.users_nickname
   };
   var insertuser = ('INSERT INTO users SET ?');
   connection.query(insertuser, adduser, function(error, results)
@@ -56,17 +42,3 @@ app.post('/adduser', function(req, res){
     }
   );
 });
-
-// app.post('/addmonthly', function(req, res){
-//   var addmonthly = {
-//     username: req.body.name,
-//     nickname: req.body.nickname
-//   };
-//   var q = ('INSERT INTO users SET ?');
-//   connection.query(q, addmonthly, function(error, results)
-//     {if (error) throw error;
-//       console.log(results);
-//       res.redirect('/');
-//     }
-//   );
-// });
