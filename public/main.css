@@ -32,11 +32,10 @@
   color: rgb(255, 255, 255);
   transition: 0.3s;
 }
-/* Form End */
-
 option {
   color: black;
 }
+/* Form End */
 
 body {
   text-align: center;

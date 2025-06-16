@@ -63,3 +63,23 @@ SUM(monthly.monthly_amount) AS total_paid
 FROM users
 LEFT JOIN monthly ON users.users_id = monthly.users_id
 GROUP BY users.users_id;
+
+CREATE VIEW total_collected AS
+SELECT SUM(amount) AS total_collected
+FROM (
+SELECT monthly.monthly_amount AS amount  FROM monthly
+UNION ALL
+SELECT funding.funding_amount AS amount FROM funding
+) AS total_collected;
+
+CREATE VIEW total_spent AS
+SELECT SUM(expenses.expenses_amount) AS total_spent
+FROM expenses;
+
+CREATE VIEW total_available AS
+SELECT 
+total_collected.total_collected - total_spent.total_spent AS result
+FROM 
+total_collected 
+CROSS JOIN 
+total_spent;

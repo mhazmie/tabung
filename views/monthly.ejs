@@ -19,6 +19,9 @@
                 <form method= 'GET' action= "/funding">
                     <button> ADHOC </button>
                 </form>
+                <form method= 'GET' action= "/spend">
+                    <button> Spending </button>
+                </form>
             </ul>
         </nav>
     </header>  
@@ -33,14 +36,15 @@
                     <option value='<%= users.users_id%>'><%= users.nickname %></option>
                   <% }); %>
                 </select>
-                <input type= 'text' name= 'monthly_amount' class= 'form' placeholder= 'Amount'>
+                <input type= 'text' name= 'monthly_amount' class= 'form' placeholder= 'Amount' required>
                 <select name='month_id' class='form' required>
                   <option value=''>Month</option>
                   <% months.forEach(function(months) { %>
                     <option value='<%= months.month_id%>'><%= months.month_name %></option>
                   <% }); %>
                 </select>
-                <input type= 'url' name= 'monthly_receipt' class= 'form' placeholder= 'Reference'>
+                <!-- <input type= 'url' name= 'monthly_receipt' class= 'form' placeholder= 'Reference' required> -->
+                <input type= 'text' name= 'monthly_receipt' class= 'form' placeholder= 'Reference'>
                 <button type='submit'>Submit</button>
             </form>
         </div>
