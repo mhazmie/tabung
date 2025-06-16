@@ -6,7 +6,6 @@ CREATE TABLE users (
 users_id INT AUTO_INCREMENT PRIMARY KEY,
 username VARCHAR(255) UNIQUE NOT NULL,
 nickname VARCHAR(255) NOT NULL,
-total_paid INT NOT NULL,
 created TIMESTAMP DEFAULT NOW()
 );
 
@@ -19,11 +18,11 @@ CREATE TABLE monthly (
 monthly_id INT AUTO_INCREMENT PRIMARY KEY,
 users_id INT NOT NULL,
 monthly_amount INT NOT NULL,
-month_name VARCHAR(255) UNIQUE NOT NULL,
+month_id INT NOT NULL,
 monthly_receipt VARCHAR(255) UNIQUE NOT NULL,
 created TIMESTAMP DEFAULT NOW(),
 FOREIGN KEY (users_id) REFERENCES users(users_id),
-FOREIGN KEY (month_name) REFERENCES months(month_name)
+FOREIGN KEY (month_id) REFERENCES months(month_id)
 );
 
 CREATE TABLE expenses (
@@ -45,10 +44,10 @@ created TIMESTAMP DEFAULT NOW()
 INSERT INTO months(month_name) 
 VALUES 
 ("January"),
-( "February"),
+("February"),
 ("March"),
-( "April"),
-( "May"),
+("April"),
+("May"),
 ("June"),
 ("July"),
 ("August"),
@@ -56,3 +55,11 @@ VALUES
 ("October"),
 ("November"),
 ("December");
+
+CREATE VIEW total_paid AS
+SELECT users.users_id AS id,
+users.nickname AS nickname,
+SUM(monthly.monthly_amount) AS total_paid
+FROM users
+LEFT JOIN monthly ON users.users_id = monthly.users_id
+GROUP BY users.users_id;

@@ -29,15 +29,18 @@ app.get('/users', function(req, res){
     res.render('users');
 });
 
-// app.get('/monthly', function(req, res){
-//     res.render('monthly');
-// });
-
 app.get('/monthly', function(req, res){
-  const usersquery = 'SELECT * FROM users';
+  var usersquery = 'SELECT * FROM users';
+  var monthsquery = 'SELECT * FROM months ORDER BY month_id'
   connection.query(usersquery, function(error, users) {
     if (error) throw error;
-    res.render('monthly', { users: users });  
+    connection.query(monthsquery, function(error, months){
+        if(error) throw error;
+            res.render('monthly', { 
+                users: users,
+                months: months
+            });  
+    });
   });
 });
 
@@ -50,7 +53,23 @@ app.post('/addusers', function(req, res){
   connection.query(insertuser, adduser, function(error, results)
     {if (error) throw error;
       console.log(results);
-      res.redirect('/');
+      res.redirect('/users');
+    }
+  );
+});
+
+app.post('/addmonthly', function(req, res){
+  var addmonthly = {
+    users_id: req.body.users_id,
+    monthly_amount: req.body.monthly_amount,
+    month_id: req.body.month_id,
+    monthly_receipt: req.body.monthly_receipt
+  };
+  var insertmonthly = ('INSERT INTO monthly SET ?');
+  connection.query(insertmonthly, addmonthly, function(error, results)
+    {if (error) throw error;
+      console.log(results);
+      res.redirect('/monthly');
     }
   );
 });

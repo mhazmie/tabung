@@ -7,31 +7,38 @@
     <header class= 'header'>
         <nav class= 'navbar'>
             <ul class= 'nav-buttons'>
-                <form method= 'GET' action= "/">
+                <form method= 'GET' action= '/'>
                     <button> Home </button>
                 </form>
-                <form method= 'GET' action= "/users">
+                <form method= 'GET' action= '/users'>
                     <button> Users </button>
                 </form>
-                <form method= 'GET' action= "/monthly">
+                <form method= 'GET' action= '/monthly'>
                     <button> Monthly </button>
                 </form>
             </ul>
         </nav>
     </header>  
 
-    <div class="flex-container">
-        <div class="container">
+    <div class='flex-container'>
+        <div class='container'>
             <h1 class= 'title'> Register User </h1>
-            <form method= 'POST' action= '/addusers'>
-                <select name="userlist" class='form' required>
-                  <option value="">Select User</option>
+            <form method= 'POST' action= '/addmonthly'>
+                <select name='users_id' class='form' required>
+                  <option value=''>Select User</option>
                   <% users.forEach(function(users) { %>
-                    <option value="<%= users.users_name%>"><%= users.nickname %></option>
+                    <option value='<%= users.users_id%>'><%= users.nickname %></option>
                   <% }); %>
                 </select>
-            
-                <button type="submit">Submit</button>
+                <input type= 'text' name= 'monthly_amount' class= 'form' placeholder= 'Amount'>
+                <select name='month_id' class='form' required>
+                  <option value=''>Month</option>
+                  <% months.forEach(function(months) { %>
+                    <option value='<%= months.month_id%>'><%= months.month_name %></option>
+                  <% }); %>
+                </select>
+                <input type= 'url' name= 'monthly_receipt' class= 'form' placeholder= 'Reference'>
+                <button type='submit'>Submit</button>
             </form>
         </div>
     </div>
