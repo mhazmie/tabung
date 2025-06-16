@@ -1,6 +1,6 @@
 <head>
     <link href= 'https://fonts.googleapis.com/css?family=Roboto:100,300,400' rel= 'stylesheet'>
-    <link rel = 'stylesheet' href = '/monthly.css'/>
+    <link rel = 'stylesheet' href = '/main.css'/>
 </head>
 
 <body>
@@ -16,13 +16,16 @@
                 <form method= 'GET' action= '/monthly'>
                     <button> Monthly </button>
                 </form>
+                <form method= 'GET' action= "/funding">
+                    <button> ADHOC </button>
+                </form>
             </ul>
         </nav>
     </header>  
 
     <div class='flex-container'>
         <div class='container'>
-            <h1 class= 'title'> Register User </h1>
+            <h1 class= 'title'> Add New Entry </h1>
             <form method= 'POST' action= '/addmonthly'>
                 <select name='users_id' class='form' required>
                   <option value=''>Select User</option>

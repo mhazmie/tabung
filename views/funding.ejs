@@ -25,7 +25,16 @@
 
     <div class="flex-container">
         <div class="container">
-            <h1 class= 'title'> Tabung </h1>
+            <h1 class= 'title'> Add New Entry </h1>
+            <form method= 'POST' action= '/addfunding'>
+                <input type= 'text' name= 'funding_desc' class= 'form' placeholder= 'Description'>
+
+                <input type= 'text' name= 'funding_amount' class= 'form' placeholder= 'Amount'>
+
+                <input type= 'url' name= 'funding_receipt' class= 'form' placeholder= 'Reference'>
+
+                <button type='submit'>Submit</button>
+            </form>
         </div>
     </div>
 </body>

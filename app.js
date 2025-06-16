@@ -44,6 +44,10 @@ app.get('/monthly', function(req, res){
   });
 });
 
+app.get('/funding', function(req, res){
+    res.render('funding');
+});
+
 app.post('/addusers', function(req, res){
   var adduser = {
     username: req.body.users_name,
@@ -70,6 +74,21 @@ app.post('/addmonthly', function(req, res){
     {if (error) throw error;
       console.log(results);
       res.redirect('/monthly');
+    }
+  );
+});
+
+app.post('/addfunding', function(req, res){
+  var addfunding = {
+    funding_description: req.body.funding_desc,
+    funding_amount: req.body.funding_amount,
+    funding_receipt: req.body.funding_receipt
+  };
+  var insertfunding = ('INSERT INTO funding SET ?');
+  connection.query(insertfunding, addfunding, function(error, results)
+    {if (error) throw error;
+      console.log(results);
+      res.redirect('/funding');
     }
   );
 });
