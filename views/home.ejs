@@ -1,34 +1,79 @@
 <head>
     <link href= 'https://fonts.googleapis.com/css?family=Roboto:100,300,400' rel= 'stylesheet'>
     <link rel = 'stylesheet' href = '/main.css'/>
+    <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
 </head>
 
 <body>
     <header class= 'header'>
         <nav class= 'navbar'>
             <ul class= 'nav-buttons'>
-                <form method= 'GET' action= "/">
+                <form method= 'GET' action= '/'>
                     <button> Home </button>
                 </form>
-                <form method= 'GET' action= "/users">
+                <form method= 'GET' action= '/users'>
                     <button> Users </button>
                 </form>
-                <form method= 'GET' action= "/monthly">
+                <form method= 'GET' action= '/monthly'>
                     <button> Monthly </button>
                 </form>
-                <form method= 'GET' action= "/funding">
+                <form method= 'GET' action= '/funding'>
                     <button> ADHOC </button>
                 </form>
-                <form method= 'GET' action= "/spend">
+                <form method= 'GET' action= '/spend'>
                     <button> Spending </button>
                 </form>
             </ul>
         </nav>
     </header>  
 
-    <div class="flex-container">
-        <div class="container">
+    <div class='flex-container'>
+        <div class='container'>
             <h1 class= 'title'> Tabung </h1>
+        </div>
+        <div>
+
+            <h2>Dashboard</h2>
+
+            <!-- Hidden fields for chart -->
+            <input type="hidden" id="collectedVal" value="<%= collected %>">
+            <input type="hidden" id="spentVal" value="<%= spent %>">
+            <input type="hidden" id="availableVal" value="<%= available %>">
+
+            <div class="dashboard-container">
+     
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                              <th>User</th>
+                              <% months.forEach(month => { %>
+                                <th><%= month.month_name %></th>
+                              <% }); %>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <% users.forEach(user => { %>
+                            <tr>
+                              <td><%= user.username %></td>
+                              <% months.forEach(month => {
+                                const paid = payments.some(p => p.users_id === user.users_id && p.month_id === month.month_id);
+                              %>
+                                <td><input type="checkbox" <%= paid ? 'checked' : '' %>></td>
+                              <% }); %>
+                            </tr>
+                          <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="cfchart"></canvas>
+                </div>
+                
+            </div>
+
+            <script src="/js/chart.js"></script>
         </div>
     </div>
 </body>

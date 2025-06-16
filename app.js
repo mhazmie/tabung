@@ -21,9 +21,65 @@ app.listen(port, function () {
   console.log('Server is running on', domain, port);
 });
 
-app.get('/', function(req, res){
-    res.render('home');
+// app.get('/', function(req, res){
+//   var collectedquery = 'SELECT * FROM total_collected';
+//   var spentquery = 'SELECT * FROM total_spent';
+//   var availablequery = 'SELECT * FROM total_available';
+
+//   connection.query(collectedquery, function(error, collectedresult) {
+//     if (error) throw error;
+
+//     connection.query(spentquery, function(error, spentresult) {
+//       if (error) throw error;
+
+//       connection.query(availablequery, function(error, availableresult) {
+//         if (error) throw error;
+
+//         res.render('home', {
+//           collected: collectedresult[0].total_collected,
+//           spent: spentresult[0].total_spent,
+//           available: availableresult[0].total_available
+//         });
+//       });
+//     });
+//   });
+// });
+
+app.get('/', function(req, res) {
+  var collectedquery = 'SELECT total_collected FROM total_collected';
+  var spentquery = 'SELECT total_spent FROM total_spent';
+  var availablequery = 'SELECT total_available FROM total_available';
+  var userquery = 'SELECT * FROM users';
+  var monthquery = 'SELECT * FROM months ORDER BY month_id';
+  var paymentquery = 'SELECT users_id, month_id FROM monthly';
+  connection.query(collectedquery, function(err, collectedresult) {
+    if (err) throw err;
+    connection.query(spentquery, function(err, spentresult) {
+      if (err) throw err;
+      connection.query(availablequery, function(err, availableresult) {
+        if (err) throw err;
+        connection.query(userquery, function(err, users) {
+          if (err) throw err;
+          connection.query(monthquery, function(err, months) {
+            if (err) throw err;
+            connection.query(paymentquery, function(err, payments) {
+              if (err) throw err;
+              res.render('home', {
+                collected: collectedresult[0].total_collected,
+                spent: spentresult[0].total_spent,
+                available: availableresult[0].total_available,
+                users: users,
+                months: months,
+                payments: payments
+              });
+            });
+          });
+        });
+      });
+    });
+  });
 });
+
 
 app.get('/users', function(req, res){
     res.render('users');

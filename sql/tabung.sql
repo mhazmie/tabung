@@ -78,7 +78,7 @@ FROM expenses;
 
 CREATE VIEW total_available AS
 SELECT 
-total_collected.total_collected - total_spent.total_spent AS result
+total_collected.total_collected - total_spent.total_spent AS total_available
 FROM 
 total_collected 
 CROSS JOIN 
