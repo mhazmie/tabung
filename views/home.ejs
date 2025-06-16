@@ -1,7 +1,8 @@
 <head>
     <link href= 'https://fonts.googleapis.com/css?family=Roboto:100,300,400' rel= 'stylesheet'>
     <link rel = 'stylesheet' href = '/main.css'/>
-    <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
+    <script src= 'https://cdn.jsdelivr.net/npm/chart.js'></script>
+    <script src= 'https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels'></script>
 </head>
 
 <body>
@@ -36,9 +37,9 @@
             <h2>Dashboard</h2>
 
             <!-- Hidden fields for chart -->
-            <input type="hidden" id="collectedVal" value="<%= collected %>">
-            <input type="hidden" id="spentVal" value="<%= spent %>">
-            <input type="hidden" id="availableVal" value="<%= available %>">
+            <input type="hidden" id="collectedvalue" value="<%= collected %>">
+            <input type="hidden" id="spentvalue" value="<%= spent %>">
+            <input type="hidden" id="availablevalue" value="<%= available %>">
 
             <div class="dashboard-container">
      
@@ -70,7 +71,7 @@
                 <div class="chart-container">
                     <canvas id="cfchart"></canvas>
                 </div>
-                
+
             </div>
 
             <script src="/js/chart.js"></script>
