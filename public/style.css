@@ -46,8 +46,8 @@ option {
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 .chart-container {
-  height: 310px;
-  width: 310px;
+  height: 450px;
+  width: 450px;
   color: #ffffff;
 }
 .table-container {
@@ -70,7 +70,7 @@ input[type=checkbox] {
 /* Body-Btn Start */
 button {
   border: none;
-  border:3px solid #ffffff81;
+  border: 3px solid #ffffff81;
   font-size: 1.3em;
   color: #fafafa81;
   padding: 5px 16px;

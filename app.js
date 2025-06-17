@@ -50,11 +50,6 @@ app.get('/', function(req, res) {
   });
 });
 
-
-// app.get('/users', function(req, res){
-//     res.render('users');
-// });
-
 app.get('/users', function(req, res){
     const error = req.query.error;
     res.render('users', { error: error });
@@ -77,7 +72,6 @@ app.get('/monthly', function(req, res){
   });
 });
 
-
 app.get('/funding', function(req, res){
     res.render('funding');
 });
@@ -85,20 +79,6 @@ app.get('/funding', function(req, res){
 app.get('/spend', function(req, res){
     res.render('spend');
 });
-
-// app.post('/addusers', function(req, res){
-//   var adduser = {
-//     username: req.body.users_name,
-//     nickname: req.body.users_nickname
-//   };
-//   var insertuser = ('INSERT INTO users SET ?');
-//   connection.query(insertuser, adduser, function(error, results)
-//     {if (error) throw error;
-//       console.log(results);
-//       res.redirect('/users');
-//     }
-//   );
-// });
 
 app.post('/addusers', function(req, res){
   var username = req.body.users_name;

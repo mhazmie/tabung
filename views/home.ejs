@@ -28,20 +28,20 @@
         </nav>
     </header>  
 
-    <div class='flex-container'>
-        <div class='container'>
+    <div class= 'flex-container'>
+        <div class= 'container'>
             <h1 class= 'title'> Tabung Dashboard</h1>
         </div>
         <div>
-            <input type="hidden" id="collectedvalue" value="<%= collected %>">
-            <input type="hidden" id="spentvalue" value="<%= spent %>">
-            <input type="hidden" id="availablevalue" value="<%= available %>">
-            <div class="dashboard-container">
-                <div class="table-container">
+            <input type= 'hidden' id= 'collectedvalue' value= '<%= collected %>'>
+            <input type= 'hidden' id= 'spentvalue' value= '<%= spent %>'>
+            <input type= 'hidden' id= 'availablevalue' value= '<%= available %>'>
+            <div class= 'dashboard-container'>
+                <div class= 'table-container'>
                     <table>
                         <thead>
                             <tr>
-                              <th>User</th>
+                              <th> User </th>
                               <% months.forEach(month => { %>
                                 <th><%= month.month_name %></th>
                               <% }); %>
@@ -54,18 +54,18 @@
                               <% months.forEach(month => {
                                 const paid = payments.some(p => p.users_id === user.users_id && p.month_id === month.month_id);
                               %>
-                                <td><input type="checkbox" <%= paid ? 'checked' : '' %>></td>
+                                <td><input type= 'checkbox' <%= paid ? 'checked' : '' %>></td>
                               <% }); %>
                             </tr>
                           <% }); %>
                         </tbody>
                     </table>
                 </div>
-                <div class="chart-container">
-                    <canvas id="cfchart"></canvas>
+                <div class= 'chart-container'>
+                    <canvas id= 'cfchart'></canvas>
                 </div>
             </div>
-            <script src="/js/chart.js"></script>
+            <script src= '/js/chart.js'></script>
         </div>
     </div>
 </body>

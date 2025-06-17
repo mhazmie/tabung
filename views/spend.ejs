@@ -7,32 +7,32 @@
     <header class= 'header'>
         <nav class= 'navbar'>
             <ul class= 'nav-buttons'>
-                <form method= 'GET' action= "/">
+                <form method= 'GET' action= '/'>
                     <button> Home </button>
                 </form>
-                <form method= 'GET' action= "/users">
+                <form method= 'GET' action= '/users'>
                     <button> Users </button>
                 </form>
-                <form method= 'GET' action= "/monthly">
+                <form method= 'GET' action= '/monthly'>
                     <button> Monthly </button>
                 </form>
-                <form method= 'GET' action= "/funding">
+                <form method= 'GET' action= '/funding'>
                     <button> ADHOC </button>
                 </form>
-                <form method= 'GET' action= "/spend">
+                <form method= 'GET' action= '/spend'>
                     <button> Spending </button>
                 </form>
             </ul>
         </nav>
     </header>  
 
-    <div class="flex-container">
+    <div class= 'flex-container'>
         <h1 class= 'title'> Spendings </h1>
         <form method= 'POST' action= '/addspending'>
             <input type= 'text' name= 'expenses_amount' class= 'form' placeholder= 'Amount' required>
             <input type= 'text' name= 'expenses_desc' class= 'form' placeholder= 'Description' required>
             <input type= 'url' name= 'expenses_receipt' class= 'form' placeholder= 'Reference' required>
-            <button type='submit'>Submit</button>
+            <button type= 'submit'>Submit</button>
         </form>
     </div>
 </body>
