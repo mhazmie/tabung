@@ -1,9 +1,17 @@
 <head>
     <link href= 'https://fonts.googleapis.com/css?family=Roboto:100,300,400' rel= 'stylesheet'>
-    <link rel = 'stylesheet' href = '/main.css'/>
+    <link rel = 'stylesheet' href = '/style.css'/>
 </head>
 
 <body>
+    <% if (error === 'duplicate') { %>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          alert("Error: Username or Nickname already exists!");
+        });
+      </script>
+    <% } %>
+
     <header class= 'header'>
         <nav class= 'navbar'>
             <ul class= 'nav-buttons'>
@@ -27,26 +35,24 @@
     </header>  
 
     <div class='flex-container'>
-        <div class='container'>
-            <h1 class= 'title'> Monthly Payment </h1>
-            <form method= 'POST' action= '/addmonthly'>
-                <select name='users_id' class='form' required>
-                  <option value=''>Select User</option>
-                  <% users.forEach(function(users) { %>
-                    <option value='<%= users.users_id%>'><%= users.nickname %></option>
-                  <% }); %>
-                </select>
-                <input type= 'text' name= 'monthly_amount' class= 'form' placeholder= 'Amount' required>
-                <select name='month_id' class='form' required>
-                  <option value=''>Month</option>
-                  <% months.forEach(function(months) { %>
-                    <option value='<%= months.month_id%>'><%= months.month_name %></option>
-                  <% }); %>
-                </select>
-                <input type= 'url' name= 'monthly_receipt' class= 'form' placeholder= 'Reference' required>
-                <!-- <input type= 'text' name= 'monthly_receipt' class= 'form' placeholder= 'Reference'> -->
-                <button type='submit'>Submit</button>
-            </form>
-        </div>
+        <h1 class= 'title'> Monthly Payment </h1>
+        <form method= 'POST' action= '/addmonthly'>
+            <select name='users_id' class='form' required>
+              <option value=''>Select User</option>
+              <% users.forEach(function(users) { %>
+                <option value='<%= users.users_id%>'><%= users.nickname %></option>
+              <% }); %>
+            </select>
+            <input type= 'text' name= 'monthly_amount' class= 'form' placeholder= 'Amount' required>
+            <select name='month_id' class='form' required>
+              <option value=''>Month</option>
+              <% months.forEach(function(months) { %>
+                <option value='<%= months.month_id%>'><%= months.month_name %></option>
+              <% }); %>
+            </select>
+            <input type= 'url' name= 'monthly_receipt' class= 'form' placeholder= 'Reference' required>
+            <!-- <input type= 'text' name= 'monthly_receipt' class= 'form' placeholder= 'Reference'> -->
+            <button type='submit'>Submit</button>
+        </form>
     </div>
 </body>

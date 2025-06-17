@@ -1,6 +1,6 @@
 <head>
     <link href= 'https://fonts.googleapis.com/css?family=Roboto:100,300,400' rel= 'stylesheet'>
-    <link rel = 'stylesheet' href = '/main.css'/>
+    <link rel = 'stylesheet' href = '/style.css'/>
 </head>
 
 <body>
@@ -27,15 +27,12 @@
     </header>  
 
     <div class="flex-container">
-        <div class="container">
-            <h1 class= 'title'> Spendings </h1>
-            <form method= 'POST' action= '/addspending'>
-                <input type= 'text' name= 'expenses_amount' class= 'form' placeholder= 'Amount' required>
-                <input type= 'text' name= 'expenses_desc' class= 'form' placeholder= 'Description' required>
-                <input type= 'url' name= 'expenses_receipt' class= 'form' placeholder= 'Reference' required>
-                 <!-- <input type= 'text' name= 'expenses_receipt' class= 'form' placeholder= 'Reference'> -->
-                <button type='submit'>Submit</button>
-            </form>
-        </div>
+        <h1 class= 'title'> Spendings </h1>
+        <form method= 'POST' action= '/addspending'>
+            <input type= 'text' name= 'expenses_amount' class= 'form' placeholder= 'Amount' required>
+            <input type= 'text' name= 'expenses_desc' class= 'form' placeholder= 'Description' required>
+            <input type= 'url' name= 'expenses_receipt' class= 'form' placeholder= 'Reference' required>
+            <button type='submit'>Submit</button>
+        </form>
     </div>
 </body>

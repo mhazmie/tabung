@@ -1,9 +1,17 @@
 <head>
     <link href= 'https://fonts.googleapis.com/css?family=Roboto:100,300,400' rel= 'stylesheet'>
-    <link rel = 'stylesheet' href = '/main.css'/>
+    <link rel = 'stylesheet' href = '/style.css'/>
 </head>
 
 <body>
+    <% if (error === 'duplicate') { %>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          alert("Error: Username or Nickname already exists!");
+        });
+      </script>
+    <% } %>
+
     <header class= 'header'>
         <nav class= 'navbar'>
             <ul class= 'nav-buttons'>
@@ -27,13 +35,11 @@
     </header>  
 
     <div class="flex-container">
-        <div class="container">
-            <h1 class= 'title'> Register User </h1>
-            <form method= 'POST' action= '/addusers'>
-                <input type= 'text' name= 'users_name' class= 'form' placeholder= 'Enter User Name' required>
-                <input type= 'text' name= 'users_nickname' class= 'form' placeholder= 'Enter Nickname' required>
-                <button> Submit </button>
-            </form>
-        </div>
+        <h1 class= 'title'> Register User </h1>
+        <form method= 'POST' action= '/addusers'>
+            <input type= 'text' name= 'users_name' class= 'form' placeholder= 'Enter User Name' required>
+            <input type= 'text' name= 'users_nickname' class= 'form' placeholder= 'Enter Nickname' required>
+            <button> Submit </button>
+        </form>
     </div>
 </body>

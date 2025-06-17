@@ -51,24 +51,32 @@ app.get('/', function(req, res) {
 });
 
 
+// app.get('/users', function(req, res){
+//     res.render('users');
+// });
+
 app.get('/users', function(req, res){
-    res.render('users');
+    const error = req.query.error;
+    res.render('users', { error: error });
 });
 
 app.get('/monthly', function(req, res){
   var usersquery = 'SELECT * FROM users';
-  var monthsquery = 'SELECT * FROM months ORDER BY month_id'
-  connection.query(usersquery, function(error, users) {
-    if (error) throw error;
-    connection.query(monthsquery, function(error, months){
-        if(error) throw error;
-            res.render('monthly', { 
-                users: users,
-                months: months
-            });  
+  var monthsquery = 'SELECT * FROM months ORDER BY month_id';
+  const error = req.query.error;
+  connection.query(usersquery, function(error1, users) {
+    if (error1) throw error1;
+    connection.query(monthsquery, function(error2, months){
+        if (error2) throw error2;
+        res.render('monthly', { 
+            users: users,
+            months: months,
+            error: error
+        });  
     });
   });
 });
+
 
 app.get('/funding', function(req, res){
     res.render('funding');
@@ -78,34 +86,66 @@ app.get('/spend', function(req, res){
     res.render('spend');
 });
 
+// app.post('/addusers', function(req, res){
+//   var adduser = {
+//     username: req.body.users_name,
+//     nickname: req.body.users_nickname
+//   };
+//   var insertuser = ('INSERT INTO users SET ?');
+//   connection.query(insertuser, adduser, function(error, results)
+//     {if (error) throw error;
+//       console.log(results);
+//       res.redirect('/users');
+//     }
+//   );
+// });
+
 app.post('/addusers', function(req, res){
-  var adduser = {
-    username: req.body.users_name,
-    nickname: req.body.users_nickname
-  };
-  var insertuser = ('INSERT INTO users SET ?');
-  connection.query(insertuser, adduser, function(error, results)
-    {if (error) throw error;
-      console.log(results);
-      res.redirect('/users');
+  var username = req.body.users_name;
+  var nickname = req.body.users_nickname;
+  var checkquery = 'SELECT * FROM users WHERE username = ? OR nickname = ?';
+  connection.query(checkquery, [username, nickname], function(error, result) {
+    if (error) throw error;
+    if (result.length > 0) {
+      res.redirect('/users?error=duplicate');
+    } else {
+      var adduser = {
+        username: username,
+        nickname: nickname
+      };
+      var insertuser = 'INSERT INTO users SET ?';
+      connection.query(insertuser, adduser, function(error, results) {
+        if (error) throw error;
+        console.log(results);
+        res.redirect('/users');
+      });
     }
-  );
+  });
 });
 
 app.post('/addmonthly', function(req, res){
-  var addmonthly = {
-    users_id: req.body.users_id,
-    monthly_amount: req.body.monthly_amount,
-    month_id: req.body.month_id,
-    monthly_receipt: req.body.monthly_receipt
-  };
-  var insertmonthly = ('INSERT INTO monthly SET ?');
-  connection.query(insertmonthly, addmonthly, function(error, results)
-    {if (error) throw error;
-      console.log(results);
-      res.redirect('/monthly');
+  var users_id = req.body.users_id;
+  var month_id = req.body.month_id;
+  var checkquery = 'SELECT * FROM monthly WHERE users_id = ? AND month_id = ?';
+  connection.query(checkquery, [users_id, month_id], function(error, result) {
+    if (error) throw error;
+    if (result.length > 0) {
+      res.redirect(`/monthly?error=duplicate`);
+    } else {
+      var addmonthly = {
+        users_id: users_id,
+        monthly_amount: req.body.monthly_amount,
+        month_id: month_id,
+        monthly_receipt: req.body.monthly_receipt
+      };
+      var insertmonthly = 'INSERT INTO monthly SET ?';
+      connection.query(insertmonthly, addmonthly, function(error, results) {
+        if (error) throw error;
+        console.log(results);
+        res.redirect('/monthly');
+      });
     }
-  );
+  });
 });
 
 app.post('/addfunding', function(req, res){
