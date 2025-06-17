@@ -27,8 +27,8 @@ FOREIGN KEY (month_id) REFERENCES months(month_id)
 
 CREATE TABLE expenses (
 expenses_id INT AUTO_INCREMENT PRIMARY KEY,
-expenses_amount INT NOT NULL,
 expenses_description VARCHAR(255) NOT NULL,
+expenses_amount INT NOT NULL,
 expenses_receipt VARCHAR(255) NOT NULL,
 created TIMESTAMP DEFAULT NOW()
 );
@@ -83,3 +83,17 @@ FROM
 total_collected 
 CROSS JOIN 
 total_spent;
+
+CREATE VIEW user_report AS
+SELECT 
+users.username,
+users.nickname,
+months.month_name,
+monthly.monthly_amount,
+monthly.monthly_receipt,
+monthly.created 
+FROM 
+monthly
+JOIN users ON monthly.users_id = users.users_id
+JOIN months ON monthly.month_id = months.month_id
+ORDER BY monthly.month_id;
