@@ -1,14 +1,8 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var mysql = require('mysql2');
-var connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'rootpassword',
-  database: 'tabung'
-});
-
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const mysql = require('mysql2');
+const connection = require('./db');
 const port = 5001;
 const domain = 'http://localhost:';
 
