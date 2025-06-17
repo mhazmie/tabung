@@ -52,7 +52,7 @@
                         <tbody>
                           <% users.forEach(user => { %>
                             <tr>
-                              <td><%= user.username %></td>
+                              <td><%= user.nickname %></td>
                               <% months.forEach(month => {
                                 const paid = payments.some(p => p.users_id === user.users_id && p.month_id === month.month_id);
                               %>

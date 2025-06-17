@@ -40,7 +40,7 @@ option {
   gap: 20px;
 }
 .chart-container, .table-container {
-  background: #00000045;
+  background: #00000095;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
