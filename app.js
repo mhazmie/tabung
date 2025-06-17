@@ -21,30 +21,6 @@ app.listen(port, function () {
   console.log('Server is running on', domain, port);
 });
 
-// app.get('/', function(req, res){
-//   var collectedquery = 'SELECT * FROM total_collected';
-//   var spentquery = 'SELECT * FROM total_spent';
-//   var availablequery = 'SELECT * FROM total_available';
-
-//   connection.query(collectedquery, function(error, collectedresult) {
-//     if (error) throw error;
-
-//     connection.query(spentquery, function(error, spentresult) {
-//       if (error) throw error;
-
-//       connection.query(availablequery, function(error, availableresult) {
-//         if (error) throw error;
-
-//         res.render('home', {
-//           collected: collectedresult[0].total_collected,
-//           spent: spentresult[0].total_spent,
-//           available: availableresult[0].total_available
-//         });
-//       });
-//     });
-//   });
-// });
-
 app.get('/', function(req, res) {
   var collectedquery = 'SELECT total_collected FROM total_collected';
   var spentquery = 'SELECT total_spent FROM total_spent';
