@@ -7,7 +7,7 @@
     <% if (error === 'duplicate') { %>
       <script>
         document.addEventListener('DOMContentLoaded', function() {
-          alert('Error: Username or Nickname already exists!');
+          alert('Error: Already paid for selected month');
         });
       </script>
     <% } %>
@@ -29,6 +29,9 @@
                 </form>
                 <form method= 'GET' action= '/spend'>
                     <button> Spending </button>
+                </form>
+                <form method= 'GET' action= '/report'>
+                    <button> Report </button>
                 </form>
             </ul>
         </nav>

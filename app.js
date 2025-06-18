@@ -6,6 +6,8 @@ const connection = require('./db');
 const port = 5001;
 const domain = 'http://localhost:';
 
+const errorm = 'Error 400 : Unable to fetch data';
+
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extend: true}));
@@ -22,18 +24,18 @@ app.get('/', function(req, res) {
   var userquery = 'SELECT * FROM users';
   var monthquery = 'SELECT * FROM months ORDER BY month_id';
   var paymentquery = 'SELECT users_id, month_id FROM monthly';
-  connection.query(collectedquery, function(err, collectedresult) {
-    if (err) throw err;
-    connection.query(spentquery, function(err, spentresult) {
-      if (err) throw err;
-      connection.query(availablequery, function(err, availableresult) {
-        if (err) throw err;
-        connection.query(userquery, function(err, users) {
-          if (err) throw err;
-          connection.query(monthquery, function(err, months) {
-            if (err) throw err;
-            connection.query(paymentquery, function(err, payments) {
-              if (err) throw err;
+  connection.query(collectedquery, function(error, collectedresult) {
+    if (error) return res.render('error', { message: errorm });
+    connection.query(spentquery, function(error, spentresult) {
+      if (error) return res.render('error', { message: errorm });
+      connection.query(availablequery, function(error, availableresult) {
+        if (error) return res.render('error', { message: errorm });
+        connection.query(userquery, function(error, users) {
+          if (error) return res.render('error', { message: errorm });
+          connection.query(monthquery, function(error, months) {
+            if (error) return res.render('error', { message: errorm });
+            connection.query(paymentquery, function(error, payments) {
+              if (error) return res.render('error', { message: errorm });
               res.render('home', {
                 collected: collectedresult[0].total_collected,
                 spent: spentresult[0].total_spent,
@@ -51,33 +53,53 @@ app.get('/', function(req, res) {
 });
 
 app.get('/users', function(req, res){
-    const error = req.query.error;
-    res.render('users', { error: error });
+  var error = req.query.error;
+  res.render('users', { error: error });
 });
 
 app.get('/monthly', function(req, res){
   var usersquery = 'SELECT * FROM users';
   var monthsquery = 'SELECT * FROM months ORDER BY month_id';
-  const error = req.query.error;
-  connection.query(usersquery, function(error1, users) {
-    if (error1) throw error1;
-    connection.query(monthsquery, function(error2, months){
-        if (error2) throw error2;
-        res.render('monthly', { 
-            users: users,
-            months: months,
-            error: error
-        });  
+  var error = req.query.error;
+  connection.query(usersquery, function(error, users) {
+    if (error) return res.render('error', { message: errorm });
+    connection.query(monthsquery, function(error, months){
+      if (error) return res.render('error', { message: errorm });
+      res.render('monthly', { 
+          users: users,
+          months: months,
+          error: error
+      });  
     });
   });
 });
 
 app.get('/funding', function(req, res){
-    res.render('funding');
+  res.render('funding');
 });
 
 app.get('/spend', function(req, res){
-    res.render('spend');
+  res.render('spend');
+});
+
+app.get('/report', (req, res) => {
+  var usersquery = 'SELECT * FROM user_report';
+  var monthlyquery = 'SELECT * FROM monthly';
+  var spendingquery = 'SELECT * FROM expenses';
+  connection.query(usersquery, (error, user_report) => {
+    if (error) return res.render('error', { message: errorm });
+    connection.query(monthlyquery, (error, monthly) => {
+      if (error) return res.render('error', { message: errorm });
+      connection.query(spendingquery, (error, expenses) => {
+        if (error) return res.render('error', { message: errorm });
+        res.render('report', { user_report, monthly, expenses });
+      });
+    });
+  });
+});
+
+app.get('/error', function(req, res){
+  res.render('error', { message: errorm });
 });
 
 app.post('/addusers', function(req, res){
@@ -85,7 +107,7 @@ app.post('/addusers', function(req, res){
   var nickname = req.body.users_nickname;
   var checkquery = 'SELECT * FROM users WHERE username = ? OR nickname = ?';
   connection.query(checkquery, [username, nickname], function(error, result) {
-    if (error) throw error;
+    if (error) return res.render('error', { message: errorm });
     if (result.length > 0) {
       res.redirect('/users?error=duplicate');
     } else {
@@ -95,7 +117,7 @@ app.post('/addusers', function(req, res){
       };
       var insertuser = 'INSERT INTO users SET ?';
       connection.query(insertuser, adduser, function(error, results) {
-        if (error) throw error;
+        if (error) return res.render('error', { message: errorm });
         console.log(results);
         res.redirect('/users');
       });
@@ -108,7 +130,7 @@ app.post('/addmonthly', function(req, res){
   var month_id = req.body.month_id;
   var checkquery = 'SELECT * FROM monthly WHERE users_id = ? AND month_id = ?';
   connection.query(checkquery, [users_id, month_id], function(error, result) {
-    if (error) throw error;
+    if (error) return res.render('error', { message: errorm });
     if (result.length > 0) {
       res.redirect(`/monthly?error=duplicate`);
     } else {
@@ -120,7 +142,7 @@ app.post('/addmonthly', function(req, res){
       };
       var insertmonthly = 'INSERT INTO monthly SET ?';
       connection.query(insertmonthly, addmonthly, function(error, results) {
-        if (error) throw error;
+        if (error) return res.render('error', { message: errorm });
         console.log(results);
         res.redirect('/monthly');
       });
@@ -136,7 +158,7 @@ app.post('/addfunding', function(req, res){
   };
   var insertfunding = ('INSERT INTO funding SET ?');
   connection.query(insertfunding, addfunding, function(error, results)
-    {if (error) throw error;
+    {if (error) return res.render('error', { message: errorm });
       console.log(results);
       res.redirect('/funding');
     }
@@ -151,7 +173,7 @@ app.post('/addspending', function(req, res){
   };
   var insertspending = ('INSERT INTO expenses SET ?');
   connection.query(insertspending, addspending, function(error, results)
-    {if (error) throw error;
+    {if (error) return res.render('error', { message: errorm });
       console.log(results);
       res.redirect('/spend');
     }

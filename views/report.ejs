@@ -1,0 +1,94 @@
+<head>
+    <link href= 'https://fonts.googleapis.com/css?family=Roboto:100,300,400' rel= 'stylesheet'>
+    <link rel = 'stylesheet' href = '/style.css'/>
+</head>
+
+<body>
+    <header class= 'header'>
+        <nav class= 'navbar'>
+            <ul class= 'nav-buttons'>
+                <form method= 'GET' action= '/'>
+                    <button> Home </button>
+                </form>
+                <form method= 'GET' action= '/users'>
+                    <button> Users </button>
+                </form>
+                <form method= 'GET' action= '/monthly'>
+                    <button> Monthly </button>
+                </form>
+                <form method= 'GET' action= '/funding'>
+                    <button> ADHOC </button>
+                </form>
+                <form method= 'GET' action= '/spend'>
+                    <button> Spending </button>
+                </form>
+                <form method= 'GET' action= '/report'>
+                    <button> Report </button>
+                </form>
+            </ul>
+        </nav>
+    </header>  
+
+    <div class= 'flex-container'>
+        <h1>Reports</h1>
+        <div class="rtabs">
+          <div class="rtab active" data-target="tab-users">Users</div>
+          <div class="rtab" data-target="tab-monthly">Monthly</div>
+          <div class="rtab" data-target="tab-spending">Spending</div>
+        </div>
+        <div id="tab-users" class="rtab-content active">
+          <h2>Users Report</h2>
+          <table>
+            <tr><th>ID</th><th>Nickname</th><th>Email</th></tr>
+            <% user_report.forEach(user_report => { %>
+              <tr>
+                <td><%= user_report.username %></td>
+                <td><%= user_report.nickname %></td>
+                <td><%= user_report.monthly_amount %></td>
+              </tr>
+            <% }) %>
+          </table>
+        </div>
+        <div id="tab-monthly" class="rtab-content">
+          <h2>Monthly Report</h2>
+          <table>
+            <tr><th>ID</th><th>User ID</th><th>Month</th><th>Amount</th></tr>
+            <% monthly.forEach(entry => { %>
+              <tr>
+                <td><%= entry.id %></td>
+                <td><%= entry.user_id %></td>
+                <td><%= entry.month %></td>
+                <td><%= entry.monthly_amount %></td>
+              </tr>
+            <% }) %>
+          </table>
+        </div>
+        <div id="tab-spending" class="rtab-content">
+          <h2>Spending Report</h2>
+          <table class= 'rtable'>
+            <tr><th>ID</th><th>User ID</th><th>Item</th><th>Cost</th></tr>
+            <% expenses.forEach(spend => { %>
+              <tr>
+                <td><%= spend.id %></td>
+                <td><%= spend.user_id %></td>
+                <td><%= spend.item_name %></td>
+                <td><%= spend.amount %></td>
+              </tr>
+            <% }) %>
+          </table>
+        </div>
+        <script>
+          document.querySelectorAll('.rtab').forEach(tab => {
+            tab.addEventListener('click', () => {
+              document.querySelectorAll('.rtab').forEach(t => t.classList.remove('active'));
+              document.querySelectorAll('.rtab-content').forEach(c => c.classList.remove('active'));
+              tab.classList.add('active');
+              document.getElementById(tab.getAttribute('data-target')).classList.add('active');
+            });
+          });
+        </script>
+    </div>
+</body>
+
+
+

@@ -85,6 +85,57 @@ button:hover {
 }
 /* Body-Btn End */
 
+/* Report Start */
+.rtabs {  
+  display: flex; 
+  cursor: pointer; 
+  margin-bottom: 10px; 
+}
+.rtab { 
+  padding: 10px; 
+  background: #ddd; 
+  margin-right: 5px; 
+}
+.rtab.active { 
+  background: #aaa; 
+  font-weight: bold; 
+}
+.rtab-content { 
+  display: none; 
+}
+.rtab-content.active { 
+  display: block; 
+}
+.rtable { 
+  width: 100%; 
+  border-collapse: collapse; 
+  margin-top: 10px; 
+}
+.rtable th, .table td { 
+  padding: 5px; 
+  border: 1px solid #ccc; 
+  text-align: left; 
+}
+/* Report End */
+
+/* Error Start */
+.errorbody { 
+  font-family: 'Roboto', sans-serif; 
+  background: #fff0f0; 
+  padding: 30px;
+  background-image: url('images/home.png');
+  background-size: cover;
+  background-attachment: fixed;
+}
+.errorbox { 
+  padding: 20px; 
+}
+.errorlink {
+  color:white;
+  font-size: 21px;
+}
+/* Error End */
+
 body {
   text-align: center;
   font-family: 'Roboto', sans-serif;
