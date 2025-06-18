@@ -43,18 +43,18 @@ created TIMESTAMP DEFAULT NOW()
 
 INSERT INTO months(month_name) 
 VALUES 
-("January"),
-("February"),
-("March"),
-("April"),
-("May"),
-("June"),
-("July"),
-("August"),
-("September"),
-("October"),
-("November"),
-("December");
+('January'),
+('February'),
+('March'),
+('April'),
+('May'),
+('June'),
+('July'),
+('August'),
+('September'),
+('October'),
+('November'),
+('December');
 
 CREATE VIEW total_paid AS
 SELECT users.users_id AS id,

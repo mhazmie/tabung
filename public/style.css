@@ -95,14 +95,13 @@ button:hover {
   cursor: pointer; 
   margin-bottom: 10px; 
   justify-content: center;
+  align-items:baseline;
 }
 .rtab { 
   padding: 10px; 
-  /* background: #ddd;  */
   margin-right: 5px; 
 }
 .rtab.active { 
-  /* background: #aaa;  */
   font-weight: bold;
   color: white; 
 }
@@ -114,9 +113,7 @@ button:hover {
   color: white;
 }
 .rtable { 
-  /* width: 100%;  */
   border-collapse: collapse; 
-  /* margin-top: 10px;  */
   background: #00000095;
   padding: 20px;
   border-radius: 10px;
@@ -127,7 +124,6 @@ button:hover {
 }
 .rtable th, .rtable td .rtable a { 
   padding: 5px; 
-  /* border: 1px solid #ccc;  */
   text-align: center;
   font-weight: 250; 
   color: white;
@@ -135,11 +131,24 @@ button:hover {
 .rtable th {
   font-weight: bold;
 }
+.rsearch {
+  border: none;
+  border-bottom: 3px solid #ffffff81;
+  width: 270px;
+  font-size: 0.9em;
+  color: #ffffff81;
+  padding: 5px 10px;
+  background: transparent;
+}
+.rsearch:hover {
+  border-bottom: 3px solid white;
+  color: rgb(255, 255, 255);
+  transition: 0.3s;
+}
 /* Report End */
 
 /* Error Start */
 .errorbody { 
-  font-family: 'Roboto', sans-serif; 
   background: #fff0f0; 
   padding: 30px;
   background-image: url('images/home.png');
