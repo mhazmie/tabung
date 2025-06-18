@@ -31,23 +31,23 @@
 
     <div class= 'flex-container'>
         <h1>Reports</h1>
-        <div class='rtabs'>
-          <div class='rtab active' data-target='tab-users'>Users</div>
-          <div class='rtab' data-target='tab-funding'>Additional Funding</div>
-          <div class='rtab' data-target='tab-spending'>Spending</div>
-          <input class= 'rsearch' type='text' id='searchInput' placeholder='Search...'>
+        <div class= 'rtabs'>
+          <div class= 'rtab active' data-target= 'tab-users'> Users </div>
+          <div class= 'rtab' data-target= 'tab-funding'> Additional Funding </div>
+          <div class= 'rtab' data-target= 'tab-spending'> Spending </div>
+          <input class= 'rsearch' type= 'text' id= 'searchInput' placeholder= 'Search...'>
         </div>
         
-        <div id='tab-users' class='rtab-content active'>
+        <div id= 'tab-users' class= 'rtab-content active'>
           <table class= 'rtable'>
-            <tr><th>Name</th><th>Nickname</th><th>Month</th><th>Amount</th><th>Receipt</th><th>Timestamp</th></tr>
+            <tr><th> Name </th><th> Nickname </th><th> Month </th><th> Amount </th><th> Receipt </th><th> Timestamp </th></tr>
             <% user_report.forEach(user_report => { %>
               <tr>
                 <td><%= user_report.username %></td>
                 <td><%= user_report.nickname %></td>
                 <td><%= user_report.month_name %></td>
                 <td><%= user_report.monthly_amount %></td>
-                <td><a href='<%= user_report.monthly_receipt %>' target='user_report.monthly_receipt'> View </a></td>
+                <td><a href= '<%= user_report.monthly_receipt %>' target= 'user_report.monthly_receipt'> View </a></td>
                 <td><%= new Date(user_report.created).toLocaleString('en-GB', { 
                     year: 'numeric', 
                     month: 'short', 
@@ -62,14 +62,14 @@
             <% }) %>
           </table>
         </div>
-        <div id='tab-funding' class='rtab-content'>
+        <div id= 'tab-funding' class= 'rtab-content'>
           <table class= 'rtable'>
-            <tr><th>Description</th><th>Amount</th><th>Receipt</th><th>Timestamp</th></tr>
+            <tr><th> Description </th><th> Amount </th><th> Receipt </th><th> Timestamp </th></tr>
             <% funding.forEach(funding => { %>
               <tr>
                 <td><%= funding.funding_description %></td>
                 <td><%= funding.funding_amount %></td>
-                <td><a href='<%= funding.funding_receipt %>' target='funding.funding_receipt'> View </a></td>
+                <td><a href= '<%= funding.funding_receipt %>' target= 'funding.funding_receipt'> View </a></td>
                 <td><%= new Date(funding.created).toLocaleString('en-GB', { 
                     year: 'numeric', 
                     month: 'short', 
@@ -84,14 +84,14 @@
             <% }) %>
           </table>
         </div>
-        <div id='tab-spending' class='rtab-content'>
+        <div id= 'tab-spending' class= 'rtab-content'>
           <table class= 'rtable'>
-            <tr><th>Description</th><th>Amount</th><th>Receipt</th><th>Timestamp</th></tr>
+            <tr><th> Description </th><th> Amount </th><th> Receipt </th><th> Timestamp </th></tr>
             <% expenses.forEach(expenses => { %>
               <tr>
                 <td><%= expenses.expenses_description %></td>
                 <td><%= expenses.expenses_amount %></td>
-                <td><a href='<%= expenses.expenses_receipt %>' target='expenses.expenses_receipt'> View </a></td>
+                <td><a href= '<%= expenses.expenses_receipt %>' target= 'expenses.expenses_receipt'> View </a></td>
                 <td><%= new Date(expenses.created).toLocaleString('en-GB', { 
                   year: 'numeric', 
                   month: 'short', 

@@ -40,7 +40,7 @@
     <div class='flex-container'>
         <h1 class= 'title'> Monthly Payment </h1>
         <form method= 'POST' action= '/addmonthly'>
-            <select name= 'users_id' class='form' required>
+            <select name= 'users_id' class= 'form' required>
               <option value= ''> Select User </option>
               <% users.forEach(function(users) { %>
                 <option value= '<%= users.users_id%>'><%= users.nickname %></option>
