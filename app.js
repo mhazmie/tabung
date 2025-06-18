@@ -84,15 +84,15 @@ app.get('/spend', function(req, res){
 
 app.get('/report', (req, res) => {
   var usersquery = 'SELECT * FROM user_report';
-  var monthlyquery = 'SELECT * FROM monthly';
+  var fundquery = 'SELECT * FROM funding';
   var spendingquery = 'SELECT * FROM expenses';
   connection.query(usersquery, (error, user_report) => {
     if (error) return res.render('error', { message: errorm });
-    connection.query(monthlyquery, (error, monthly) => {
+    connection.query(fundquery, (error, funding) => {
       if (error) return res.render('error', { message: errorm });
       connection.query(spendingquery, (error, expenses) => {
         if (error) return res.render('error', { message: errorm });
-        res.render('report', { user_report, monthly, expenses });
+        res.render('report', { user_report, funding, expenses });
       });
     });
   });

@@ -33,46 +33,73 @@
         <h1>Reports</h1>
         <div class="rtabs">
           <div class="rtab active" data-target="tab-users">Users</div>
-          <div class="rtab" data-target="tab-monthly">Monthly</div>
+          <div class="rtab" data-target="tab-funding">Additional Funding</div>
           <div class="rtab" data-target="tab-spending">Spending</div>
         </div>
         <div id="tab-users" class="rtab-content active">
-          <h2>Users Report</h2>
-          <table>
-            <tr><th>ID</th><th>Nickname</th><th>Email</th></tr>
+          <table class= 'rtable'>
+            <tr><th>Name</th><th>Nickname</th><th>Month</th><th>Amount</th><th>Receipt</th><th>Timestamp</th></tr>
             <% user_report.forEach(user_report => { %>
               <tr>
                 <td><%= user_report.username %></td>
                 <td><%= user_report.nickname %></td>
+                <td><%= user_report.month_name %></td>
                 <td><%= user_report.monthly_amount %></td>
+                <td><a href="<%= user_report.monthly_receipt %>" target="user_report.monthly_receipt"> View </a></td>
+                <td><%= new Date(user_report.created).toLocaleString('en-GB', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric', 
+                    hour: 'numeric', 
+                    minute: 'numeric', 
+                    hour12: 'true',
+                    datestyle: 'full',
+                    weekday: 'short'
+                }) %></td>
               </tr>
             <% }) %>
           </table>
         </div>
-        <div id="tab-monthly" class="rtab-content">
-          <h2>Monthly Report</h2>
-          <table>
-            <tr><th>ID</th><th>User ID</th><th>Month</th><th>Amount</th></tr>
-            <% monthly.forEach(entry => { %>
+        <div id="tab-funding" class="rtab-content">
+          <table class= 'rtable'>
+            <tr><th>Description</th><th>Amount</th><th>Receipt</th><th>Timestamp</th></tr>
+            <% funding.forEach(funding => { %>
               <tr>
-                <td><%= entry.id %></td>
-                <td><%= entry.user_id %></td>
-                <td><%= entry.month %></td>
-                <td><%= entry.monthly_amount %></td>
+                <td><%= funding.funding_description %></td>
+                <td><%= funding.funding_amount %></td>
+                <td><a href="<%= funding.funding_receipt %>" target="funding.funding_receipt"> View </a></td>
+                <td><%= new Date(funding.created).toLocaleString('en-GB', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric', 
+                    hour: 'numeric', 
+                    minute: 'numeric', 
+                    hour12: 'true',
+                    datestyle: 'full',
+                    weekday: 'short'
+                }) %></td>
               </tr>
             <% }) %>
           </table>
         </div>
         <div id="tab-spending" class="rtab-content">
-          <h2>Spending Report</h2>
           <table class= 'rtable'>
-            <tr><th>ID</th><th>User ID</th><th>Item</th><th>Cost</th></tr>
-            <% expenses.forEach(spend => { %>
+            <tr><th>Description</th><th>Amount</th><th>Receipt</th><th>Timestamp</th></tr>
+            <% expenses.forEach(expenses => { %>
               <tr>
-                <td><%= spend.id %></td>
-                <td><%= spend.user_id %></td>
-                <td><%= spend.item_name %></td>
-                <td><%= spend.amount %></td>
+                <td><%= expenses.expenses_description %></td>
+                <td><%= expenses.expenses_amount %></td>
+                <td><a href="<%= expenses.expenses_receipt %>" target="expenses.expenses_receipt"> View </a></td>
+                <td><%= new Date(expenses.created).toLocaleString('en-GB', { 
+                  year: 'numeric', 
+                  month: 'short', 
+                  day: 'numeric', 
+                  hour: 'numeric', 
+                  minute: 'numeric', 
+                  hour12: 'true',
+                  datestyle: 'full',
+                  weekday: 'short'
+                }) %></td>
               </tr>
             <% }) %>
           </table>
