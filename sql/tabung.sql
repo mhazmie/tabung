@@ -2,11 +2,19 @@ DROP DATABASE IF EXISTS tabung;
 CREATE DATABASE tabung;
 USE tabung; 
 
+CREATE TABLE roles (
+roles_id INT AUTO_INCREMENT PRIMARY KEY,
+role_name VARCHAR(10) NOT NULL
+);
+
 CREATE TABLE users (
 users_id INT AUTO_INCREMENT PRIMARY KEY,
 username VARCHAR(255) UNIQUE NOT NULL,
 nickname VARCHAR(255) UNIQUE NOT NULL,
-created TIMESTAMP DEFAULT NOW()
+password VARCHAR(255) NOT NULL,
+roles_id INT NOT NULL,
+created TIMESTAMP DEFAULT NOW(),
+FOREIGN KEY (roles_id) REFERENCES roles(roles_id)
 );
 
 CREATE TABLE months (
@@ -55,6 +63,11 @@ VALUES
 ('October'),
 ('November'),
 ('December');
+
+INSERT INTO roles(role_name) 
+VALUES 
+('user'),
+('admin');
 
 CREATE VIEW total_paid AS
 SELECT users.users_id AS id,

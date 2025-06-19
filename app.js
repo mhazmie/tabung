@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const connection = require('./db');
+const bcrypt = require('bcrypt');
 const port = 5001;
 const domain = 'http://localhost:';
 
@@ -11,9 +12,19 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extend: true}));
 app.use(express.static(__dirname + '/public'));
+var session = require('express-session');
+app.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: true,
+}));
 
 app.listen(port, function () {
   console.log('Server is running on', domain, port);
+});
+
+app.get('/login', (req, res) => {
+  res.render('login', { error: null });
 });
 
 app.get('/', function(req, res) {
@@ -70,7 +81,14 @@ app.get('/spending', function(req, res){
 
 app.get('/users', function(req, res){
   var perror = req.query.error;
-  res.render('users', { error: perror });
+  var rolesquery = 'SELECT * FROM roles';
+  connection.query(rolesquery, function(error, roles) {
+    if (error) return res.render('error', { message: errorm });
+    res.render('users', { 
+      error: perror,
+      roles
+    });
+  });
 });
 
 app.get('/report', (req, res) => {
@@ -89,26 +107,75 @@ app.get('/report', (req, res) => {
   });
 });
 
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/login');
+});
+
 app.get('/error', function(req, res){
   res.render('error', { message: errorm });
 });
 
-app.post('/addusers', function(req, res){
-  var username = req.body.users_name;
-  var nickname = req.body.users_nickname;
+app.post('/login', (req, res) => {
+  var { username, password } = req.body;
+  var loginquery = 'SELECT * FROM users WHERE username = ?';
+  connection.query(loginquery, [username], async (err, results) => {
+    if (err || results.length === 0) return res.render('login', { error: 'Invalid username' });
+
+    var user = results[0];
+    var match = await bcrypt.compare(password, user.password);
+    if (!match) return res.render('login', { error: 'Invalid password' });
+
+    req.session.user = {
+      id: user.users_id,
+      username: user.username,
+      role: user.role
+    };
+    res.redirect('/');
+  });
+});
+
+// app.post('/addusers', function(req, res){
+//   var username = req.body.users_name;
+//   var nickname = req.body.users_nickname;
+//   var checkquery = 'SELECT * FROM users WHERE username = ? OR nickname = ?';
+//   connection.query(checkquery, [username, nickname], function(error, result) {
+//     if (error) return res.render('error', { message: errorm });
+//     if (result.length > 0) {
+//       res.redirect('/users?error=duplicate');
+//     } else {
+//       var adduser = {
+//         username: username,
+//         nickname: nickname
+//       };
+//       var insertuser = 'INSERT INTO users SET ?';
+//       connection.query(insertuser, adduser, function(error, results) {
+//         if (error) return res.render('error', { message: errorm });
+//         console.log(results);
+//         res.redirect('/users');
+//       });
+//     }
+//   });
+// });
+
+app.post('/addusers', async (req, res) => {
+  var { username, nickname, password, roles_id } = req.body;
+  var hashedpassword = await bcrypt.hash(password, 10);
   var checkquery = 'SELECT * FROM users WHERE username = ? OR nickname = ?';
-  connection.query(checkquery, [username, nickname], function(error, result) {
+  connection.query(checkquery, [username, nickname], function(error, results) {
     if (error) return res.render('error', { message: errorm });
-    if (result.length > 0) {
+    if (results.length > 0) {
       res.redirect('/users?error=duplicate');
     } else {
-      var adduser = {
-        username: username,
-        nickname: nickname
+      var user = {
+        username,
+        nickname,
+        password: hashedpassword,
+        roles_id
       };
-      var insertuser = 'INSERT INTO users SET ?';
-      connection.query(insertuser, adduser, function(error, results) {
-        if (error) return res.render('error', { message: errorm });
+      var insertquery = 'INSERT INTO users SET ?';
+      connection.query(insertquery, user, (error, results) => {
+        if (error) return res.render('error', { message: 'Error creating user' });
         console.log(results);
         res.redirect('/users');
       });
@@ -170,3 +237,13 @@ app.post('/addspending', function(req, res){
     }
   );
 });
+
+function isAuthenticated(req, res, next) {
+  if (req.session.user) return next();
+  res.redirect('/login');
+}
+
+function isAdmin(req, res, next) {
+  if (req.session.user && req.session.user.role === 'admin') return next();
+  res.status(403).send('Access denied');
+}
