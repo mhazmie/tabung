@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const mysql = require('mysql2');
 const connection = require('./db');
 const port = 5001;
 const domain = 'http://localhost:';
