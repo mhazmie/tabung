@@ -52,34 +52,26 @@ app.get('/', function(req, res) {
   });
 });
 
-app.get('/users', function(req, res){
-  var error = req.query.error;
-  res.render('users', { error: error });
-});
-
-app.get('/monthly', function(req, res){
+app.get('/spending', function(req, res){
   var usersquery = 'SELECT * FROM users';
   var monthsquery = 'SELECT * FROM months ORDER BY month_id';
-  var error = req.query.error;
+  var perror = req.query.error;
   connection.query(usersquery, function(error, users) {
     if (error) return res.render('error', { message: errorm });
     connection.query(monthsquery, function(error, months){
       if (error) return res.render('error', { message: errorm });
-      res.render('monthly', { 
+      res.render('spending', { 
           users: users,
           months: months,
-          error: error
+          error: perror
       });  
     });
   });
-});
+})
 
-app.get('/funding', function(req, res){
-  res.render('funding');
-});
-
-app.get('/spend', function(req, res){
-  res.render('spend');
+app.get('/users', function(req, res){
+  var perror = req.query.error;
+  res.render('users', { error: perror });
 });
 
 app.get('/report', (req, res) => {
@@ -132,7 +124,7 @@ app.post('/addmonthly', function(req, res){
   connection.query(checkquery, [users_id, month_id], function(error, result) {
     if (error) return res.render('error', { message: errorm });
     if (result.length > 0) {
-      res.redirect(`/monthly?error=duplicate`);
+      res.redirect(`/spending?error=duplicate`);
     } else {
       var addmonthly = {
         users_id: users_id,
@@ -144,7 +136,7 @@ app.post('/addmonthly', function(req, res){
       connection.query(insertmonthly, addmonthly, function(error, results) {
         if (error) return res.render('error', { message: errorm });
         console.log(results);
-        res.redirect('/monthly');
+        res.redirect('/spending');
       });
     }
   });
@@ -160,7 +152,7 @@ app.post('/addfunding', function(req, res){
   connection.query(insertfunding, addfunding, function(error, results)
     {if (error) return res.render('error', { message: errorm });
       console.log(results);
-      res.redirect('/funding');
+      res.redirect('/spending');
     }
   );
 });
@@ -175,7 +167,7 @@ app.post('/addspending', function(req, res){
   connection.query(insertspending, addspending, function(error, results)
     {if (error) return res.render('error', { message: errorm });
       console.log(results);
-      res.redirect('/spend');
+      res.redirect('/spending');
     }
   );
 });

@@ -13,13 +13,7 @@
                 <form method= 'GET' action= '/users'>
                     <button> Users </button>
                 </form>
-                <form method= 'GET' action= '/monthly'>
-                    <button> Monthly </button>
-                </form>
-                <form method= 'GET' action= '/funding'>
-                    <button> ADHOC </button>
-                </form>
-                <form method= 'GET' action= '/spend'>
+                <form method= 'GET' action= '/spending'>
                     <button> Spending </button>
                 </form>
                 <form method= 'GET' action= '/report'>
@@ -32,13 +26,13 @@
     <div class= 'flex-container'>
         <h1>Reports</h1>
         <div class= 'rtabs'>
-          <div class= 'rtab active' data-target= 'tab-users'> Users </div>
-          <div class= 'rtab' data-target= 'tab-funding'> Additional Funding </div>
-          <div class= 'rtab' data-target= 'tab-spending'> Spending </div>
+          <div class= 'rtab active' data-target= 'tab-usersr'> Users </div>
+          <div class= 'rtab' data-target= 'tab-fundingr'> Additional Funding </div>
+          <div class= 'rtab' data-target= 'tab-spendingr'> Spending </div>
           <input class= 'rsearch' type= 'text' id= 'searchInput' placeholder= 'Search...'>
         </div>
         
-        <div id= 'tab-users' class= 'rtab-content active'>
+        <div id= 'tab-usersr' class= 'rtab-content active'>
           <table class= 'rtable'>
             <tr><th> Name </th><th> Nickname </th><th> Month </th><th> Amount </th><th> Receipt </th><th> Timestamp </th></tr>
             <% user_report.forEach(user_report => { %>
@@ -62,7 +56,7 @@
             <% }) %>
           </table>
         </div>
-        <div id= 'tab-funding' class= 'rtab-content'>
+        <div id= 'tab-fundingr' class= 'rtab-content'>
           <table class= 'rtable'>
             <tr><th> Description </th><th> Amount </th><th> Receipt </th><th> Timestamp </th></tr>
             <% funding.forEach(funding => { %>
@@ -84,7 +78,7 @@
             <% }) %>
           </table>
         </div>
-        <div id= 'tab-spending' class= 'rtab-content'>
+        <div id= 'tab-spendingr' class= 'rtab-content'>
           <table class= 'rtable'>
             <tr><th> Description </th><th> Amount </th><th> Receipt </th><th> Timestamp </th></tr>
             <% expenses.forEach(expenses => { %>

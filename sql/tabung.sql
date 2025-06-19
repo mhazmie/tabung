@@ -19,7 +19,7 @@ monthly_id INT AUTO_INCREMENT PRIMARY KEY,
 users_id INT NOT NULL,
 monthly_amount INT NOT NULL,
 month_id INT NOT NULL,
-monthly_receipt VARCHAR(255) UNIQUE NOT NULL,
+monthly_receipt VARCHAR(255) NOT NULL,
 created TIMESTAMP DEFAULT NOW(),
 FOREIGN KEY (users_id) REFERENCES users(users_id),
 FOREIGN KEY (month_id) REFERENCES months(month_id)
