@@ -1,7 +1,7 @@
 <head>
     <link href= 'https://fonts.googleapis.com/css?family=Roboto:100,300,400' rel= 'stylesheet'>
     <link rel = 'stylesheet' href = '/style.css'/>
-    <title> Error </title>
+    <title> Login </title>
 </head>
 <body>
     <% if (error === 'invalidcredu') { %>
@@ -19,13 +19,22 @@
       </script>
     <% } %>
 
+      <header class= 'header'>
+        <nav class= 'navbar'>
+            <ul class= 'nav-buttons'>
+                <form method= 'GET' action= '/'>
+                    <button> Home </button>
+                </form>
+            </ul>
+        </nav>
+    </header>  
+
     <div class= 'flex-container'>
-        <h1 class= 'title' style='color:transparent'> Register User </h1>
-        <form method="POST" action="/login"></form>
+        <h1 class= 'title' style='color:transparent'> Login </h1>
+        <form method="POST" action="/login">
             <input type= 'text' name= 'username' class= 'form' placeholder= 'Enter Username' required>
             <input type= 'password' name= 'password' class= 'form' placeholder= 'Enter Password' required>
-            <button> Submit </button>
-            <!-- <% if (error) { %><p><%= error %></p><% } %> -->
+            <button> Login </button>
         </form>
     </div>
 </body>
