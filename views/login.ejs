@@ -4,11 +4,29 @@
     <title> Error </title>
 </head>
 <body>
+    <% if (error === 'invalidcredu') { %>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          alert('Invalid Username');
+        });
+      </script>
+    <% } %>
+    <% if (error === 'invalidcredp') { %>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          alert('Invalid Password');
+        });
+      </script>
+    <% } %>
+
     <div class= 'flex-container'>
-        <input name="username" placeholder="Username" required />
-        <input name="password" type="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-        <% if (error) { %><p><%= error %></p><% } %>
+        <h1 class= 'title' style='color:transparent'> Register User </h1>
+        <form method="POST" action="/login"></form>
+            <input type= 'text' name= 'username' class= 'form' placeholder= 'Enter Username' required>
+            <input type= 'password' name= 'password' class= 'form' placeholder= 'Enter Password' required>
+            <button> Submit </button>
+            <!-- <% if (error) { %><p><%= error %></p><% } %> -->
+        </form>
     </div>
 </body>
 

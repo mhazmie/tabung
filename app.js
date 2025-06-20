@@ -119,44 +119,47 @@ app.get('/error', function(req, res){
 app.post('/login', (req, res) => {
   var { username, password } = req.body;
   var loginquery = 'SELECT * FROM users WHERE username = ?';
-  connection.query(loginquery, [username], async (err, results) => {
-    if (err || results.length === 0) return res.render('login', { error: 'Invalid username' });
-
-    var user = results[0];
-    var match = await bcrypt.compare(password, user.password);
-    if (!match) return res.render('login', { error: 'Invalid password' });
-
-    req.session.user = {
-      id: user.users_id,
-      username: user.username,
-      role: user.role
-    };
-    res.redirect('/');
+  connection.query(loginquery, [username], async (error, results) => {
+    if (results.length === 0) {
+      res.redirect('/users?error=invalidcredu');
+      } else {
+      var user = results[0];
+      var match = await bcrypt.compare(password, user.password);
+        if (!match) {
+          res.redirect('/users?error=invalidcredp');
+        } else
+        req.session.user = {
+          id: user.users_id,
+          username: user.username,
+          role: user.role
+        };
+      }
+      res.redirect('/');
   });
 });
 
-// app.post('/addusers', function(req, res){
-//   var username = req.body.users_name;
-//   var nickname = req.body.users_nickname;
-//   var checkquery = 'SELECT * FROM users WHERE username = ? OR nickname = ?';
-//   connection.query(checkquery, [username, nickname], function(error, result) {
-//     if (error) return res.render('error', { message: errorm });
-//     if (result.length > 0) {
-//       res.redirect('/users?error=duplicate');
-//     } else {
-//       var adduser = {
-//         username: username,
-//         nickname: nickname
-//       };
-//       var insertuser = 'INSERT INTO users SET ?';
-//       connection.query(insertuser, adduser, function(error, results) {
-//         if (error) return res.render('error', { message: errorm });
-//         console.log(results);
-//         res.redirect('/users');
-//       });
-//     }
-//   });
-// });
+app.post('/addusers', function(req, res){
+  var username = req.body.users_name;
+  var nickname = req.body.users_nickname;
+  var checkquery = 'SELECT * FROM users WHERE username = ? OR nickname = ?';
+  connection.query(checkquery, [username, nickname], function(error, result) {
+    if (error) return res.render('error', { message: errorm });
+    if (result.length > 0) {
+      res.redirect('/users?error=duplicate');
+    } else {
+      var adduser = {
+        username: username,
+        nickname: nickname
+      };
+      var insertuser = 'INSERT INTO users SET ?';
+      connection.query(insertuser, adduser, function(error, results) {
+        if (error) return res.render('error', { message: errorm });
+        console.log(results);
+        res.redirect('/users');
+      });
+    }
+  });
+});
 
 app.post('/addusers', async (req, res) => {
   var { username, nickname, password, roles_id } = req.body;
