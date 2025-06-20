@@ -3,28 +3,11 @@
     <link rel = 'stylesheet' href = '/style.css'/>
     <script src= 'https://cdn.jsdelivr.net/npm/chart.js'></script>
     <script src= 'https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels'></script>
+    <title> Tabung </title>
 </head>
 
 <body>
-    <header class= 'header'>
-        <nav class= 'navbar'>
-            <ul class= 'nav-buttons'>
-                <form method= 'GET' action= '/'>
-                    <button> Home </button>
-                </form>
-                <form method= 'GET' action= '/users'>
-                    <button> Users </button>
-                </form>
-                <form method= 'GET' action= '/spending'>
-                    <button> Spending </button>
-                </form>
-                <form method= 'GET' action= '/report'>
-                    <button> Report </button>
-                </form>
-            </ul>
-        </nav>
-    </header>  
-
+    <%- include('partials/header') %>
     <div class= 'flex-container'>
         <div class= 'container'>
             <h1 class= 'title'> Tabung Dashboard</h1>

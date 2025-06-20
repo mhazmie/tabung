@@ -11,7 +11,7 @@ const errorr = 'Error 403 : Access denied';
 
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({extend: true}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 var session = require('express-session');
 app.use(session({
@@ -52,9 +52,9 @@ app.get('/', function(req, res) {
             connection.query(paymentquery, function(error, payments) {
               if (error) return res.render('error', { message: errorm });
               res.render('home', {
-                collected: collectedresult[0].total_collected,
-                spent: spentresult[0].total_spent,
-                available: availableresult[0].total_available,
+                collected: (collectedresult && collectedresult.length > 0) ? collectedresult[0].total_collected : 0,
+                spent: (spentresult && spentresult.length > 0) ? spentresult[0].total_spent : 0,
+                available: (availableresult && availableresult.length > 0) ? availableresult[0].total_available : 0,
                 users: users,
                 months: months,
                 payments: payments
@@ -128,18 +128,19 @@ app.post('/login', (req, res) => {
   connection.query(loginquery, [username], async (error, results) => {
     if (error) return res.render('error', { message: errorm });
     if (results.length === 0) {
-      return res.redirect('/users?error=invalidcredu');
+      return res.redirect('/login?error=invalidcredu');
     }
     const user = results[0];
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      return res.redirect('/users?error=invalidcredp');
+      return res.redirect('/login?error=invalidcredp');
     }
     req.session.user = {
       id: user.users_id,
       username: user.username,
-      role: user.role
+      role: user.roles_id
     };
+    console.log('User logged in:', req.session.user);
     return res.redirect('/');
   });
 });
@@ -203,7 +204,7 @@ app.post('/addfunding', function(req, res){
     funding_description: req.body.funding_desc,
     funding_receipt: req.body.funding_receipt
   };
-  var insertfunding = ('INSERT INTO funding SET ?');
+  var insertfunding = 'INSERT INTO funding SET ?';
   connection.query(insertfunding, addfunding, function(error, results)
     {if (error) return res.render('error', { message: errorm });
       console.log(results);
@@ -218,7 +219,7 @@ app.post('/addspending', function(req, res){
     expenses_description: req.body.expenses_desc,
     expenses_receipt: req.body.expenses_receipt
   };
-  var insertspending = ('INSERT INTO expenses SET ?');
+  var insertspending = 'INSERT INTO expenses SET ?';
   connection.query(insertspending, addspending, function(error, results)
     {if (error) return res.render('error', { message: errorm });
       console.log(results);
@@ -233,6 +234,6 @@ function isAuthenticated(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-  if (req.session.user && req.session.user.role === 'admin') return next();
+  if (req.session.user && Number(req.session.user.role) === 2) return next();
   res.render('error', { message: errorr });
 }

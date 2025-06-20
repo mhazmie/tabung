@@ -1,98 +1,73 @@
-<head>
-    <link href= 'https://fonts.googleapis.com/css?family=Roboto:100,300,400' rel= 'stylesheet'>
-    <link rel = 'stylesheet' href = '/style.css'/>
-</head>
+<%- include('partials/head') %>
 
 <body>
-    <% if (error === 'duplicate') { %>
+  <% if (error === 'duplicate') { %>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        alert('Error: Already paid for selected month');
+      });
+    </script>
+  <% } %>
+  <%- include('partials/header') %>
+  <div class= 'flex-container'>
+      <h1>Payments</h1>
+      <div class= 'rtabs'>
+        <div class= 'rtab active' data-target= 'tab-monthly'> Monthly </div>
+        <div class= 'rtab' data-target= 'tab-adhoc'> Additional Funds </div>
+        <div class= 'rtab' data-target= 'tab-spending'> Expenditure </div>
+      </div>
+      <div id= 'tab-monthly' class= 'rtab-content active'>
+          <div class= 'flex-container'>
+              <form method= 'POST' action= '/addmonthly'>
+                  <select name= 'users_id' class= 'form' required>
+                    <option value= ''> Select User </option>
+                    <% users.forEach(function(users) { %>
+                      <option value= '<%= users.users_id%>'><%= users.nickname %></option>
+                    <% }); %>
+                  </select>
+                  <input type= 'text' name= 'monthly_amount' class= 'form' placeholder= 'Amount' required>
+                  <select name= 'month_id' class= 'form' required>
+                    <option value= ''> Month </option>
+                    <% months.forEach(function(months) { %>
+                      <option value='<%= months.month_id%>'><%= months.month_name %></option>
+                    <% }); %>
+                  </select>
+                  <input type= 'url' name= 'monthly_receipt' class= 'form' placeholder= 'Reference' required>
+                  <button type= 'submit'> Submit </button>
+              </form>
+          </div>
+      </div>
+      <div id= 'tab-adhoc' class= 'rtab-content'>
+          <div class= 'flex-container'>
+              <form method= 'POST' action= '/addfunding'>
+                  <input type= 'text' name= 'funding_amount' class= 'form' placeholder= 'Amount' required>
+                  <input type= 'text' name= 'funding_desc' class= 'form' placeholder= 'Description' required>
+                  <input type= 'url' name= 'funding_receipt' class= 'form' placeholder= 'Reference' required>
+                  <button type= 'submit'> Submit </button>
+              </form>
+          </div>
+      </div>
+      <div id= 'tab-spending' class= 'rtab-content'>
+          <div class= 'flex-container'>
+              <form method= 'POST' action= '/addspending'>
+                  <input type= 'text' name= 'expenses_amount' class= 'form' placeholder= 'Amount' required>
+                  <input type= 'text' name= 'expenses_desc' class= 'form' placeholder= 'Description' required>
+                  <input type= 'url' name= 'expenses_receipt' class= 'form' placeholder= 'Reference' required>
+                  <button type= 'submit'> Submit </button>
+              </form>
+          </div>
+      </div>
       <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          alert('Error: Already paid for selected month');
-        });
-      </script>
-    <% } %>
-    <header class= 'header'>
-        <nav class= 'navbar'>
-            <ul class= 'nav-buttons'>
-                <form method= 'GET' action= '/'>
-                    <button> Home </button>
-                </form>
-                <form method= 'GET' action= '/users'>
-                    <button> Users </button>
-                </form>
-                <form method= 'GET' action= '/spending'>
-                    <button> Spending </button>
-                </form>
-                <form method= 'GET' action= '/report'>
-                    <button> Report </button>
-                </form>
-            </ul>
-        </nav>
-    </header>  
-
-    <div class= 'flex-container'>
-        <h1>Payments</h1>
-        <div class= 'rtabs'>
-          <div class= 'rtab active' data-target= 'tab-monthly'> Monthly </div>
-          <div class= 'rtab' data-target= 'tab-adhoc'> Additional Funds </div>
-          <div class= 'rtab' data-target= 'tab-spending'> Expenditure </div>
-        </div>
-        
-        <div id= 'tab-monthly' class= 'rtab-content active'>
-            <div class='flex-container'>
-                <form method= 'POST' action= '/addmonthly'>
-                    <select name= 'users_id' class= 'form' required>
-                      <option value= ''> Select User </option>
-                      <% users.forEach(function(users) { %>
-                        <option value= '<%= users.users_id%>'><%= users.nickname %></option>
-                      <% }); %>
-                    </select>
-                    <input type= 'text' name= 'monthly_amount' class= 'form' placeholder= 'Amount' required>
-                    <select name= 'month_id' class= 'form' required>
-                      <option value= ''> Month </option>
-                      <% months.forEach(function(months) { %>
-                        <option value='<%= months.month_id%>'><%= months.month_name %></option>
-                      <% }); %>
-                    </select>
-                    <input type= 'url' name= 'monthly_receipt' class= 'form' placeholder= 'Reference' required>
-                    <button type= 'submit'> Submit </button>
-                </form>
-            </div>
-        </div>
-
-        <div id= 'tab-adhoc' class= 'rtab-content'>
-            <div class= 'flex-container'>
-                <form method= 'POST' action= '/addfunding'>
-                    <input type= 'text' name= 'funding_amount' class= 'form' placeholder= 'Amount' required>
-                    <input type= 'text' name= 'funding_desc' class= 'form' placeholder= 'Description' required>
-                    <input type= 'url' name= 'funding_receipt' class= 'form' placeholder= 'Reference' required>
-                    <button type= 'submit'> Submit </button>
-                </form>
-            </div>
-        </div>
-
-        <div id= 'tab-spending' class= 'rtab-content'>
-            <div class= 'flex-container'>
-                <form method= 'POST' action= '/addspending'>
-                    <input type= 'text' name= 'expenses_amount' class= 'form' placeholder= 'Amount' required>
-                    <input type= 'text' name= 'expenses_desc' class= 'form' placeholder= 'Description' required>
-                    <input type= 'url' name= 'expenses_receipt' class= 'form' placeholder= 'Reference' required>
-                    <button type= 'submit'> Submit </button>
-                </form>
-            </div>
-        </div>
-
-        <script>
-            document.querySelectorAll('.rtab').forEach(tab => {
-              tab.addEventListener('click', () => {
-                document.querySelectorAll('.rtab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.rtab-content').forEach(c => c.classList.remove('active'));
-                tab.classList.add('active');
-                document.getElementById(tab.getAttribute('data-target')).classList.add('active');
-              });
+          document.querySelectorAll('.rtab').forEach(tab => {
+            tab.addEventListener('click', () => {
+              document.querySelectorAll('.rtab').forEach(t => t.classList.remove('active'));
+              document.querySelectorAll('.rtab-content').forEach(c => c.classList.remove('active'));
+              tab.classList.add('active');
+              document.getElementById(tab.getAttribute('data-target')).classList.add('active');
             });
-        </script>
-    </div>
+          });
+      </script>
+  </div>
 </body>
 
 
