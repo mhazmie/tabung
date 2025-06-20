@@ -7,6 +7,7 @@ const port = 5001;
 const domain = 'http://localhost:';
 
 const errorm = 'Error 400 : Unable to fetch data';
+const errorr = 'Error 403 : Access denied';
 
 app.set('view engine', 'ejs');
 
@@ -18,6 +19,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
 }));
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
 
 app.listen(port, function () {
   console.log('Server is running on', domain, port);
@@ -62,7 +67,7 @@ app.get('/', function(req, res) {
   });
 });
 
-app.get('/spending', isAdmin, function(req, res){
+app.get('/spending', isAuthenticated, isAdmin, function(req, res){
   var usersquery = 'SELECT * FROM users';
   var monthsquery = 'SELECT * FROM months ORDER BY month_id';
   var perror = req.query.error;
@@ -121,10 +126,7 @@ app.post('/login', (req, res) => {
   var password = req.body.password;
   var loginquery = 'SELECT * FROM users WHERE username = ?';
   connection.query(loginquery, [username], async (error, results) => {
-    if (error) {
-      console.error('DB error:', error);
-      return res.render('error', { message: 'Server error' });
-    }
+    if (error) return res.render('error', { message: errorm });
     if (results.length === 0) {
       return res.redirect('/users?error=invalidcredu');
     }
@@ -143,7 +145,10 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/addusers', async (req, res) => {
-  var { username, nickname, password, roles_id } = req.body;
+  var username = req.body.username;
+  var nickname = req.body.nickname;
+  var password = req.body.password;
+  var roles_id = req.body.roles_id;
   var hashedpassword = await bcrypt.hash(password, 10);
   var checkquery = 'SELECT * FROM users WHERE username = ? OR nickname = ?';
   connection.query(checkquery, [username, nickname], function(error, results) {
@@ -159,7 +164,7 @@ app.post('/addusers', async (req, res) => {
       };
       var insertquery = 'INSERT INTO users SET ?';
       connection.query(insertquery, user, (error, results) => {
-        if (error) return res.render('error', { message: 'Error creating user' });
+        if (error) return res.render('error', { message: errorm });
         console.log(results);
         res.redirect('/users');
       });
@@ -229,5 +234,5 @@ function isAuthenticated(req, res, next) {
 
 function isAdmin(req, res, next) {
   if (req.session.user && req.session.user.role === 'admin') return next();
-  res.status(403).send('Access denied');
+  res.render('error', { message: errorr });
 }
