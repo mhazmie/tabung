@@ -7,6 +7,7 @@ const port = 5001;
 const domain = 'http://localhost:';
 
 const errorm = 'Error 400 : Unable to fetch data';
+const erroru = 'Error 402 : Update failed';
 const errorr = 'Error 403 : Access denied';
 
 app.set('view engine', 'ejs');
@@ -29,7 +30,8 @@ app.listen(port, function () {
 });
 
 app.get('/login', (req, res) => {
-  res.render('login', { error: null });
+  var error = req.query.error || null;
+  res.render('login', { error });
 });
 
 app.get('/', function(req, res) {
@@ -84,15 +86,31 @@ app.get('/spending', isAuthenticated, isAdmin, function(req, res){
   });
 })
 
-app.get('/users', function(req, res){
+app.get('/user', isAuthenticated, isAdmin, (req, res) => {
   var perror = req.query.error;
+  var userquery = 'SELECT * FROM users';
   var rolesquery = 'SELECT * FROM roles';
-  connection.query(rolesquery, function(error, roles) {
+  connection.query(userquery, (error, userresults) => {
     if (error) return res.render('error', { message: errorm });
-    res.render('users', { 
-      error: perror,
-      roles
+    connection.query(rolesquery, (error, roleresults) => {
+      if (error) return res.render('error', { message: errorm });
+      res.render('user_management', {
+        users: userresults,
+        roles: roleresults,
+        error: perror
+      });
     });
+  });
+});
+
+app.get('/api/users/:id', (req, res) => {
+  var userId = req.params.id;
+  connection.query('SELECT * FROM users WHERE users_id = ?', [userId], (error, results) => {
+    // if (error) return res.status(500).send('Database error');
+    if (error) return res.render(error, { errorm });
+    // if (results.length === 0) return res.status(404).send('User not found');
+    if (results.length === 0) return res.render(error, { erroru });
+    res.json(results[0]);
   });
 });
 
@@ -155,7 +173,7 @@ app.post('/addusers', async (req, res) => {
   connection.query(checkquery, [username, nickname], function(error, results) {
     if (error) return res.render('error', { message: errorm });
     if (results.length > 0) {
-      res.redirect('/users?error=duplicate');
+      res.redirect('/user?error=duplicate');
     } else {
       var user = {
         username,
@@ -167,9 +185,31 @@ app.post('/addusers', async (req, res) => {
       connection.query(insertquery, user, (error, results) => {
         if (error) return res.render('error', { message: errorm });
         console.log(results);
-        res.redirect('/users');
+        res.redirect('/user');
       });
     }
+  });
+});
+
+app.post('/users/edit/:id', async (req, res) => {
+  var userId = req.body.users_id;
+  var username = req.body.username;
+  var nickname = req.body.nickname;
+  var password = req.body.password;
+  var roles_id = req.body.roles_id;
+  var hashedPassword = password ? await bcrypt.hash(password, 10) : null;
+
+  var updateQuery = hashedPassword
+    ? 'UPDATE users SET username = ?, nickname = ?, password = ?, roles_id = ? WHERE users_id = ?'
+    : 'UPDATE users SET username = ?, nickname = ?, roles_id = ? WHERE users_id = ?';
+  var queryValues = hashedPassword
+    ? [username, nickname, hashedPassword, roles_id, userId]
+    : [username, nickname, roles_id, userId];
+
+  connection.query(updateQuery, queryValues, (error, results) => {
+    if (error) return res.render('error', { message: erroru });
+    console.log(updateQuery, queryValues, results);
+    res.redirect('/user');
   });
 });
 

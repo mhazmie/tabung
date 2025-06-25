@@ -1,0 +1,39 @@
+<div id= 'editModal' style= 'display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%); padding:20px; border:1px solid black;'>
+    <h3>Edit User</h3>
+    <form id= 'editForm' method= 'POST'>
+        <input type= 'hidden' name= 'users_id' id= 'edit-id'>
+        <label>Username:</label>
+        <input type= 'text' name= 'username' id= 'edit-username' required><br>
+        <label>Nickname:</label>
+        <input type= 'nickname' name= 'nickname' id= 'edit-nickname' required><br>
+        <label>Role:</label>
+        <select name="roles_id" id="edit-role" required>
+            <% roles.forEach(function(role) { %>
+            <option value="<%= role.roles_id %>"><%= role.role_name %></option>
+            <% }); %>
+        </select><br>
+        <label>New Password:</label>
+        <input type= 'password' name= 'password' id= 'edit-password'><br>
+        <button type= 'submit'> Update </button>
+        <button type= 'button' onclick= 'closeEditModal()'>Cancel</button>
+    </form>
+</div>
+
+<script>
+    function openEditModal(id) {
+        fetch(`/api/users/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('edit-id').value = data.users_id;
+            document.getElementById('edit-username').value = data.username;
+            document.getElementById('edit-nickname').value = data.nickname;
+            document.getElementById('edit-role').value = data.roles_id;
+            document.getElementById('editForm').action = `/users/edit/${data.users_id}`;
+            document.getElementById('editModal').style.display = 'block';
+        });
+    }
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = 'none';
+    }
+</script>
+

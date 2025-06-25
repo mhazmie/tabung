@@ -79,28 +79,7 @@
         <% }) %>
       </table>
     </div>
-    <script>
-        document.querySelectorAll('.rtab').forEach(tab => {
-          tab.addEventListener('click', () => {
-            document.querySelectorAll('.rtab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.rtab-content').forEach(c => c.classList.remove('active'));
-            tab.classList.add('active');
-            document.getElementById(tab.getAttribute('data-target')).classList.add('active');
-          });
-        });
-        const searchInput = document.getElementById('searchInput');
-        searchInput.addEventListener('keyup', filterTable);
-        function filterTable() {
-          var filter = searchInput.value.toLowerCase();
-          var activeTab = document.querySelector('.rtab-content.active');
-          var rows = activeTab.querySelectorAll('table tr');
-          rows.forEach((row, index) => {
-            if (index === 0) return;
-            const text = row.textContent.toLowerCase();
-            row.style.display = text.includes(filter) ? '' : 'none';
-          });
-        }
-    </script>
+    <%- include('partials/tabs') %>
   </div>
 </body>
 

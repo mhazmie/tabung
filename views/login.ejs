@@ -1,20 +1,7 @@
 <%- include('partials/head') %>
 
 <body>
-  <% if (error === 'invalidcredu') { %>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        alert('Invalid Username');
-      });
-    </script>
-  <% } %>
-  <% if (error === 'invalidcredp') { %>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        alert('Invalid Password');
-      });
-    </script>
-  <% } %>
+  <%- include('partials/errors') %>
   <header class= 'header'>
     <nav class= 'navbar'>
         <ul class= 'nav-buttons'>

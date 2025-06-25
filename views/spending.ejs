@@ -1,13 +1,7 @@
 <%- include('partials/head') %>
 
 <body>
-  <% if (error === 'duplicate') { %>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        alert('Error: Already paid for selected month');
-      });
-    </script>
-  <% } %>
+  <%- include('partials/errors') %>
   <%- include('partials/header') %>
   <div class= 'flex-container'>
       <h1>Payments</h1>
@@ -57,16 +51,7 @@
               </form>
           </div>
       </div>
-      <script>
-          document.querySelectorAll('.rtab').forEach(tab => {
-            tab.addEventListener('click', () => {
-              document.querySelectorAll('.rtab').forEach(t => t.classList.remove('active'));
-              document.querySelectorAll('.rtab-content').forEach(c => c.classList.remove('active'));
-              tab.classList.add('active');
-              document.getElementById(tab.getAttribute('data-target')).classList.add('active');
-            });
-          });
-      </script>
+      <%- include('partials/tabs') %>
   </div>
 </body>
 

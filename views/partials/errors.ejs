@@ -1,0 +1,23 @@
+<% if (error === 'invalidcredu') { %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      alert('Error: Invalid Username');
+    });
+  </script>
+<% } %>
+
+<% if (error === 'invalidcredp') { %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      alert('Error: Invalid Password');
+    });
+  </script>
+<% } %>
+
+<% if (error === 'duplicate') { %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      alert('Error: User already exists');
+    });
+  </script>
+<% } %>

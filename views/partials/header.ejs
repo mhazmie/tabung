@@ -4,7 +4,7 @@
         <ul class= "nav-buttons">
           <form method= "GET" action= "/"><button> Home </button></form>
           <% if (user && user.role === 2) { %>
-            <form method= "GET" action= "/users"><button> Users </button></form>
+            <form method= "GET" action= "/user"><button> Users </button></form>
             <form method= "GET" action= "/spending"><button> Spending </button></form>
           <% } %>
           <% if (user) { %>
