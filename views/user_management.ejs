@@ -26,7 +26,7 @@
         </div>
         <div id= 'tab-muser' class= 'rtab-content'>
             <div class= 'flex-container'>
-                <table border="1">
+                <table class= 'utable'>
                     <thead>
                         <tr>
                             <th>Username</th>
@@ -42,7 +42,7 @@
                             <td><button onclick="openEditModal('<%= user.users_id %>')">Edit</button></td>
                         </tr>
                         <% }) %>
-                    </tbody>
+                    </tbody>  
                 </table>
                 <%- include('partials/edit_users') %>
             </div>

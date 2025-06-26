@@ -106,9 +106,7 @@ app.get('/user', isAuthenticated, isAdmin, (req, res) => {
 app.get('/api/users/:id', (req, res) => {
   var userId = req.params.id;
   connection.query('SELECT * FROM users WHERE users_id = ?', [userId], (error, results) => {
-    // if (error) return res.status(500).send('Database error');
     if (error) return res.render(error, { errorm });
-    // if (results.length === 0) return res.status(404).send('User not found');
     if (results.length === 0) return res.render(error, { erroru });
     res.json(results[0]);
   });
@@ -198,14 +196,12 @@ app.post('/users/edit/:id', async (req, res) => {
   var password = req.body.password;
   var roles_id = req.body.roles_id;
   var hashedPassword = password ? await bcrypt.hash(password, 10) : null;
-
   var updateQuery = hashedPassword
     ? 'UPDATE users SET username = ?, nickname = ?, password = ?, roles_id = ? WHERE users_id = ?'
     : 'UPDATE users SET username = ?, nickname = ?, roles_id = ? WHERE users_id = ?';
   var queryValues = hashedPassword
     ? [username, nickname, hashedPassword, roles_id, userId]
     : [username, nickname, roles_id, userId];
-
   connection.query(updateQuery, queryValues, (error, results) => {
     if (error) return res.render('error', { message: erroru });
     console.log(updateQuery, queryValues, results);

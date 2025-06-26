@@ -203,6 +203,85 @@ input[type=checkbox] {
 }
 /* Error End */
 
+/* Edit User Start */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.etable {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  color: white;
+  min-width: 350px;
+}
+.eform {
+	border: none;
+	border-bottom: 3px solid #ffffff81;
+  border-radius: 3px;
+	color: #ffffff81;
+	padding: 5px 10px;
+	background: transparent;
+}
+.eform:hover {
+  border-bottom: 3px solid white;
+  color: rgb(255, 255, 255);
+  transition: 0.3s;
+}
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+}
+.form-row label {
+  flex: 1;
+  text-align: right;
+  margin-right: 10px;
+  color: #ffffffcc;
+  font-weight: 300;
+}
+.form-row .eform {
+  flex: 2;
+}
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+.utable { 
+  border-collapse: collapse; 
+  background: #00000095;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  overflow-x: auto;
+  display: inline-block;
+  align-items: center;
+}
+.utable th, .rtable td { 
+  padding: 5px; 
+  text-align: center;
+  font-weight: 200; 
+  color: white;
+}
+.utable th {
+  font-weight: bold;
+}
+/* Edit User End */
+
 body {
   text-align: center;
   font-family: 'Roboto', sans-serif;
