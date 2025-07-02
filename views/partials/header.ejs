@@ -1,45 +1,47 @@
-<header class= "header">
-    <nav class= "navbar">
-      <div class= "nav-left">
-        <ul class= "nav-buttons">
-          <form method= "GET" action= "/"><button> Home </button></form>
-          <% if (user && user.role === 2) { %>
-            <form method= "GET" action= "/user"><button> Users </button></form>
-            <form method= "GET" action= "/spending"><button> Spending </button></form>
+<header class="header">
+  <nav class="navbar">
+    <div class="nav-left">
+      <ul class="nav-buttons">
+        <form method="GET" action="/"><button> Home </button></form>
+        <% if (user && user.role===2) { %>
+          <form method="GET" action="/user"><button> Users </button></form>
+          <form method="GET" action="/spending"><button> Spending </button></form>
           <% } %>
-          <% if (user) { %>
-            <form method= "GET" action= "/report"><button> Report </button></form>
-          <% } %>
-        </ul>
-      </div>
-      <div class= "nav-right">
-        <% if (user) { %>
-          <div class= "dropdown">
-            <button class= "dropbtn" onclick= "toggleDropdown(event)"><%= user.username %> ▷</button>
-            <div id= "dropdownContent" class= "dropdown-content">
-              <form method= "GET" action= "/logout"><button> Logout </button></form>
-            </div>
+            <% if (user) { %>
+              <form method="GET" action="/report"><button> Report </button></form>
+              <% } %>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <% if (user) { %>
+        <div class="dropdown">
+          <button class="dropbtn" onclick="toggleDropdown(event)">
+            <%= user.username %> ▷
+          </button>
+          <div id="dropdownContent" class="dropdown-content">
+            <form method="GET" action="/logout"><button> Logout </button></form>
           </div>
+        </div>
         <% } else { %>
-          <form method= "GET" action= "/login">
+          <form method="GET" action="/login">
             <button> Login </button>
           </form>
-        <% } %>
-      </div>
-    </nav>
+          <% } %>
+    </div>
+  </nav>
 </header>
 
 <script>
-    function toggleDropdown(event) {
-      event.stopPropagation();
-      document.querySelector('.dropdown').classList.toggle('show');
-    }
-    window.addEventListener('click', function(e) {
-      if (!e.target.matches('.dropbtn')) {
-        const dropdown = document.querySelector('.dropdown');
-        if (dropdown && dropdown.classList.contains('show')) {
-          dropdown.classList.remove('show');
-        }
+  function toggleDropdown(event) {
+    event.stopPropagation();
+    document.querySelector('.dropdown').classList.toggle('show');
+  }
+  window.addEventListener('click', function (e) {
+    if (!e.target.matches('.dropbtn')) {
+      const dropdown = document.querySelector('.dropdown');
+      if (dropdown && dropdown.classList.contains('show')) {
+        dropdown.classList.remove('show');
       }
-    });
+    }
+  });
 </script>
