@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const connection = require('./db');
 const bcrypt = require('bcrypt');
-const port = 5001;
+const port = 5000;
 const domain = 'http://localhost:';
 
 const errorm = 'Error 400 : Unable to fetch data';
