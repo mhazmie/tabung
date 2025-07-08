@@ -11,10 +11,10 @@ const PORT = process.env.PORT || 5000;
 const DOMAIN = process.env.DOMAIN || 'http://localhost:';
 // const SESSION_SECRET = process.env.SESSION_SECRET || 'secret';
 const SESSION_SECRET = process.env.SESSION_SECRET;
-if (!SESSION_SECRET) {
-  console.error('❌ SESSION_SECRET is not set. Set it in .env or environment variables.');
-  process.exit(1);
-}
+// if (!SESSION_SECRET) {
+//   console.error('❌ SESSION_SECRET is not set. Set it in .env or environment variables.');
+//   process.exit(1);
+// }
 
 app.set('view engine', 'ejs');
 
