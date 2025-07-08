@@ -1,22 +1,19 @@
 const express = require('express');
-const { body, validationResult } = require('express-validator');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const db = require('../models/queries');
+const { body, validationResult } = require('express-validator');
 
+const db = require('../models/queries');
+const { isAuthenticated, isAdmin } = require('../middleware/auth');
+
+// Error message constants
 const errorm = 'Error 400 : Unable to fetch data';
 const erroru = 'Error 402 : Update failed';
-const errorr = 'Error 403 : Access denied';
 
-function isAuthenticated(req, res, next) {
-    if (req.session.user) return next();
-    res.redirect('/login');
-}
-
-function isAdmin(req, res, next) {
-    if (req.session.user && Number(req.session.user.role) === 2) return next();
-    res.render('error', { message: errorr });
-}
+// Login
+router.get('/login', (req, res) => {
+    res.render('login', { error: req.query.error || null });
+});
 
 router.get('/login', (req, res) => {
     const error = req.query.error || null;

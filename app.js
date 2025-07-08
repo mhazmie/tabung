@@ -17,12 +17,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  secret: SESSION_SECRET,
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
+    maxAge: 1000 * 60 * 30, // 30 mins
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 // 1 hour
+    sameSite: 'lax',
+    secure: false // true if using HTTPS
   }
 }));
 
