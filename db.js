@@ -1,17 +1,23 @@
+require('dotenv').config();
 const mysql = require('mysql2');
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'rootpassword',
-  database: 'tabung'
+
+const connection = mysql.createPool({
+  connectionLimit: 10, // Use a pool to improve performance
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'your_database_name',
+  charset: 'utf8mb4',
+  multipleStatements: false // Prevent SQL injection vector
 });
 
-connection.connect((error) => {
-  if (error) {
-    console.error('Error connecting to the database:', error.stack);
-    return;
+connection.getConnection((err, conn) => {
+  if (err) {
+    console.error('❌ Database connection failed:', err.message);
+  } else {
+    console.log('✅ Database connection established');
+    conn.release();
   }
-  console.log('Connected to MySQL as ID', connection.threadId);
 });
 
 module.exports = connection;

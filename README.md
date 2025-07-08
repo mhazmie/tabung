@@ -1,7 +1,6 @@
 WIP <br>
 **TABUNG 5.0**
-1. Self payment through web
-   - user scan qr / get bank information from web
-   - user submit proof payment as file (pdf/png) from web
-   - admin receive notification on discord user has made payments (discord integration)
-   - admin verify and update web
+1. Notice board
+   - display weekly information (location, date & time, no of participants)
+2. RSVP
+   - vote participation from webapp / integration with whatsapp through API
