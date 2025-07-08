@@ -3,59 +3,64 @@
     <body>
         <%- include('partials/errors') %>
             <%- include('partials/header') %>
-                <div class='flex-container'>
-                    <h1>User Management</h1>
-                    <div class='rtabs'>
-                        <div class='rtab active' data-target='tab-auser'> Add User </div>
-                        <div class='rtab' data-target='tab-muser'> Manage User </div>
-                    </div>
-                    <div id='tab-auser' class='rtab-content active'>
-                        <div class='flex-container'>
-                            <form method='POST' action='/addusers'>
-                                <input type='text' name='username' class='form' placeholder='Enter Username' required>
-                                <input type='text' name='nickname' class='form' placeholder='Enter Nickname' required>
-                                <input type='password' name='password' class='form' placeholder='Enter Password'
-                                    required>
-                                <select name='roles_id' class='form' required>
-                                    <option value=''> Role </option>
-                                    <% roles.forEach(function(roles) { %>
-                                        <option value='<%= roles.roles_id%>'>
-                                            <%= roles.role_name %>
-                                        </option>
-                                        <% }); %>
-                                </select>
-                                <button> Submit </button>
-                            </form>
+                <main>
+                    <div class='flex-container'>
+                        <h1>User Management</h1>
+                        <div class='rtabs'>
+                            <div class='rtab active' data-target='tab-auser'> Add User </div>
+                            <div class='rtab' data-target='tab-muser'> Manage User </div>
                         </div>
-                    </div>
-                    <div id='tab-muser' class='rtab-content'>
-                        <div class='flex-container'>
-                            <table class='utable'>
-                                <thead>
-                                    <tr>
-                                        <th>Username</th>
-                                        <th>Nickname</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% users.forEach(user=> { %>
+                        <div id='tab-auser' class='rtab-content active'>
+                            <div class='flex-container'>
+                                <form method='POST' action='/addusers'>
+                                    <input type='text' name='username' class='form' placeholder='Enter Username'
+                                        required>
+                                    <input type='text' name='nickname' class='form' placeholder='Enter Nickname'
+                                        required>
+                                    <input type='password' name='password' class='form' placeholder='Enter Password'
+                                        required>
+                                    <select name='roles_id' class='form' required>
+                                        <option value=''> Role </option>
+                                        <% roles.forEach(function(roles) { %>
+                                            <option value='<%= roles.roles_id%>'>
+                                                <%= roles.role_name %>
+                                            </option>
+                                            <% }); %>
+                                    </select>
+                                    <button> Submit </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div id='tab-muser' class='rtab-content'>
+                            <div class='flex-container'>
+                                <table class='utable'>
+                                    <thead>
                                         <tr>
-                                            <td>
-                                                <%= user.username %>
-                                            </td>
-                                            <td>
-                                                <%= user.nickname %>
-                                            </td>
-                                            <td><button onclick="openEditModal('<%= user.users_id %>')">Edit</button>
-                                            </td>
+                                            <th>Username</th>
+                                            <th>Nickname</th>
+                                            <th>Actions</th>
                                         </tr>
-                                        <% }) %>
-                                </tbody>
-                            </table>
-                            <%- include('partials/edit_users') %>
+                                    </thead>
+                                    <tbody>
+                                        <% users.forEach(user=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= user.username %>
+                                                </td>
+                                                <td>
+                                                    <%= user.nickname %>
+                                                </td>
+                                                <td><button
+                                                        onclick="openEditModal('<%= user.users_id %>')">Edit</button>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                    </tbody>
+                                </table>
+                                <%- include('partials/edit_users') %>
+                            </div>
                         </div>
+                        <%- include('partials/tabs') %>
                     </div>
-                    <%- include('partials/tabs') %>
-                </div>
+                </main>
     </body>

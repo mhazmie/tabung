@@ -2,50 +2,53 @@
 
   <body>
     <%- include('partials/header') %>
-      <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
-      <script src='https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels'></script>
-      <div class='flex-container'>
-        <div class='container'>
-          <h1 class='title'> Tabung Dashboard</h1>
-        </div>
-        <div>
-          <input type='hidden' id='collectedvalue' value='<%= collected %>'>
-          <input type='hidden' id='spentvalue' value='<%= spent %>'>
-          <input type='hidden' id='availablevalue' value='<%= available %>'>
-          <div class='dashboard-container'>
-            <div class='table-container'>
-              <table class='dtable'>
-                <thead>
-                  <tr>
-                    <th> User </th>
-                    <% months.forEach(month=> { %>
-                      <th>
-                        <%= month.month_name %>
-                      </th>
-                      <% }); %>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% users.forEach(user=> { %>
+      <main>
+        <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels'></script>
+        <div class='flex-container'>
+          <div class='container'>
+            <h1 class='title'> Tabung Dashboard</h1>
+          </div>
+          <div>
+            <input type='hidden' id='collectedvalue' value='<%= collected %>'>
+            <input type='hidden' id='spentvalue' value='<%= spent %>'>
+            <input type='hidden' id='availablevalue' value='<%= available %>'>
+            <div class='dashboard-container'>
+              <div class='table-container'>
+                <table class='dtable'>
+                  <thead>
                     <tr>
-                      <td>
-                        <%= user.nickname %>
-                      </td>
-                      <% months.forEach(month=> {
-                        const paid = payments.some(p => p.users_id === user.users_id && p.month_id === month.month_id);
-                        %>
-                        <td><input type='checkbox' <%=paid ? 'checked' : '' %>></td>
+                      <th> User </th>
+                      <% months.forEach(month=> { %>
+                        <th>
+                          <%= month.month_name %>
+                        </th>
                         <% }); %>
                     </tr>
-                    <% }); %>
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    <% users.forEach(user=> { %>
+                      <tr>
+                        <td>
+                          <%= user.nickname %>
+                        </td>
+                        <% months.forEach(month=> {
+                          const paid = payments.some(p => p.users_id === user.users_id && p.month_id ===
+                          month.month_id);
+                          %>
+                          <td><input type='checkbox' <%=paid ? 'checked' : '' %>></td>
+                          <% }); %>
+                      </tr>
+                      <% }); %>
+                  </tbody>
+                </table>
+              </div>
+              <div class='chart-container'>
+                <canvas id='cfchart'></canvas>
+              </div>
             </div>
-            <div class='chart-container'>
-              <canvas id='cfchart'></canvas>
-            </div>
+            <script src='/js/chart.js'></script>
           </div>
-          <script src='/js/chart.js'></script>
         </div>
-      </div>
+      </main>
   </body>

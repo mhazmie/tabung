@@ -7,16 +7,4 @@
       document.getElementById(tab.getAttribute('data-target')).classList.add('active');
     });
   });
-  const searchInput = document.getElementById('searchInput');
-  searchInput.addEventListener('keyup', filterTable);
-  function filterTable() {
-    var filter = searchInput.value.toLowerCase();
-    var activeTab = document.querySelector('.rtab-content.active');
-    var rows = activeTab.querySelectorAll('table tr');
-    rows.forEach((row, index) => {
-      if (index === 0) return;
-      const text = row.textContent.toLowerCase();
-      row.style.display = text.includes(filter) ? '' : 'none';
-    });
-  }
 </script>

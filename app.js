@@ -86,8 +86,8 @@ app.get('/spending', isAuthenticated, isAdmin, function (req, res) {
   });
 })
 
-// app.get('/user', isAuthenticated, isAdmin, (req, res) => {
-app.get('/user', (req, res) => {
+app.get('/user', isAuthenticated, isAdmin, (req, res) => {
+  // app.get('/user', (req, res) => {
   var perror = req.query.error;
   var userquery = 'SELECT * FROM users';
   var rolesquery = 'SELECT * FROM roles';
