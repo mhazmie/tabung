@@ -6,11 +6,9 @@ const { body, validationResult } = require('express-validator');
 const db = require('../models/queries');
 const { isAuthenticated, isAdmin } = require('../middleware/auth');
 
-// Error message constants
 const errorm = 'Error 400 : Unable to fetch data';
 const erroru = 'Error 402 : Update failed';
 
-// Login
 router.get('/login', (req, res) => {
     res.render('login', { error: req.query.error || null });
 });
