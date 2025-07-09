@@ -97,8 +97,6 @@ router.post('/login',
     body('username').notEmpty(),
     body('password').notEmpty(),
     async (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) return res.redirect('/login?error=invalidinput');
         const { username, password } = req.body;
         try {
             const results = await db.getUserByUsername(username);
@@ -116,12 +114,11 @@ router.post('/login',
 router.post('/addusers',
     body('username').notEmpty(),
     body('nickname').notEmpty(),
-    body('password').isLength({ min: 6 }),
+    body('password').isLength({ min: 3 }),
     body('roles_id').notEmpty(),
     async (req, res) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty()) return res.redirect('/user?error=validation');
-
+        if (!errors.isEmpty()) return res.redirect('/user?error=invalidcredc');
         const { username, nickname, password, roles_id } = req.body;
         try {
             const existing = await db.checkUserExists(username, nickname);

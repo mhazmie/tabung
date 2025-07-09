@@ -21,3 +21,11 @@
             });
           </script>
           <% } %>
+
+            <% if (error==='invalidcredc' ) { %>
+              <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                  alert('Error: Password minimum 3 characters');
+                });
+              </script>
+              <% } %>
