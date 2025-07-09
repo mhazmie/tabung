@@ -20,10 +20,12 @@
               <a class="nav-link" href="/spending">Spending</a>
             </li>
             <% } %>
-              <li class="nav-item">
-                <a class="nav-link" href="/report">Report</a>
-              </li>
-              <% } %>
+              <% if (user.role===1 || user.role===2) { %>
+                <li class="nav-item">
+                  <a class="nav-link" href="/report">Report</a>
+                </li>
+                <% } %>
+                  <% } %>
       </ul>
 
       <ul class="navbar-nav ms-auto">
