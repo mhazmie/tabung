@@ -2,102 +2,140 @@
 
   <body>
     <%- include('partials/header') %>
-      <div class='flex-container'>
-        <h1>Reports</h1>
-        <div class='rtabs'>
-          <div class='rtab active' data-target='tab-usersr'> Users </div>
-          <div class='rtab' data-target='tab-fundingr'> Additional Funding </div>
-          <div class='rtab' data-target='tab-spendingr'> Spending </div>
-          <input class='rsearch' type='text' id='searchInput' placeholder='Search...'>
-        </div>
 
-        <div id='tab-usersr' class='rtab-content active'>
-          <table class='rtable'>
-            <tr>
-              <th> Name </th>
-              <th> Nickname </th>
-              <th> Month </th>
-              <th> Amount </th>
-              <th> Receipt </th>
-              <th> Timestamp </th>
-            </tr>
-            <% user_report.forEach(user_report=> { %>
-              <tr>
-                <td>
-                  <%= user_report.username %>
-                </td>
-                <td>
-                  <%= user_report.nickname %>
-                </td>
-                <td>
-                  <%= user_report.month_name %>
-                </td>
-                <td>
-                  <%= user_report.monthly_amount %>
-                </td>
-                <td><a href='<%= user_report.monthly_receipt %>' target='user_report.monthly_receipt'> View </a></td>
-                <td>
-                  <%= new Date(user_report.created).toLocaleString('en-GB', { year: 'numeric' , month: 'short' ,
-                    day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12: 'true' , datestyle: 'full' ,
-                    weekday: 'short' }) %>
-                </td>
-              </tr>
-              <% }) %>
-          </table>
+      <div class="container my-5">
+        <h1 class="mb-4">Reports</h1>
+
+        <ul class="nav nav-tabs mb-3" id="reportTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#usersr" type="button"
+              role="tab">Users</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="funding-tab" data-bs-toggle="tab" data-bs-target="#fundingr" type="button"
+              role="tab">Additional Funding</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="spending-tab" data-bs-toggle="tab" data-bs-target="#spendingr" type="button"
+              role="tab">Spending</button>
+          </li>
+        </ul>
+
+        <input class="form-control mb-4" type="text" id="searchInput" placeholder="Search...">
+
+        <div class="tab-content" id="reportTabContent">
+          <!-- Users Tab -->
+          <div class="tab-pane fade show active" id="usersr" role="tabpanel">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th>Name</th>
+                    <th>Nickname</th>
+                    <th>Month</th>
+                    <th>Amount</th>
+                    <th>Receipt</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% user_report.forEach(user=> { %>
+                    <tr>
+                      <td>
+                        <%= user.username %>
+                      </td>
+                      <td>
+                        <%= user.nickname %>
+                      </td>
+                      <td>
+                        <%= user.month_name %>
+                      </td>
+                      <td>
+                        <%= user.monthly_amount %>
+                      </td>
+                      <td><a href="<%= user.monthly_receipt %>" target="_blank">View</a></td>
+                      <td>
+                        <%= new Date(user.created).toLocaleString('en-GB', { year: 'numeric' , month: 'short' ,
+                          day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12: true, weekday: 'short' }) %>
+                      </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Funding Tab -->
+          <div class="tab-pane fade" id="fundingr" role="tabpanel">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Receipt</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% funding.forEach(item=> { %>
+                    <tr>
+                      <td>
+                        <%= item.funding_description %>
+                      </td>
+                      <td>
+                        <%= item.funding_amount %>
+                      </td>
+                      <td><a href="<%= item.funding_receipt %>" target="_blank">View</a></td>
+                      <td>
+                        <%= new Date(item.created).toLocaleString('en-GB', { year: 'numeric' , month: 'short' ,
+                          day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12: true, weekday: 'short' }) %>
+                      </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Spending Tab -->
+          <div class="tab-pane fade" id="spendingr" role="tabpanel">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Receipt</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% expenses.forEach(item=> { %>
+                    <tr>
+                      <td>
+                        <%= item.expenses_description %>
+                      </td>
+                      <td>
+                        <%= item.expenses_amount %>
+                      </td>
+                      <td><a href="<%= item.expenses_receipt %>" target="_blank">View</a></td>
+                      <td>
+                        <%= new Date(item.created).toLocaleString('en-GB', { year: 'numeric' , month: 'short' ,
+                          day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12: true, weekday: 'short' }) %>
+                      </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-        <div id='tab-fundingr' class='rtab-content'>
-          <table class='rtable'>
-            <tr>
-              <th> Description </th>
-              <th> Amount </th>
-              <th> Receipt </th>
-              <th> Timestamp </th>
-            </tr>
-            <% funding.forEach(funding=> { %>
-              <tr>
-                <td>
-                  <%= funding.funding_description %>
-                </td>
-                <td>
-                  <%= funding.funding_amount %>
-                </td>
-                <td><a href='<%= funding.funding_receipt %>' target='funding.funding_receipt'> View </a></td>
-                <td>
-                  <%= new Date(funding.created).toLocaleString('en-GB', { year: 'numeric' , month: 'short' ,
-                    day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12: 'true' , datestyle: 'full' ,
-                    weekday: 'short' }) %>
-                </td>
-              </tr>
-              <% }) %>
-          </table>
-        </div>
-        <div id='tab-spendingr' class='rtab-content'>
-          <table class='rtable'>
-            <tr>
-              <th> Description </th>
-              <th> Amount </th>
-              <th> Receipt </th>
-              <th> Timestamp </th>
-            </tr>
-            <% expenses.forEach(expenses=> { %>
-              <tr>
-                <td>
-                  <%= expenses.expenses_description %>
-                </td>
-                <td>
-                  <%= expenses.expenses_amount %>
-                </td>
-                <td><a href='<%= expenses.expenses_receipt %>' target='expenses.expenses_receipt'> View </a></td>
-                <td>
-                  <%= new Date(expenses.created).toLocaleString('en-GB', { year: 'numeric' , month: 'short' ,
-                    day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12: 'true' , datestyle: 'full' ,
-                    weekday: 'short' }) %>
-                </td>
-              </tr>
-              <% }) %>
-          </table>
-        </div>
-        <%- include('partials/tabs') %>
-          <%- include('partials/search') %>
       </div>
+
+      <!-- Include Bootstrap JS -->
+      <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+
+      <!-- Search filter (if you are using it globally) -->
+      <script src="/js/search.js"></script>
   </body>

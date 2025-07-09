@@ -3,60 +3,96 @@
   <body>
     <%- include('partials/errors') %>
       <%- include('partials/header') %>
-        <main>
-          <div class='flex-container'>
-            <h1>Payments</h1>
-            <div class='rtabs'>
-              <div class='rtab active' data-target='tab-monthly'> Monthly </div>
-              <div class='rtab' data-target='tab-adhoc'> Additional Funds </div>
-              <div class='rtab' data-target='tab-spending'> Expenditure </div>
-            </div>
-            <div id='tab-monthly' class='rtab-content active'>
-              <div class='flex-container'>
-                <form method='POST' action='/addmonthly'>
-                  <select name='users_id' class='form' required>
-                    <option value=''> Select User </option>
-                    <% users.forEach(function(users) { %>
-                      <option value='<%= users.users_id%>'>
-                        <%= users.nickname %>
+        <main class="container my-4">
+          <h1 class="mb-4">Payments</h1>
+
+          <!-- Bootstrap Tabs -->
+          <ul class="nav nav-tabs mb-3" id="spendingTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="monthly-tab" data-bs-toggle="tab" data-bs-target="#monthly"
+                type="button" role="tab" aria-controls="monthly" aria-selected="true">Monthly</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="adhoc-tab" data-bs-toggle="tab" data-bs-target="#adhoc" type="button"
+                role="tab" aria-controls="adhoc" aria-selected="false">Additional Funds</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="spending-tab" data-bs-toggle="tab" data-bs-target="#spending" type="button"
+                role="tab" aria-controls="spending" aria-selected="false">Expenditure</button>
+            </li>
+          </ul>
+
+          <div class="tab-content" id="spendingTabsContent">
+            <!-- Monthly Tab -->
+            <div class="tab-pane fade show active" id="monthly" role="tabpanel" aria-labelledby="monthly-tab">
+              <form method="POST" action="/addmonthly" class="row g-3">
+                <div class="col-md-3">
+                  <select name="users_id" class="form-select" required>
+                    <option value="">Select User</option>
+                    <% users.forEach(user=> { %>
+                      <option value="<%= user.users_id %>">
+                        <%= user.nickname %>
                       </option>
-                      <% }); %>
+                      <% }) %>
                   </select>
-                  <input type='text' name='monthly_amount' class='form' placeholder='Amount' required>
-                  <select name='month_id' class='form' required>
-                    <option value=''> Month </option>
-                    <% months.forEach(function(months) { %>
-                      <option value='<%= months.month_id%>'>
-                        <%= months.month_name %>
+                </div>
+                <div class="col-md-3">
+                  <input type="text" name="monthly_amount" class="form-control" placeholder="Amount" required>
+                </div>
+                <div class="col-md-3">
+                  <select name="month_id" class="form-select" required>
+                    <option value="">Month</option>
+                    <% months.forEach(month=> { %>
+                      <option value="<%= month.month_id %>">
+                        <%= month.month_name %>
                       </option>
-                      <% }); %>
+                      <% }) %>
                   </select>
-                  <input type='url' name='monthly_receipt' class='form' placeholder='Reference' required>
-                  <button type='submit'> Submit </button>
-                </form>
-              </div>
+                </div>
+                <div class="col-md-3">
+                  <input type="url" name="monthly_receipt" class="form-control" placeholder="Reference" required>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
             </div>
-            <div id='tab-adhoc' class='rtab-content'>
-              <div class='flex-container'>
-                <form method='POST' action='/addfunding'>
-                  <input type='text' name='funding_amount' class='form' placeholder='Amount' required>
-                  <input type='text' name='funding_desc' class='form' placeholder='Description' required>
-                  <input type='url' name='funding_receipt' class='form' placeholder='Reference' required>
-                  <button type='submit'> Submit </button>
-                </form>
-              </div>
+
+            <!-- Additional Funds Tab -->
+            <div class="tab-pane fade" id="adhoc" role="tabpanel" aria-labelledby="adhoc-tab">
+              <form method="POST" action="/addfunding" class="row g-3 mt-2">
+                <div class="col-md-4">
+                  <input type="text" name="funding_amount" class="form-control" placeholder="Amount" required>
+                </div>
+                <div class="col-md-4">
+                  <input type="text" name="funding_desc" class="form-control" placeholder="Description" required>
+                </div>
+                <div class="col-md-4">
+                  <input type="url" name="funding_receipt" class="form-control" placeholder="Reference" required>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+              </form>
             </div>
-            <div id='tab-spending' class='rtab-content'>
-              <div class='flex-container'>
-                <form method='POST' action='/addspending'>
-                  <input type='text' name='expenses_amount' class='form' placeholder='Amount' required>
-                  <input type='text' name='expenses_desc' class='form' placeholder='Description' required>
-                  <input type='url' name='expenses_receipt' class='form' placeholder='Reference' required>
-                  <button type='submit'> Submit </button>
-                </form>
-              </div>
+
+            <!-- Spending Tab -->
+            <div class="tab-pane fade" id="spending" role="tabpanel" aria-labelledby="spending-tab">
+              <form method="POST" action="/addspending" class="row g-3 mt-2">
+                <div class="col-md-4">
+                  <input type="text" name="expenses_amount" class="form-control" placeholder="Amount" required>
+                </div>
+                <div class="col-md-4">
+                  <input type="text" name="expenses_desc" class="form-control" placeholder="Description" required>
+                </div>
+                <div class="col-md-4">
+                  <input type="url" name="expenses_receipt" class="form-control" placeholder="Reference" required>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-danger">Submit</button>
+                </div>
+              </form>
             </div>
-            <%- include('partials/tabs') %>
           </div>
         </main>
   </body>

@@ -1,55 +1,49 @@
-<div id='modalOverlay' class='modal-overlay' style='display: none;'>
-  <div id='editmodal' class='etable'>
-    <h3>Edit User</h3>
-    <form class='bform' id='editform' method='POST'>
-      <div class='form-row'>
-        <label for='edit-username'>Username:</label>
-        <input type='text' name='username' class='eform' id='edit-username' required>
-      </div>
-      <div class='form-row'>
-        <label for='edit-nickname'>Nickname:</label>
-        <input type='text' name='nickname' class='eform' id='edit-nickname' required>
-      </div>
-      <div class='form-row'>
-        <label for='edit-password'>New Password:</label>
-        <input type='password' name='password' class='eform' id='edit-password'>
-      </div>
-      <div class='form-row'>
-        <label for='edit-role'>Role:</label>
-        <select name='roles_id' class='eform' id='edit-role' required>
-          <% roles.forEach(function(role) { %>
-            <option value='<%= role.roles_id %>'>
-              <%= role.role_name %>
-            </option>
-            <% }); %>
-        </select>
-      </div>
-      <div class='form-actions'>
-        <button type='submit'>Update</button>
-        <button type='button' onclick='closeEditModal()'>Cancel</button>
-      </div>
-      <input type='hidden' name='users_id' class='eform' id='edit-id'>
-    </form>
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="editform" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="hidden" name="users_id" id="edit-id">
+
+          <div class="mb-3">
+            <label for="edit-username" class="form-label">Username</label>
+            <input type="text" name="username" class="form-control" id="edit-username" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="edit-nickname" class="form-label">Nickname</label>
+            <input type="text" name="nickname" class="form-control" id="edit-nickname" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="edit-password" class="form-label">New Password</label>
+            <input type="password" name="password" class="form-control" id="edit-password">
+          </div>
+
+          <div class="mb-3">
+            <label for="edit-role" class="form-label">Role</label>
+            <select name="roles_id" class="form-select" id="edit-role" required>
+              <% roles.forEach(function(role) { %>
+                <option value="<%= role.roles_id %>">
+                  <%= role.role_name %>
+                </option>
+                <% }); %>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Update</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 
-
-<script>
-  function openEditModal(id) {
-    fetch(`/api/users/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('edit-id').value = data.users_id;
-        document.getElementById('edit-username').value = data.username;
-        document.getElementById('edit-nickname').value = data.nickname;
-        document.getElementById('edit-password').value = '';
-        document.getElementById('edit-role').value = data.roles_id;
-        document.getElementById('editform').action = `/users/edit/${data.users_id}`;
-
-        document.getElementById('modalOverlay').style.display = 'flex';
-      });
-  }
-  function closeEditModal() {
-    document.getElementById('modalOverlay').style.display = 'none';
-  }
-</script>
+<script src="/js/openEditModal.js"></script>

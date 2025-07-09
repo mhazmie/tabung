@@ -3,38 +3,62 @@
     <body>
         <%- include('partials/errors') %>
             <%- include('partials/header') %>
-                <main>
-                    <div class='flex-container'>
-                        <h1>User Management</h1>
-                        <div class='rtabs'>
-                            <div class='rtab active' data-target='tab-auser'> Add User </div>
-                            <div class='rtab' data-target='tab-muser'> Manage User </div>
-                        </div>
-                        <div id='tab-auser' class='rtab-content active'>
-                            <div class='flex-container'>
-                                <form method='POST' action='/addusers'>
-                                    <input type='text' name='username' class='form' placeholder='Enter Username'
+
+                <main class="container my-4">
+                    <h1 class="mb-4">User Management</h1>
+
+                    <!-- Tabs Navigation -->
+                    <ul class="nav nav-tabs mb-3" id="userTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="add-tab" data-bs-toggle="tab" data-bs-target="#addUser"
+                                type="button" role="tab" aria-controls="addUser" aria-selected="true">Add User</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="manage-tab" data-bs-toggle="tab" data-bs-target="#manageUser"
+                                type="button" role="tab" aria-controls="manageUser" aria-selected="false">Manage
+                                User</button>
+                        </li>
+                    </ul>
+
+                    <!-- Tabs Content -->
+                    <div class="tab-content" id="userTabsContent">
+
+                        <!-- Add User Tab -->
+                        <div class="tab-pane fade show active" id="addUser" role="tabpanel" aria-labelledby="add-tab">
+                            <form method="POST" action="/addusers" class="row g-3">
+                                <div class="col-md-6">
+                                    <input type="text" name="username" class="form-control" placeholder="Enter Username"
                                         required>
-                                    <input type='text' name='nickname' class='form' placeholder='Enter Nickname'
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" name="nickname" class="form-control" placeholder="Enter Nickname"
                                         required>
-                                    <input type='password' name='password' class='form' placeholder='Enter Password'
-                                        required>
-                                    <select name='roles_id' class='form' required>
-                                        <option value=''> Role </option>
-                                        <% roles.forEach(function(roles) { %>
-                                            <option value='<%= roles.roles_id%>'>
-                                                <%= roles.role_name %>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="password" name="password" class="form-control"
+                                        placeholder="Enter Password" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <select name="roles_id" class="form-select" required>
+                                        <option value="">Role</option>
+                                        <% roles.forEach(role=> { %>
+                                            <option value="<%= role.roles_id %>">
+                                                <%= role.role_name %>
                                             </option>
-                                            <% }); %>
+                                            <% }) %>
                                     </select>
-                                    <button> Submit </button>
-                                </form>
-                            </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
                         </div>
-                        <div id='tab-muser' class='rtab-content'>
-                            <div class='flex-container'>
-                                <table class='utable'>
-                                    <thead>
+
+                        <!-- Manage User Tab -->
+                        <div class="tab-pane fade" id="manageUser" role="tabpanel" aria-labelledby="manage-tab">
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle">
+                                    <thead class="table-light">
                                         <tr>
                                             <th>Username</th>
                                             <th>Nickname</th>
@@ -50,17 +74,18 @@
                                                 <td>
                                                     <%= user.nickname %>
                                                 </td>
-                                                <td><button
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary"
                                                         onclick="openEditModal('<%= user.users_id %>')">Edit</button>
                                                 </td>
                                             </tr>
                                             <% }) %>
                                     </tbody>
                                 </table>
-                                <%- include('partials/edit_users') %>
                             </div>
+                            <%- include('partials/edit_users') %>
                         </div>
-                        <%- include('partials/tabs') %>
+
                     </div>
                 </main>
     </body>

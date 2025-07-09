@@ -1,17 +1,16 @@
-/* Header Start*/
-.nav-buttons {
-  gap: 20px;
+/* === Base === */
+body {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  background: url('/images/home.png') no-repeat center center fixed;
+  background-size: cover;
+  color: rgba(255, 255, 255, 0.85);
 }
 
+/* === Navbar === */
 .navbar {
-  display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  width: 99%;
-}
-
-.nav-left .nav-buttons {
-  display: flex;
+  align-items: center;
 }
 
 .nav-right {
@@ -20,157 +19,117 @@
   gap: 10px;
 }
 
+/* === Dropdown === */
 .dropbtn {
-  border: 3px solid #ffffff81;
-  font-size: 1em;
-  color: #fafafa81;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.5);
   padding: 5px 16px;
-  background: rgba(255, 255, 255, 0);
   border-radius: 10px;
   cursor: pointer;
 }
 
 .dropbtn:hover {
-  border: 3px solid #ffffff;
-  color: #fafafa;
+  color: #fff;
+  border-color: #fff;
   transition: 0.3s;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
   right: 0;
-  z-index: 1;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.8);
   border-radius: 10px;
-  cursor: pointer;
-}
-
-.dropdown-content button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px;
 }
 
 .dropdown.show .dropdown-content {
-  display: contents;
+  display: block;
 }
 
-.nav-buttons form,
-.nav-right form {
-  display: inline;
-}
-
-/* Header End */
-
-/* Body-Btn Start */
-button {
-  border: 3px solid #ffffff81;
-  font-size: 1em;
-  color: #fafafa81;
-  padding: 5px 16px;
-  background: rgba(255, 255, 255, 0);
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-button:hover {
-  border: 3px solid #ffffff;
-  color: #fafafa;
-  transition: 0.3s;
-}
-
-/* Body-Btn End */
-
-/* Form Start */
-.form {
-  border: none;
-  border-bottom: 3px solid #ffffff81;
-  border-radius: 3px;
-  color: #ffffff81;
-  padding: 5px 10px;
+/* === Custom Buttons === */
+.btn-custom {
   background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  padding: 5px 16px;
 }
 
-.form:hover {
-  border-bottom: 3px solid white;
-  color: rgb(255, 255, 255);
+.btn-custom:hover {
+  color: #fff;
+  border-color: #fff;
   transition: 0.3s;
 }
 
-option {
-  color: black;
+/* === Form Elements === */
+.form-control-custom {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.8);
+  border-radius: 0;
 }
 
-/* Form End */
+.form-control-custom:focus {
+  border-bottom-color: #fff;
+  color: #fff;
+  background: transparent;
+  box-shadow: none;
+}
 
-/* Dashboard Start */
+/* === Tables === */
+.table thead th {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+.table td {
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* === Dashboard Layout === */
 .dashboard-container {
-  display: inline-flex;
-  align-items: center;
+  display: flex;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .chart-container,
 .table-container {
-  background: #00000095;
+  background: rgba(0, 0, 0, 0.7);
   padding: 20px;
   border-radius: 10px;
+  color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.chart-container {
-  height: 450px;
-  width: 450px;
-  color: #ffffff;
-}
-
-.table-container {
-  overflow-x: auto;
-}
-
-.dtable {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th,
-td {
-  padding: 16px;
-  text-align: center;
-  font-weight: 350;
-}
-
-.dtable th {
-  color: white;
-  font-weight: bold;
-}
-
-input[type=checkbox] {
-  pointer-events: none;
-}
-
-/* Dashboard Ends */
-
-/* Report Start */
+/* === Tabs === */
 .rtabs {
   display: flex;
-  cursor: pointer;
-  margin-bottom: 10px;
   justify-content: center;
-  align-items: baseline;
+  margin-bottom: 15px;
+  gap: 10px;
 }
 
 .rtab {
-  padding: 10px;
-  margin-right: 5px;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid transparent;
 }
 
 .rtab.active {
   font-weight: bold;
-  color: white;
+  color: #fff;
+  border-color: #fff;
 }
 
 .rtab-content {
@@ -179,107 +138,47 @@ input[type=checkbox] {
 
 .rtab-content.active {
   display: block;
+}
+
+/* === Toast === */
+.toast {
+  background-color: rgba(0, 0, 0, 0.85);
   color: white;
 }
 
-.rtable {
-  border-collapse: collapse;
-  background: #00000095;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow-x: auto;
-  display: inline-flex;
-  align-items: center;
-}
-
-.rtable th,
-.rtable td .rtable a {
-  padding: 5px;
-  text-align: center;
-  font-weight: 200;
-  color: white;
-}
-
-.rtable th {
-  font-weight: bold;
-}
-
-.rsearch {
-  border: none;
-  border-bottom: 3px solid #ffffff81;
-  width: 270px;
-  font-size: 0.9em;
-  color: #ffffff81;
-  padding: 5px 10px;
-  background: transparent;
-}
-
-.rsearch:hover {
-  border-bottom: 3px solid white;
-  color: rgb(255, 255, 255);
-  transition: 0.3s;
-}
-
-/* Report End */
-
-/* Error Start */
+/* === Error Page === */
 .errorbody {
-  background: #fff0f0;
-  padding: 30px;
-  background-image: url('images/home.png');
+  background: #fff0f0 url('/images/home.png') no-repeat center center fixed;
   background-size: cover;
-  background-attachment: fixed;
-}
-
-.errorbox {
-  padding: 20px;
+  padding: 30px;
 }
 
 .errorlink {
+  font-size: 18px;
   color: white;
-  font-size: 21px;
+  text-decoration: underline;
 }
 
-/* Error End */
-
-/* Edit User Start */
+/* === Edit Modal === */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1050;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
 }
 
 .etable {
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.6);
   padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
   color: white;
   min-width: 350px;
-}
-
-.eform {
-  border: none;
-  border-bottom: 3px solid #ffffff81;
-  border-radius: 3px;
-  color: #ffffff81;
-  padding: 5px 10px;
-  background: transparent;
-}
-
-.eform:hover {
-  border-bottom: 3px solid white;
-  color: rgb(255, 255, 255);
-  transition: 0.3s;
 }
 
 .form-row {
@@ -309,71 +208,19 @@ input[type=checkbox] {
   margin-top: 20px;
 }
 
-.utable {
-  border-collapse: collapse;
-  background: #00000095;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow-x: auto;
-  display: inline-block;
-  align-items: center;
+/* === Utility === */
+input[type="checkbox"] {
+  pointer-events: none;
 }
 
-.utable th,
-.rtable td {
-  padding: 5px;
-  text-align: center;
-  font-weight: 200;
-  color: white;
-}
-
-.utable th {
-  font-weight: bold;
-}
-
-/* Edit User End */
-
-body {
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-  height: 100%;
-  background-image: url('images/home.png');
-  background-size: cover;
-  background-attachment: fixed;
-  font-weight: 100;
-
-  ::-webkit-input-placeholder {
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-  ::-moz-placeholder {
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-  :-ms-input-placeholder {
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-  ::placeholder {
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-  color: rgba(255, 255, 255, 0.8);
-}
-
-a:-webkit-any-link {
-  color: white;
-}
-
-input[type=text]:focus {
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="url"]:focus {
   outline: none;
 }
 
 h1 {
-  margin: 0;
-  font-size: 50px;
-  line-height: 150px;
+  font-size: 2.5rem;
   font-weight: 300;
-  padding-top: 20px;
+  margin-bottom: 1rem;
 }

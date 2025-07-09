@@ -1,47 +1,52 @@
-<header class="header">
-  <nav class="navbar">
-    <div class="nav-left">
-      <ul class="nav-buttons">
-        <form method="GET" action="/"><button> Home </button></form>
-        <% if (user && user.role===2) { %>
-          <form method="GET" action="/user"><button> Users </button></form>
-          <form method="GET" action="/spending"><button> Spending </button></form>
-          <% } %>
-            <% if (user) { %>
-              <form method="GET" action="/report"><button> Report </button></form>
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+    <a class="navbar-brand" href="/">Tabung</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <% if (user) { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <% if (user.role===2) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/user">Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/spending">Spending</a>
+            </li>
+            <% } %>
+              <li class="nav-item">
+                <a class="nav-link" href="/report">Report</a>
+              </li>
               <% } %>
       </ul>
-    </div>
-    <div class="nav-right">
-      <% if (user) { %>
-        <div class="dropdown">
-          <button class="dropbtn" onclick="toggleDropdown(event)">
-            <%= user.username %> ▷
-          </button>
-          <div id="dropdownContent" class="dropdown-content">
-            <form method="GET" action="/logout"><button> Logout </button></form>
-          </div>
-        </div>
-        <% } else { %>
-          <form method="GET" action="/login">
-            <button> Login </button>
-          </form>
-          <% } %>
+
+      <ul class="navbar-nav ms-auto">
+        <% if (user) { %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <%= user.username %>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li>
+                <form method="GET" action="/logout" class="dropdown-item m-0 p-0">
+                  <button type="submit" class="dropdown-item">Logout</button>
+                </form>
+              </li>
+            </ul>
+          </li>
+          <% } else { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <% } %>
+      </ul>
     </div>
   </nav>
 </header>
-
-<script>
-  function toggleDropdown(event) {
-    event.stopPropagation();
-    document.querySelector('.dropdown').classList.toggle('show');
-  }
-  window.addEventListener('click', function (e) {
-    if (!e.target.matches('.dropbtn')) {
-      const dropdown = document.querySelector('.dropdown');
-      if (dropdown && dropdown.classList.contains('show')) {
-        dropdown.classList.remove('show');
-      }
-    }
-  });
-</script>

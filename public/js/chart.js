@@ -4,6 +4,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const spent = parseFloat(document.getElementById('spentvalue').value);
     const available = parseFloat(document.getElementById('availablevalue').value);
 
+    const total = collected + spent + available;
+
     new Chart(ctx, {
         type: 'pie',
         data: {
@@ -25,20 +27,37 @@ window.addEventListener('DOMContentLoaded', () => {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
                 datalabels: {
                     color: '#fff',
                     formatter: (value, context) => {
-                        const label = context.chart.data.labels[context.dataIndex];
-                        return `RM ${value}`;
+                        const percent = ((value / total) * 100).toFixed(1);
+                        return `RM ${value.toFixed(2)}\n(${percent}%)`;
                     },
-                    font: {
-                        size: 14
-                    },
+                    font: (context) => {
+                        const width = context.chart.width;
+                        return {
+                            size: width < 400 ? 10 : 14
+                        };
+                    }
                 },
                 legend: {
+                    position: 'bottom',
                     labels: {
-                        color: '#fff',
+                        color: '#333',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (tooltipItem) => {
+                            const value = tooltipItem.raw;
+                            const percent = ((value / total) * 100).toFixed(1);
+                            return `RM ${value} (${percent}%)`;
+                        }
                     }
                 }
             }

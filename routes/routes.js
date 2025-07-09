@@ -10,12 +10,9 @@ const errorm = 'Error 400 : Unable to fetch data';
 const erroru = 'Error 402 : Update failed';
 
 router.get('/login', (req, res) => {
-    res.render('login', { error: req.query.error || null });
-});
-
-router.get('/login', (req, res) => {
-    const error = req.query.error || null;
-    res.render('login', { error });
+    const errors = req.session.error || [];
+    req.session.error = null;
+    res.render('login', { error: errors });
 });
 
 router.get('/', async (req, res) => {
@@ -42,20 +39,24 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/spending', isAuthenticated, isAdmin, async (req, res) => {
+    const errors = req.session.error || [];
+    req.session.error = null;
     try {
         const users = await db.getAllUsers();
         const months = await db.getAllMonths();
-        res.render('spending', { users, months, error: req.query.error });
+        res.render('spending', { users, months, error: errors });
     } catch (err) {
         res.render('error', { message: errorm });
     }
 });
 
 router.get('/user', isAuthenticated, isAdmin, async (req, res) => {
+    const errors = req.session.error || [];
+    req.session.error = null;
     try {
         const users = await db.getAllUsers();
         const roles = await db.getAllRoles();
-        res.render('user_management', { users, roles, error: req.query.error });
+        res.render('user_management', { users, roles, error: errors });
     } catch (err) {
         res.render('error', { message: errorm });
     }
@@ -100,16 +101,33 @@ router.post('/login',
         const { username, password } = req.body;
         try {
             const results = await db.getUserByUsername(username);
-            if (!results.length) return res.redirect('/login?error=invalidcredu');
-            const user = results[0];
-            const match = await bcrypt.compare(password, user.password);
-            if (!match) return res.redirect('/login?error=invalidcredp');
-            req.session.user = { id: user.users_id, username: user.username, role: user.roles_id };
-            res.redirect('/');
+            const errors = [];
+
+            if (!results.length) {
+                errors.push('invalidcredu');
+            } else {
+                const user = results[0];
+                const match = await bcrypt.compare(password, user.password);
+                if (!match) {
+                    errors.push('invalidcredp');
+                } else {
+                    req.session.user = {
+                        id: user.users_id,
+                        username: user.username,
+                        role: user.roles_id
+                    };
+                    req.session.error = null;
+                    return res.redirect('/');
+                }
+            }
+
+            req.session.error = errors;
+            res.redirect('/login');
         } catch (err) {
             res.render('error', { message: errorm });
         }
-    });
+    }
+);
 
 router.post('/addusers',
     body('username').notEmpty(),
@@ -117,12 +135,23 @@ router.post('/addusers',
     body('password').isLength({ min: 3 }),
     body('roles_id').notEmpty(),
     async (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) return res.redirect('/user?error=invalidcredc');
+        const result = validationResult(req);
+        const errors = [];
+
+        if (!result.isEmpty()) {
+            errors.push('invalidcredc');
+        }
+
         const { username, nickname, password, roles_id } = req.body;
         try {
             const existing = await db.checkUserExists(username, nickname);
-            if (existing.length > 0) return res.redirect('/user?error=duplicate');
+            if (existing.length > 0) errors.push('duplicate');
+
+            if (errors.length > 0) {
+                req.session.error = errors;
+                return res.redirect('/user');
+            }
+
             const hashedPassword = await bcrypt.hash(password, 10);
             await db.insertUser({ username, nickname, password: hashedPassword, roles_id });
             res.redirect('/user');
@@ -145,7 +174,8 @@ router.post('/users/edit/:id',
             }
             res.redirect('/user');
         } catch (err) {
-            res.render('error', { message: erroru });
+            req.session.error = ['invalidcredc'];
+            res.redirect('/user');
         }
     });
 
@@ -153,7 +183,10 @@ router.post('/addmonthly', async (req, res) => {
     const { users_id, month_id, monthly_amount, monthly_receipt } = req.body;
     try {
         const existing = await db.getMonthlyRecord(users_id, month_id);
-        if (existing.length > 0) return res.redirect('/spending?error=duplicate');
+        if (existing.length > 0) {
+            req.session.error = ['duplicate'];
+            return res.redirect('/spending');
+        }
         await db.insertMonthly({ users_id, month_id, monthly_amount, monthly_receipt });
         res.redirect('/spending');
     } catch (err) {
