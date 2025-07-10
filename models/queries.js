@@ -6,15 +6,12 @@ module.exports = {
     // Authentication & Users
     getUserByUsername: (username) => query('SELECT * FROM users WHERE username = ?', [username]),
     getUserById: (id) => query('SELECT * FROM users WHERE users_id = ?', [id]),
-    checkUserExists: (username, nickname) =>
-        query('SELECT * FROM users WHERE username = ? OR nickname = ?', [username, nickname]),
+    checkUserExists: (username, nickname) => query('SELECT * FROM users WHERE username = ? OR nickname = ?', [username, nickname]),
     getAllUsers: () => query('SELECT * FROM users'),
     getAllRoles: () => query('SELECT * FROM roles'),
     insertUser: (user) => query('INSERT INTO users SET ?', user),
-    updateUserWithPassword: (data) =>
-        query('UPDATE users SET username = ?, nickname = ?, password = ?, roles_id = ? WHERE users_id = ?', data),
-    updateUserWithoutPassword: (data) =>
-        query('UPDATE users SET username = ?, nickname = ?, roles_id = ? WHERE users_id = ?', data),
+    updateUserWithPassword: (data) => query('UPDATE users SET username = ?, nickname = ?, password = ?, roles_id = ? WHERE users_id = ?', data),
+    updateUserWithoutPassword: (data) => query('UPDATE users SET username = ?, nickname = ?, roles_id = ? WHERE users_id = ?', data),
 
     // Monthly Contributions
     getAllMonths: () => query('SELECT * FROM months ORDER BY month_id'),
@@ -36,4 +33,8 @@ module.exports = {
     getTotalSpent: () => query('SELECT total_spent FROM total_spent'),
     getTotalAvailable: () => query('SELECT total_available FROM total_available'),
     getMonthlyPayments: () => query('SELECT users_id, month_id FROM monthly'),
+
+    // Home
+    getNotice: () => query('SELECT * FROM notice ORDER BY notice_datetime DESC LIMIT 1'),
+    insertNotice: (data) => query('INSERT INTO notice SET ?', data),
 };

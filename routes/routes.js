@@ -17,6 +17,15 @@ router.get('/login', (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
+        const notice = await db.getNotice();
+        res.render('home', { notice: notice[0] || {} });
+    } catch (err) {
+        res.render('error', { message: errorm });
+    }
+});
+
+router.get('/dashboard', isAuthenticated, async (req, res) => {
+    try {
         const [collected, spent, available, users, months, payments] = await Promise.all([
             db.getTotalCollected(),
             db.getTotalSpent(),
@@ -25,7 +34,7 @@ router.get('/', async (req, res) => {
             db.getAllMonths(),
             db.getMonthlyPayments(),
         ]);
-        res.render('home', {
+        res.render('dashboard', {
             collected: collected[0]?.total_collected || 0,
             spent: spent[0]?.total_spent || 0,
             available: available[0]?.total_available || 0,
@@ -50,13 +59,15 @@ router.get('/spending', isAuthenticated, isAdmin, async (req, res) => {
     }
 });
 
-router.get('/user', isAuthenticated, isAdmin, async (req, res) => {
+router.get('/admin', isAuthenticated, isAdmin, async (req, res) => {
     const errors = req.session.error || [];
     req.session.error = null;
     try {
-        const users = await db.getAllUsers();
-        const roles = await db.getAllRoles();
-        res.render('user_management', { users, roles, error: errors });
+        const [users, roles] = await Promise.all([
+            db.getAllUsers(),
+            db.getAllRoles(),
+        ]);
+        res.render('admin', { users, roles, error: errors });
     } catch (err) {
         res.render('error', { message: errorm });
     }
@@ -102,7 +113,6 @@ router.post('/login',
         try {
             const results = await db.getUserByUsername(username);
             const errors = [];
-
             if (!results.length) {
                 errors.push('invalidcredu');
             } else {
@@ -120,7 +130,6 @@ router.post('/login',
                     return res.redirect('/');
                 }
             }
-
             req.session.error = errors;
             res.redirect('/login');
         } catch (err) {
@@ -137,11 +146,9 @@ router.post('/addusers',
     async (req, res) => {
         const result = validationResult(req);
         const errors = [];
-
         if (!result.isEmpty()) {
             errors.push('invalidcredc');
         }
-
         const { username, nickname, password, roles_id } = req.body;
         try {
             const existing = await db.checkUserExists(username, nickname);
@@ -149,16 +156,16 @@ router.post('/addusers',
 
             if (errors.length > 0) {
                 req.session.error = errors;
-                return res.redirect('/user');
+                return res.redirect('/admin');
             }
-
             const hashedPassword = await bcrypt.hash(password, 10);
             await db.insertUser({ username, nickname, password: hashedPassword, roles_id });
-            res.redirect('/user');
+            res.redirect('/admin');
         } catch (err) {
             res.render('error', { message: errorm });
         }
-    });
+    }
+);
 
 router.post('/users/edit/:id',
     body('username').notEmpty(),
@@ -172,12 +179,29 @@ router.post('/users/edit/:id',
             } else {
                 await db.updateUserWithoutPassword([username, nickname, roles_id, users_id]);
             }
-            res.redirect('/user');
+            res.redirect('/admin');
         } catch (err) {
             req.session.error = ['invalidcredc'];
-            res.redirect('/user');
+            res.redirect('/admin');
         }
-    });
+    }
+);
+
+router.post('/addnotice',
+    body('notice_location').notEmpty(),
+    body('notice_court').notEmpty(),
+    body('notice_players').notEmpty(),
+    body('notice_datetime').notEmpty(),
+    async (req, res) => {
+        try {
+            const { notice_location, notice_court, notice_players, notice_datetime, notice_duration } = req.body;
+            await db.insertNotice({ notice_location, notice_court, notice_players, notice_datetime, notice_duration });
+            res.redirect('/admin');
+        } catch (err) {
+            res.render('error', { message: errorm });
+        }
+    }
+);
 
 router.post('/addmonthly', async (req, res) => {
     const { users_id, month_id, monthly_amount, monthly_receipt } = req.body;

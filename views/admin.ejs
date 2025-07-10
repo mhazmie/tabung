@@ -5,20 +5,24 @@
             <%- include('partials/header') %>
 
                 <main class="container my-4">
-                    <h1 class="mb-4">User Management</h1>
+                    <h1 class="mb-4">Administration</h1>
 
                     <!-- Tabs Navigation -->
-                    <ul class="nav nav-tabs mb-3" id="userTabs" role="tablist">
+                    <ul class="nav nav-tabs mb-3" id="adminTabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="add-tab" data-bs-toggle="tab" data-bs-target="#addUser"
-                                type="button" role="tab" aria-controls="addUser" aria-selected="true">Add User</button>
+                                type="button" role="tab">Add User</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="manage-tab" data-bs-toggle="tab" data-bs-target="#manageUser"
-                                type="button" role="tab" aria-controls="manageUser" aria-selected="false">Manage
-                                User</button>
+                                type="button" role="tab">Manage User</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="notice-tab" data-bs-toggle="tab" data-bs-target="#addNotice"
+                                type="button" role="tab">Add Notice</button>
                         </li>
                     </ul>
+
 
                     <!-- Tabs Content -->
                     <div class="tab-content" id="userTabsContent">
@@ -75,8 +79,9 @@
                                                     <%= user.nickname %>
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-sm btn-outline-secondary"
-                                                        onclick="openEditModal('<%= user.users_id %>')">Edit</button>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-outline-secondary edit-btn"
+                                                        data-user-id="<%= user.users_id %>">Edit</button>
                                                 </td>
                                             </tr>
                                             <% }) %>
@@ -86,6 +91,33 @@
                             <%- include('partials/edit_users') %>
                         </div>
 
+                        <!-- Add Notice Tab -->
+                        <div class="tab-pane fade" id="addNotice" role="tabpanel" aria-labelledby="notice-tab">
+                            <form method="POST" action="/addnotice" class="row g-3">
+                                <div class="col-md-6">
+                                    <input type="text" name="notice_location" class="form-control"
+                                        placeholder="Location" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" name="notice_court" class="form-control" placeholder="Court"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="number" name="notice_players" class="form-control"
+                                        placeholder="Number of Players" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="datetime-local" name="notice_datetime" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="number" name="notice_duration" class="form-control"
+                                        placeholder="Duration (hours)" required>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-success">Post Notice</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </main>
     </body>

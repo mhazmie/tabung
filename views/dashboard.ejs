@@ -1,0 +1,67 @@
+<%- include('partials/head') %>
+
+    <body>
+        <%- include('partials/header') %>
+
+            <main class="container my-4">
+                <script src="/vendor/chartjs/chart.umd.js"></script>
+                <script src="/vendor/chartjs/chartjs-plugin-datalabels.min.js"></script>
+
+                <h1 class="mb-4">Tabung Dashboard</h1>
+
+                <!-- Hidden Inputs for Chart Data -->
+                <input type="hidden" id="collectedvalue" value="<%= collected %>">
+                <input type="hidden" id="spentvalue" value="<%= spent %>">
+                <input type="hidden" id="availablevalue" value="<%= available %>">
+
+                <div class="row g-4">
+                    <!-- Monthly Payments Table -->
+                    <div class="col-lg-8">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>User</th>
+                                        <% months.forEach(month=> { %>
+                                            <th>
+                                                <%= month.month_name %>
+                                            </th>
+                                            <% }) %>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% users.forEach(user=> { %>
+                                        <tr>
+                                            <td>
+                                                <%= user.nickname %>
+                                            </td>
+                                            <% months.forEach(month=> {
+                                                const paid = payments.some(p => p.users_id === user.users_id &&
+                                                p.month_id === month.month_id);
+                                                %>
+                                                <td>
+                                                    <input type="checkbox" <%=paid ? 'checked' : '' %> disabled>
+                                                </td>
+                                                <% }) %>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Chart Section -->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div style="position: relative; height: 300px; width: 100%;">
+                                    <canvas id="cfchart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script src="/js/chart.js"></script>
+            </main>
+    </body>

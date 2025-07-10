@@ -10,19 +10,19 @@
       <ul class="navbar-nav me-auto">
         <% if (user) { %>
           <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="/dashboard">Dashboard</a>
           </li>
-          <% if (user.role===2) { %>
+          <% if (user.role===1 || user.role===2) { %>
             <li class="nav-item">
-              <a class="nav-link" href="/user">Users</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/spending">Spending</a>
+              <a class="nav-link" href="/report">Report</a>
             </li>
             <% } %>
-              <% if (user.role===1 || user.role===2) { %>
+              <% if (user.role===2) { %>
                 <li class="nav-item">
-                  <a class="nav-link" href="/report">Report</a>
+                  <a class="nav-link" href="/spending">Spending</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/admin">Administration</a>
                 </li>
                 <% } %>
                   <% } %>
