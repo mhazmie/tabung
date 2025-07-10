@@ -29,7 +29,7 @@
 
                         <!-- Add User Tab -->
                         <div class="tab-pane fade show active" id="addUser" role="tabpanel" aria-labelledby="add-tab">
-                            <form method="POST" action="/addusers" class="row g-3">
+                            <form method="POST" action="/addusers" class="row g-3 mt-2">
                                 <div class="col-md-6">
                                     <input type="text" name="username" class="form-control" placeholder="Enter Username"
                                         required>
@@ -60,16 +60,16 @@
 
                         <!-- Manage User Tab -->
                         <div class="tab-pane fade" id="manageUser" role="tabpanel" aria-labelledby="manage-tab">
-                            <div class="table-responsive">
-                                <table class="table table-bordered align-middle">
-                                    <thead class="table-light">
+                            <div class="table-responsive rounded-3">
+                                <table class="table align-middle">
+                                    <thead class="table-dark">
                                         <tr>
                                             <th>Username</th>
                                             <th>Nickname</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="table-dark">
                                         <% users.forEach(user=> { %>
                                             <tr>
                                                 <td>
@@ -93,7 +93,7 @@
 
                         <!-- Add Notice Tab -->
                         <div class="tab-pane fade" id="addNotice" role="tabpanel" aria-labelledby="notice-tab">
-                            <form method="POST" action="/addnotice" class="row g-3">
+                            <form method="POST" action="/addnotice" class="row g-3 mt-2">
                                 <div class="col-md-6">
                                     <input type="text" name="notice_location" class="form-control"
                                         placeholder="Location" required>

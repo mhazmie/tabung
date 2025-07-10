@@ -87,16 +87,22 @@ body {
 }
 
 /* === Tables === */
+table {
+  border-radius: 3px;
+}
+
 .table thead th {
   color: white;
   font-weight: bold;
   text-align: center;
+  border: none;
 }
 
 .table td {
   color: white;
   text-align: center;
   vertical-align: middle;
+  border: none;
 }
 
 /* === Dashboard Layout === */

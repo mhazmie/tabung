@@ -47,6 +47,19 @@ router.get('/dashboard', isAuthenticated, async (req, res) => {
     }
 });
 
+router.get('/report', isAuthenticated, async (req, res) => {
+    try {
+        const [user_report, funding, expenses] = await Promise.all([
+            db.getUserReports(),
+            db.getFundingReports(),
+            db.getExpensesReports(),
+        ]);
+        res.render('report', { user_report, funding, expenses });
+    } catch (err) {
+        res.render('error', { message: errorm });
+    }
+});
+
 router.get('/spending', isAuthenticated, isAdmin, async (req, res) => {
     const errors = req.session.error || [];
     req.session.error = null;
@@ -78,19 +91,6 @@ router.get('/api/users/:id', async (req, res) => {
         const results = await db.getUserById(req.params.id);
         if (!results.length) return res.render('error', { message: erroru });
         res.json(results[0]);
-    } catch (err) {
-        res.render('error', { message: errorm });
-    }
-});
-
-router.get('/report', isAuthenticated, async (req, res) => {
-    try {
-        const [user_report, funding, expenses] = await Promise.all([
-            db.getUserReports(),
-            db.getFundingReports(),
-            db.getExpensesReports(),
-        ]);
-        res.render('report', { user_report, funding, expenses });
     } catch (err) {
         res.render('error', { message: errorm });
     }

@@ -45,7 +45,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 legend: {
                     position: 'bottom',
                     labels: {
-                        color: '#333',
+                        color: '#fff',
                         font: {
                             size: 14
                         }
