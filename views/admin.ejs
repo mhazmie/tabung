@@ -120,4 +120,21 @@
                         </div>
                     </div>
                 </main>
+                <script>
+                    document.querySelector('form[action="/addnotice"]').addEventListener('submit', (event) => {
+                        event.preventDefault();
+                        const input = document.getElementById('notice_datetime');
+                        const date = new Date(`${input.value}:00+08:00`);
+                        const utcDate = date.toISOString();
+                        const formData = new FormData(event.target);
+                        formData.set('notice_datetime', utcDate);
+
+                        fetch(event.target.action, {
+                            method: event.target.method,
+                            body: formData
+                        }).then(response => response.text()).then(data => {
+                            console.log('Server response:', data);
+                        }).catch(err => console.error('Error:', err));
+                    });
+                </script>
     </body>
