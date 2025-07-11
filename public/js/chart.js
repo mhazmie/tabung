@@ -56,7 +56,6 @@ window.addEventListener('DOMContentLoaded', () => {
                         label: (tooltipItem) => {
                             const value = tooltipItem.raw;
                             const percent = ((value / total) * 100).toFixed(1);
-                            return `RM ${value} (${percent}%)`;
                         }
                     }
                 }
