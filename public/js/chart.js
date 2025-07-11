@@ -33,7 +33,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     color: '#fff',
                     formatter: (value, context) => {
                         const percent = ((value / total) * 100).toFixed(1);
-                        return `RM ${value.toFixed(2)}\n(${percent}%)`;
+                        return `RM ${value.toFixed(0)}`;
                     },
                     font: (context) => {
                         const width = context.chart.width;
@@ -56,6 +56,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         label: (tooltipItem) => {
                             const value = tooltipItem.raw;
                             const percent = ((value / total) * 100).toFixed(1);
+                            return `RM ${value} (${percent}%)`;
                         }
                     }
                 }
