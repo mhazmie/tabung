@@ -26,34 +26,50 @@
             <!-- Monthly Tab -->
             <div class="tab-pane fade show active" id="monthly" role="tabpanel" aria-labelledby="monthly-tab">
               <form method="POST" action="/addmonthly" class="row g-3 mt-2">
-                <div class="col-md-3">
-                  <select name="users_id" class="form-select" required>
-                    <option value="">Select User</option>
-                    <% users.forEach(user=> { %>
-                      <option value="<%= user.users_id %>">
-                        <%= user.nickname %>
-                      </option>
-                      <% }) %>
-                  </select>
+                <div class="row mb-2">
+                  <label for="users_id" class="col-sm-2 col-form-label text-sm-end">User:</label>
+                  <div class="col-sm-9">
+                    <select name="users_id" id="users_id" class="form-select" required>
+                      <option value="">Select User</option>
+                      <% users.forEach(user=> { %>
+                        <option value="<%= user.users_id %>">
+                          <%= user.nickname %>
+                        </option>
+                        <% }) %>
+                    </select>
+                  </div>
                 </div>
-                <div class="col-md-3">
-                  <input type="text" name="monthly_amount" class="form-control" placeholder="Amount" required>
+                <div class="row mb-2">
+                  <label for="monthly_amount" class="col-sm-2 col-form-label text-sm-end">Amount:</label>
+                  <div class="col-sm-9">
+                    <input type="text" name="monthly_amount" id="monthly_amount" class="form-control"
+                      placeholder="Enter Amount" required>
+                  </div>
                 </div>
-                <div class="col-md-3">
-                  <select name="month_id" class="form-select" required>
-                    <option value="">Month</option>
-                    <% months.forEach(month=> { %>
-                      <option value="<%= month.month_id %>">
-                        <%= month.month_name %>
-                      </option>
-                      <% }) %>
-                  </select>
+                <div class="row mb-2">
+                  <label for="month_id" class="col-sm-2 col-form-label text-sm-end">Month:</label>
+                  <div class="col-sm-9">
+                    <select name="month_id" id="month_id" class="form-select" required>
+                      <option value="">Select Month</option>
+                      <% months.forEach(month=> { %>
+                        <option value="<%= month.month_id %>">
+                          <%= month.month_name %>
+                        </option>
+                        <% }) %>
+                    </select>
+                  </div>
                 </div>
-                <div class="col-md-3">
-                  <input type="url" name="monthly_receipt" class="form-control" placeholder="Reference" required>
+                <div class="row mb-3">
+                  <label for="monthly_receipt" class="col-sm-2 col-form-label text-sm-end">Reference:</label>
+                  <div class="col-sm-9">
+                    <input type="url" name="monthly_receipt" id="monthly_receipt" class="form-control"
+                      placeholder="Enter Reference Link" required>
+                  </div>
                 </div>
-                <div class="col-12">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="row">
+                  <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
                 </div>
               </form>
             </div>
@@ -61,17 +77,31 @@
             <!-- Additional Funds Tab -->
             <div class="tab-pane fade" id="adhoc" role="tabpanel" aria-labelledby="adhoc-tab">
               <form method="POST" action="/addfunding" class="row g-3 mt-2">
-                <div class="col-md-4">
-                  <input type="text" name="funding_amount" class="form-control" placeholder="Amount" required>
+                <div class="row mb-2">
+                  <label for="funding_amount" class="col-sm-2 col-form-label text-sm-end">Amount:</label>
+                  <div class="col-sm-9">
+                    <input type="text" name="funding_amount" id="funding_amount" class="form-control"
+                      placeholder="Enter Amount" required>
+                  </div>
                 </div>
-                <div class="col-md-4">
-                  <input type="text" name="funding_desc" class="form-control" placeholder="Description" required>
+                <div class="row mb-2">
+                  <label for="funding_desc" class="col-sm-2 col-form-label text-sm-end">Description:</label>
+                  <div class="col-sm-9">
+                    <input type="text" name="funding_desc" id="funding_desc" class="form-control"
+                      placeholder="Enter Description" required>
+                  </div>
                 </div>
-                <div class="col-md-4">
-                  <input type="url" name="funding_receipt" class="form-control" placeholder="Reference" required>
+                <div class="row mb-3">
+                  <label for="funding_receipt" class="col-sm-2 col-form-label text-sm-end">Reference:</label>
+                  <div class="col-sm-9">
+                    <input type="url" name="funding_receipt" id="funding_receipt" class="form-control"
+                      placeholder="Enter Reference Link" required>
+                  </div>
                 </div>
-                <div class="col-12">
-                  <button type="submit" class="btn btn-success">Submit</button>
+                <div class="row">
+                  <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                  </div>
                 </div>
               </form>
             </div>
@@ -79,20 +109,35 @@
             <!-- Spending Tab -->
             <div class="tab-pane fade" id="spending" role="tabpanel" aria-labelledby="spending-tab">
               <form method="POST" action="/addspending" class="row g-3 mt-2">
-                <div class="col-md-4">
-                  <input type="text" name="expenses_amount" class="form-control" placeholder="Amount" required>
+                <div class="row mb-2">
+                  <label for="expenses_amount" class="col-sm-2 col-form-label text-sm-end">Amount:</label>
+                  <div class="col-sm-9">
+                    <input type="text" name="expenses_amount" id="expenses_amount" class="form-control"
+                      placeholder="Enter Amount" required>
+                  </div>
                 </div>
-                <div class="col-md-4">
-                  <input type="text" name="expenses_desc" class="form-control" placeholder="Description" required>
+                <div class="row mb-2">
+                  <label for="expenses_desc" class="col-sm-2 col-form-label text-sm-end">Description:</label>
+                  <div class="col-sm-9">
+                    <input type="text" name="expenses_desc" id="expenses_desc" class="form-control"
+                      placeholder="Enter Description" required>
+                  </div>
                 </div>
-                <div class="col-md-4">
-                  <input type="url" name="expenses_receipt" class="form-control" placeholder="Reference" required>
+                <div class="row mb-3">
+                  <label for="expenses_receipt" class="col-sm-2 col-form-label text-sm-end">Reference:</label>
+                  <div class="col-sm-9">
+                    <input type="url" name="expenses_receipt" id="expenses_receipt" class="form-control"
+                      placeholder="Enter Reference Link" required>
+                  </div>
                 </div>
-                <div class="col-12">
-                  <button type="submit" class="btn btn-danger">Submit</button>
+                <div class="row">
+                  <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-danger">Submit</button>
+                  </div>
                 </div>
               </form>
             </div>
+
           </div>
         </main>
   </body>

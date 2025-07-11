@@ -55,8 +55,7 @@ CREATE TABLE notice (
   notice_court VARCHAR(255) NOT NULL,
   notice_players VARCHAR(50) NOT NULL,
   notice_datetime DATETIME NOT NULL,
-  notice_duration INT NOT NULL,
-  created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  notice_duration INT NOT NULL
 );
 
 INSERT INTO months(month_name) 

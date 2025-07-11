@@ -76,11 +76,13 @@ router.get('/admin', isAuthenticated, isAdmin, async (req, res) => {
     const errors = req.session.error || [];
     req.session.error = null;
     try {
-        const [users, roles] = await Promise.all([
+        const [users, roles, noticeResult] = await Promise.all([
             db.getAllUsers(),
             db.getAllRoles(),
+            db.getNotice(),
         ]);
-        res.render('admin', { users, roles, error: errors });
+        const notice = noticeResult?.[0] || null;
+        res.render('admin', { users, roles, notice, error: errors });
     } catch (err) {
         res.render('error', { message: errorm });
     }
@@ -195,7 +197,13 @@ router.post('/addnotice',
     async (req, res) => {
         try {
             const { notice_location, notice_court, notice_players, notice_datetime, notice_duration } = req.body;
-            await db.insertNotice({ notice_location, notice_court, notice_players, notice_datetime, notice_duration });
+            await db.upsertNotice({
+                notice_location,
+                notice_court,
+                notice_players,
+                notice_datetime,
+                notice_duration
+            });
             res.redirect('/admin');
         } catch (err) {
             res.render('error', { message: errorm });

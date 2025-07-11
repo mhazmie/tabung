@@ -30,31 +30,47 @@
                         <!-- Add User Tab -->
                         <div class="tab-pane fade show active" id="addUser" role="tabpanel" aria-labelledby="add-tab">
                             <form method="POST" action="/addusers" class="row g-3 mt-2">
-                                <div class="col-md-6">
-                                    <input type="text" name="username" class="form-control" placeholder="Enter Username"
-                                        required>
+
+                                <div class="row mb-2">
+                                    <label for="username" class="col-sm-2 col-form-label text-sm-end">Username:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="username" id="username" class="form-control"
+                                            placeholder="Enter Username" required>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="text" name="nickname" class="form-control" placeholder="Enter Nickname"
-                                        required>
+                                <div class="row mb-2">
+                                    <label for="nickname" class="col-sm-2 col-form-label text-sm-end">Nickname:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="nickname" id="nickname" class="form-control"
+                                            placeholder="Enter Nickname" required>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="password" name="password" class="form-control"
-                                        placeholder="Enter Password" required>
+                                <div class="row mb-2">
+                                    <label for="password" class="col-sm-2 col-form-label text-sm-end">Password:</label>
+                                    <div class="col-sm-9">
+                                        <input type="password" name="password" id="password" class="form-control"
+                                            placeholder="Enter Password" required>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <select name="roles_id" class="form-select" required>
-                                        <option value="">Role</option>
-                                        <% roles.forEach(role=> { %>
-                                            <option value="<%= role.roles_id %>">
-                                                <%= role.role_name %>
-                                            </option>
-                                            <% }) %>
-                                    </select>
+                                <div class="row mb-3">
+                                    <label for="roles_id" class="col-sm-2 col-form-label text-sm-end">Role:</label>
+                                    <div class="col-sm-9">
+                                        <select name="roles_id" id="roles_id" class="form-select" required>
+                                            <option value="">Select Role</option>
+                                            <% roles.forEach(role=> { %>
+                                                <option value="<%= role.roles_id %>">
+                                                    <%= role.role_name %>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
                                 </div>
+
                             </form>
                         </div>
 
@@ -93,28 +109,56 @@
 
                         <!-- Add Notice Tab -->
                         <div class="tab-pane fade" id="addNotice" role="tabpanel" aria-labelledby="notice-tab">
-                            <form method="POST" action="/addnotice" class="row g-3 mt-2">
-                                <div class="col-md-6">
-                                    <input type="text" name="notice_location" class="form-control"
-                                        placeholder="Location" required>
+                            <form method="POST" action="/addnotice" class="row g-3 mt-3">
+                                <div class="row mb-2">
+                                    <label for="notice_location"
+                                        class="col-sm-2 col-form-label text-sm-end">Location:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="notice_location" id="notice_location"
+                                            class="form-control" placeholder="Enter Location"
+                                            value="<%= notice?.notice_location || '' %>" required>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="text" name="notice_court" class="form-control" placeholder="Court"
-                                        required>
+                                <div class="row mb-2">
+                                    <label for="notice_court" class="col-sm-2 col-form-label text-sm-end">Court:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="notice_court" id="notice_court" class="form-control"
+                                            placeholder="Court Number" value="<%= notice?.notice_court || '' %>"
+                                            required>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="number" name="notice_players" class="form-control"
-                                        placeholder="Number of Players" required>
+                                <div class="row mb-2">
+                                    <label for="notice_players"
+                                        class="col-sm-2 col-form-label text-sm-end">Participants:</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" name="notice_players" id="notice_players"
+                                            class="form-control" placeholder="Number of Players"
+                                            value="<%= notice?.notice_players || '' %>" required>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="datetime-local" name="notice_datetime" class="form-control" required>
+                                <div class="row mb-2">
+                                    <label for="notice_datetime" class="col-sm-2 col-form-label text-sm-end">Date &
+                                        Time:</label>
+                                    <div class="col-sm-9">
+                                        <input type="datetime-local" name="notice_datetime" id="notice_datetime"
+                                            class="form-control"
+                                            value="<%= notice ? new Date(notice.notice_datetime).toISOString().slice(0, 16) : '' %>"
+                                            required>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="number" name="notice_duration" class="form-control"
-                                        placeholder="Duration (hours)" required>
+                                <div class="row mb-3">
+                                    <label for="notice_duration" class="col-sm-2 col-form-label text-sm-end">Duration
+                                        (hours):</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" name="notice_duration" id="notice_duration"
+                                            class="form-control" placeholder="Enter Duration"
+                                            value="<%= notice?.notice_duration || '' %>" required>
+                                    </div>
                                 </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-success">Post Notice</button>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <button type="submit" class="btn btn-success">Post Notice</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>

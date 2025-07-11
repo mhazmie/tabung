@@ -36,5 +36,27 @@ module.exports = {
 
     // Home
     getNotice: () => query('SELECT * FROM notice ORDER BY notice_datetime DESC LIMIT 1'),
-    insertNotice: (data) => query('INSERT INTO notice SET ?', data),
+    upsertNotice: async (data) => {
+        const count = await query('SELECT COUNT(*) AS total FROM notice');
+        if (count[0].total > 0) {
+            return query(`
+            UPDATE notice SET 
+                notice_location = ?, 
+                notice_court = ?, 
+                notice_players = ?, 
+                notice_datetime = ?, 
+                notice_duration = ?
+            ORDER BY notice_id DESC
+            LIMIT 1
+        `, [
+                data.notice_location,
+                data.notice_court,
+                data.notice_players,
+                data.notice_datetime,
+                data.notice_duration
+            ]);
+        } else {
+            return query('INSERT INTO notice SET ?', data);
+        }
+    },
 };
