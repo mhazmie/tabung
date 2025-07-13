@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validator');
-
 const db = require('../models/queries');
 const { isAuthenticated, isAdmin } = require('../middleware/auth');
 

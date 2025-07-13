@@ -7,7 +7,6 @@ const ROLES = {
 
 module.exports = {
     ROLES,
-
     isAuthenticated: (req, res, next) => {
         if (req.session.user) {
             return next();
@@ -15,7 +14,6 @@ module.exports = {
         console.warn('[AUTH] Unauthenticated access attempt');
         return res.redirect('/login');
     },
-
     isAdmin: (req, res, next) => {
         if (req.session.user?.role === ROLES.ADMIN) {
             return next();
@@ -23,7 +21,6 @@ module.exports = {
         console.warn(`[AUTH] Unauthorized admin access attempt by user: ${req.session.user?.username || 'unknown'}`);
         return res.status(403).render('error', { message: errorr });
     },
-
     hasRole: (role) => (req, res, next) => {
         if (req.session.user?.role === role) {
             return next();

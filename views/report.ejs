@@ -3,31 +3,31 @@
   <body>
     <%- include('partials/header') %>
 
-      <div class="container my-5">
-        <h1 class="mb-4">Reports</h1>
+      <div class='container my-5'>
+        <h1 class='mb-4'>Reports</h1>
 
-        <ul class="nav nav-tabs mb-3" id="reportTabs" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#usersr" type="button"
-              role="tab">Users</button>
+        <ul class='nav nav-tabs mb-3' id='reportTabs' role='tablist'>
+          <li class='nav-item' role='presentation'>
+            <button class='nav-link active' id='users-tab' data-bs-toggle='tab' data-bs-target='#usersr' type='button'
+              role='tab'>Users</button>
           </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="funding-tab" data-bs-toggle="tab" data-bs-target="#fundingr" type="button"
-              role="tab">Additional Funding</button>
+          <li class='nav-item' role='presentation'>
+            <button class='nav-link' id='funding-tab' data-bs-toggle='tab' data-bs-target='#fundingr' type='button'
+              role='tab'>Additional Funding</button>
           </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="spending-tab" data-bs-toggle="tab" data-bs-target="#spendingr" type="button"
-              role="tab">Spending</button>
+          <li class='nav-item' role='presentation'>
+            <button class='nav-link' id='spending-tab' data-bs-toggle='tab' data-bs-target='#spendingr' type='button'
+              role='tab'>Spending</button>
           </li>
         </ul>
 
-        <input class="form-control mb-4" type="text" id="searchInput" placeholder="Search...">
+        <input class='form-control mb-4' type='text' id='searchInput' placeholder='Search...'>
 
-        <div class="tab-content" id="reportTabContent">
-          <div class="tab-pane fade show active" id="usersr" role="tabpanel">
-            <div class="table-responsive rounded-3">
-              <table class="table table-hover align-middle">
-                <thead class="table-dark">
+        <div class='tab-content' id='reportTabContent'>
+          <div class='tab-pane fade show active' id='usersr' role='tabpanel'>
+            <div class='table-responsive rounded-3'>
+              <table class='table table-hover align-middle'>
+                <thead class='table-dark'>
                   <tr>
                     <th>Name</th>
                     <th>Nickname</th>
@@ -37,7 +37,7 @@
                     <th>Timestamp</th>
                   </tr>
                 </thead>
-                <tbody class="table-dark">
+                <tbody class='table-dark'>
                   <% user_report.forEach(user=> { %>
                     <tr>
                       <td>
@@ -52,7 +52,7 @@
                       <td>
                         <%= user.monthly_amount %>
                       </td>
-                      <td><a href="<%= user.monthly_receipt %>" target="_blank">View</a></td>
+                      <td><a href='<%= user.monthly_receipt %>' target='_blank'>View</a></td>
                       <td>
                         <%= new Date(user.created).toLocaleString('en-GB', { year: 'numeric' , month: 'short' ,
                           day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12: true, weekday: 'short' }) %>
@@ -63,10 +63,10 @@
               </table>
             </div>
           </div>
-          <div class="tab-pane fade" id="fundingr" role="tabpanel">
-            <div class="table-responsive rounded-3">
-              <table class="table table-hover align-middle">
-                <thead class="table-dark">
+          <div class='tab-pane fade' id='fundingr' role='tabpanel'>
+            <div class='table-responsive rounded-3'>
+              <table class='table table-hover align-middle'>
+                <thead class='table-dark'>
                   <tr>
                     <th>Description</th>
                     <th>Amount</th>
@@ -74,7 +74,7 @@
                     <th>Timestamp</th>
                   </tr>
                 </thead>
-                <tbody class="table-dark">
+                <tbody class='table-dark'>
                   <% funding.forEach(item=> { %>
                     <tr>
                       <td>
@@ -83,7 +83,7 @@
                       <td>
                         <%= item.funding_amount %>
                       </td>
-                      <td><a href="<%= item.funding_receipt %>" target="_blank">View</a></td>
+                      <td><a href='<%= item.funding_receipt %>' target='_blank'>View</a></td>
                       <td>
                         <%= new Date(item.created).toLocaleString('en-GB', { year: 'numeric' , month: 'short' ,
                           day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12: true, weekday: 'short' }) %>
@@ -94,10 +94,10 @@
               </table>
             </div>
           </div>
-          <div class="tab-pane fade" id="spendingr" role="tabpanel">
-            <div class="table-responsive rounded-3">
-              <table class="table table-hover align-middle">
-                <thead class="table-dark">
+          <div class='tab-pane fade' id='spendingr' role='tabpanel'>
+            <div class='table-responsive rounded-3'>
+              <table class='table table-hover align-middle'>
+                <thead class='table-dark'>
                   <tr>
                     <th>Description</th>
                     <th>Amount</th>
@@ -105,7 +105,7 @@
                     <th>Timestamp</th>
                   </tr>
                 </thead>
-                <tbody class="table-dark">
+                <tbody class='table-dark'>
                   <% expenses.forEach(item=> { %>
                     <tr>
                       <td>
@@ -114,7 +114,7 @@
                       <td>
                         <%= item.expenses_amount %>
                       </td>
-                      <td><a href="<%= item.expenses_receipt %>" target="_blank">View</a></td>
+                      <td><a href='<%= item.expenses_receipt %>' target='_blank'>View</a></td>
                       <td>
                         <%= new Date(item.created).toLocaleString('en-GB', { year: 'numeric' , month: 'short' ,
                           day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12: true, weekday: 'short' }) %>
@@ -127,5 +127,5 @@
           </div>
         </div>
       </div>
-      <script src="/js/search.js"></script>
+      <script src='/js/search.js'></script>
   </body>

@@ -6,7 +6,6 @@ body {
   background-size: cover;
   color: rgba(255, 255, 255, 0.85);
 }
-
 @media (max-width: 767px) {
   body {
     background-attachment: scroll;
@@ -18,7 +17,6 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-
 .nav-right {
   display: flex;
   align-items: center;
@@ -34,13 +32,11 @@ body {
   border-radius: 10px;
   cursor: pointer;
 }
-
 .dropbtn:hover {
   color: #fff;
   border-color: #fff;
   transition: 0.3s;
 }
-
 .dropdown-content {
   display: none;
   position: absolute;
@@ -50,7 +46,6 @@ body {
   border-radius: 10px;
   padding: 10px;
 }
-
 .dropdown.show .dropdown-content {
   display: block;
 }
@@ -63,7 +58,6 @@ body {
   border-radius: 10px;
   padding: 5px 16px;
 }
-
 .btn-custom:hover {
   color: #fff;
   border-color: #fff;
@@ -78,7 +72,6 @@ body {
   color: rgba(255, 255, 255, 0.8);
   border-radius: 0;
 }
-
 .form-control-custom:focus {
   border-bottom-color: #fff;
   color: #fff;
@@ -90,14 +83,12 @@ body {
 table {
   border-radius: 3px;
 }
-
 .table thead th {
   color: white;
   font-weight: bold;
   text-align: center;
   border: none;
 }
-
 .table td {
   color: white;
   text-align: center;
@@ -111,7 +102,6 @@ table {
   gap: 20px;
   flex-wrap: wrap;
 }
-
 .chart-container,
 .table-container {
   background: rgba(0, 0, 0, 0.7);
@@ -128,7 +118,6 @@ table {
   margin-bottom: 15px;
   gap: 10px;
 }
-
 .rtab {
   cursor: pointer;
   padding: 10px 20px;
@@ -137,17 +126,14 @@ table {
   color: rgba(255, 255, 255, 0.7);
   border: 1px solid transparent;
 }
-
 .rtab.active {
   font-weight: bold;
   color: #fff;
   border-color: #fff;
 }
-
 .rtab-content {
   display: none;
 }
-
 .rtab-content.active {
   display: block;
 }
@@ -164,7 +150,6 @@ table {
   background-size: cover;
   padding: 30px;
 }
-
 .errorlink {
   font-size: 18px;
   color: white;
@@ -184,7 +169,6 @@ table {
   justify-content: center;
   align-items: center;
 }
-
 .etable {
   background: rgba(0, 0, 0, 0.6);
   padding: 20px;
@@ -192,7 +176,6 @@ table {
   color: white;
   min-width: 350px;
 }
-
 .form-row {
   display: flex;
   justify-content: space-between;
@@ -200,7 +183,6 @@ table {
   width: 100%;
   max-width: 400px;
 }
-
 .form-row label {
   flex: 1;
   text-align: right;
@@ -208,11 +190,9 @@ table {
   color: #ffffffcc;
   font-weight: 300;
 }
-
 .form-row .eform {
   flex: 2;
 }
-
 .form-actions {
   display: flex;
   gap: 10px;
@@ -224,13 +204,11 @@ table {
 input[type="checkbox"] {
   pointer-events: none;
 }
-
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="url"]:focus {
   outline: none;
 }
-
 h1 {
   font-size: 2.5rem;
   font-weight: 300;

@@ -4,70 +4,70 @@
         <%- include('partials/errors') %>
             <%- include('partials/header') %>
 
-                <main class="container my-4">
-                    <h1 class="mb-4">Administration</h1>
+                <main class='container my-4'>
+                    <h1 class='mb-4'>Administration</h1>
 
                     <!-- Tabs Navigation -->
-                    <ul class="nav nav-tabs mb-3" id="adminTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="add-tab" data-bs-toggle="tab" data-bs-target="#addUser"
-                                type="button" role="tab">Add User</button>
+                    <ul class='nav nav-tabs mb-3' id='adminTabs' role='tablist'>
+                        <li class='nav-item' role='presentation'>
+                            <button class='nav-link active' id='add-tab' data-bs-toggle='tab' data-bs-target='#addUser'
+                                type='button' role='tab'>Add User</button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="manage-tab" data-bs-toggle="tab" data-bs-target="#manageUser"
-                                type="button" role="tab">Manage User</button>
+                        <li class='nav-item' role='presentation'>
+                            <button class='nav-link' id='manage-tab' data-bs-toggle='tab' data-bs-target='#manageUser'
+                                type='button' role='tab'>Manage User</button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="notice-tab" data-bs-toggle="tab" data-bs-target="#addNotice"
-                                type="button" role="tab">Add Notice</button>
+                        <li class='nav-item' role='presentation'>
+                            <button class='nav-link' id='notice-tab' data-bs-toggle='tab' data-bs-target='#addNotice'
+                                type='button' role='tab'>Add Notice</button>
                         </li>
                     </ul>
 
 
                     <!-- Tabs Content -->
-                    <div class="tab-content" id="userTabsContent">
+                    <div class='tab-content' id='userTabsContent'>
 
                         <!-- Add User Tab -->
-                        <div class="tab-pane fade show active" id="addUser" role="tabpanel" aria-labelledby="add-tab">
-                            <form method="POST" action="/addusers" class="row g-3 mt-2">
+                        <div class='tab-pane fade show active' id='addUser' role='tabpanel' aria-labelledby='add-tab'>
+                            <form method='POST' action='/addusers' class='row g-3 mt-2'>
 
-                                <div class="row mb-2">
-                                    <label for="username" class="col-sm-2 col-form-label text-sm-end">Username:</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="username" id="username" class="form-control"
-                                            placeholder="Enter Username" required>
+                                <div class='row mb-2'>
+                                    <label for='username' class='col-sm-2 col-form-label text-sm-end'>Username:</label>
+                                    <div class='col-sm-9'>
+                                        <input type='text' name='username' id='username' class='form-control'
+                                            placeholder='Enter Username' required>
                                     </div>
                                 </div>
-                                <div class="row mb-2">
-                                    <label for="nickname" class="col-sm-2 col-form-label text-sm-end">Nickname:</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="nickname" id="nickname" class="form-control"
-                                            placeholder="Enter Nickname" required>
+                                <div class='row mb-2'>
+                                    <label for='nickname' class='col-sm-2 col-form-label text-sm-end'>Nickname:</label>
+                                    <div class='col-sm-9'>
+                                        <input type='text' name='nickname' id='nickname' class='form-control'
+                                            placeholder='Enter Nickname' required>
                                     </div>
                                 </div>
-                                <div class="row mb-2">
-                                    <label for="password" class="col-sm-2 col-form-label text-sm-end">Password:</label>
-                                    <div class="col-sm-9">
-                                        <input type="password" name="password" id="password" class="form-control"
-                                            placeholder="Enter Password" required>
+                                <div class='row mb-2'>
+                                    <label for='password' class='col-sm-2 col-form-label text-sm-end'>Password:</label>
+                                    <div class='col-sm-9'>
+                                        <input type='password' name='password' id='password' class='form-control'
+                                            placeholder='Enter Password' required>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <label for="roles_id" class="col-sm-2 col-form-label text-sm-end">Role:</label>
-                                    <div class="col-sm-9">
-                                        <select name="roles_id" id="roles_id" class="form-select" required>
-                                            <option value="">Select Role</option>
+                                <div class='row mb-3'>
+                                    <label for='roles_id' class='col-sm-2 col-form-label text-sm-end'>Role:</label>
+                                    <div class='col-sm-9'>
+                                        <select name='roles_id' id='roles_id' class='form-select' required>
+                                            <option value=''>Select Role</option>
                                             <% roles.forEach(role=> { %>
-                                                <option value="<%= role.roles_id %>">
+                                                <option value='<%= role.roles_id %>'>
                                                     <%= role.role_name %>
                                                 </option>
                                                 <% }) %>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-12 text-center">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                <div class='row'>
+                                    <div class='col-12 text-center'>
+                                        <button type='submit' class='btn btn-primary'>Submit</button>
                                     </div>
                                 </div>
 
@@ -75,17 +75,17 @@
                         </div>
 
                         <!-- Manage User Tab -->
-                        <div class="tab-pane fade" id="manageUser" role="tabpanel" aria-labelledby="manage-tab">
-                            <div class="table-responsive rounded-3">
-                                <table class="table align-middle">
-                                    <thead class="table-dark">
+                        <div class='tab-pane fade' id='manageUser' role='tabpanel' aria-labelledby='manage-tab'>
+                            <div class='table-responsive rounded-3'>
+                                <table class='table align-middle'>
+                                    <thead class='table-dark'>
                                         <tr>
                                             <th>Username</th>
                                             <th>Nickname</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="table-dark">
+                                    <tbody class='table-dark'>
                                         <% users.forEach(user=> { %>
                                             <tr>
                                                 <td>
@@ -95,9 +95,9 @@
                                                     <%= user.nickname %>
                                                 </td>
                                                 <td>
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-outline-secondary edit-btn"
-                                                        data-user-id="<%= user.users_id %>">Edit</button>
+                                                    <button type='button'
+                                                        class='btn btn-sm btn-outline-secondary edit-btn'
+                                                        data-user-id='<%= user.users_id %>'>Edit</button>
                                                 </td>
                                             </tr>
                                             <% }) %>
@@ -108,56 +108,56 @@
                         </div>
 
                         <!-- Add Notice Tab -->
-                        <div class="tab-pane fade" id="addNotice" role="tabpanel" aria-labelledby="notice-tab">
-                            <form method="POST" action="/addnotice" class="row g-3 mt-3">
-                                <div class="row mb-2">
-                                    <label for="notice_location"
-                                        class="col-sm-2 col-form-label text-sm-end">Location:</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="notice_location" id="notice_location"
-                                            class="form-control" placeholder="Enter Location"
-                                            value="<%= notice?.notice_location || '' %>" required>
+                        <div class='tab-pane fade' id='addNotice' role='tabpanel' aria-labelledby='notice-tab'>
+                            <form method='POST' action='/addnotice' class='row g-3 mt-3'>
+                                <div class='row mb-2'>
+                                    <label for='notice_location'
+                                        class='col-sm-2 col-form-label text-sm-end'>Location:</label>
+                                    <div class='col-sm-9'>
+                                        <input type='text' name='notice_location' id='notice_location'
+                                            class='form-control' placeholder='Enter Location'
+                                            value='<%= notice?.notice_location || '' %>' required>
                                     </div>
                                 </div>
-                                <div class="row mb-2">
-                                    <label for="notice_court" class="col-sm-2 col-form-label text-sm-end">Court:</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="notice_court" id="notice_court" class="form-control"
-                                            placeholder="Court Number" value="<%= notice?.notice_court || '' %>"
+                                <div class='row mb-2'>
+                                    <label for='notice_court' class='col-sm-2 col-form-label text-sm-end'>Court:</label>
+                                    <div class='col-sm-9'>
+                                        <input type='text' name='notice_court' id='notice_court' class='form-control'
+                                            placeholder='Court Number' value='<%= notice?.notice_court || '' %>'
                                             required>
                                     </div>
                                 </div>
-                                <div class="row mb-2">
-                                    <label for="notice_players"
-                                        class="col-sm-2 col-form-label text-sm-end">Participants:</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" name="notice_players" id="notice_players"
-                                            class="form-control" placeholder="Number of Players"
-                                            value="<%= notice?.notice_players || '' %>" required>
+                                <div class='row mb-2'>
+                                    <label for='notice_players'
+                                        class='col-sm-2 col-form-label text-sm-end'>Participants:</label>
+                                    <div class='col-sm-9'>
+                                        <input type='number' name='notice_players' id='notice_players'
+                                            class='form-control' placeholder='Number of Players'
+                                            value='<%= notice?.notice_players || '' %>' required>
                                     </div>
                                 </div>
-                                <div class="row mb-2">
-                                    <label for="notice_datetime" class="col-sm-2 col-form-label text-sm-end">Date &
+                                <div class='row mb-2'>
+                                    <label for='notice_datetime' class='col-sm-2 col-form-label text-sm-end'>Date &
                                         Time:</label>
-                                    <div class="col-sm-9">
-                                        <input type="datetime-local" name="notice_datetime" id="notice_datetime"
-                                            class="form-control"
-                                            value="<%= notice ? new Date(notice.notice_datetime).toISOString().slice(0, 16) : '' %>"
+                                    <div class='col-sm-9'>
+                                        <input type='datetime-local' name='notice_datetime' id='notice_datetime'
+                                            class='form-control'
+                                            value='<%= notice ? new Date(notice.notice_datetime).toISOString().slice(0, 16) : '' %>'
                                             required>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <label for="notice_duration" class="col-sm-2 col-form-label text-sm-end">Duration
+                                <div class='row mb-3'>
+                                    <label for='notice_duration' class='col-sm-2 col-form-label text-sm-end'>Duration
                                         (hours):</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" name="notice_duration" id="notice_duration"
-                                            class="form-control" placeholder="Enter Duration"
-                                            value="<%= notice?.notice_duration || '' %>" required>
+                                    <div class='col-sm-9'>
+                                        <input type='number' name='notice_duration' id='notice_duration'
+                                            class='form-control' placeholder='Enter Duration'
+                                            value='<%= notice?.notice_duration || '' %>' required>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-12 text-center">
-                                        <button type="submit" class="btn btn-success">Post Notice</button>
+                                <div class='row'>
+                                    <div class='col-12 text-center'>
+                                        <button type='submit' class='btn btn-success'>Post Notice</button>
                                     </div>
                                 </div>
                             </form>

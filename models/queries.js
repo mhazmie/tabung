@@ -7,33 +7,26 @@ module.exports = {
     getUserByUsername: async (username) => {
         return query('SELECT * FROM users WHERE username = ?', [username]);
     },
-
     getUserById: async (id) => {
         return query('SELECT * FROM users WHERE users_id = ?', [id]);
     },
-
     checkUserExists: async (username, nickname) => {
         return query('SELECT * FROM users WHERE username = ? OR nickname = ?', [username, nickname]);
     },
-
     getAllUsers: async () => {
         return query('SELECT * FROM users');
     },
-
     getAllRoles: async () => {
         return query('SELECT * FROM roles');
     },
-
     insertUser: async (user, userId) => {
         console.info(`[DB] [User ${userId}] Inserting new user: ${user.username}`);
         return query('INSERT INTO users SET ?', user);
     },
-
     updateUserWithPassword: async (data, userId) => {
         console.info(`[DB] [User ${userId}] Updating user ${data[4]} (with password)`);
         return query('UPDATE users SET username = ?, nickname = ?, password = ?, roles_id = ? WHERE users_id = ?', data);
     },
-
     updateUserWithoutPassword: async (data, userId) => {
         console.info(`[DB] [User ${userId}] Updating user ${data[3]} (without password)`);
         return query('UPDATE users SET username = ?, nickname = ?, roles_id = ? WHERE users_id = ?', data);
@@ -43,11 +36,9 @@ module.exports = {
     getAllMonths: async () => {
         return query('SELECT * FROM months ORDER BY month_id');
     },
-
     getMonthlyRecord: async (userId, monthId) => {
         return query('SELECT * FROM monthly WHERE users_id = ? AND month_id = ?', [userId, monthId]);
     },
-
     insertMonthly: async (data, userId) => {
         console.info(`[DB] [User ${userId}] Inserting monthly contribution for user: ${data.users_id}`);
         return query('INSERT INTO monthly SET ?', data);
@@ -58,7 +49,6 @@ module.exports = {
         console.info(`[DB] [User ${userId}] Inserting funding record`);
         return query('INSERT INTO funding SET ?', data);
     },
-
     insertSpending: async (data, userId) => {
         console.info(`[DB] [User ${userId}] Inserting spending record`);
         return query('INSERT INTO expenses SET ?', data);
@@ -68,11 +58,9 @@ module.exports = {
     getUserReports: async () => {
         return query('SELECT * FROM user_report');
     },
-
     getFundingReports: async () => {
         return query('SELECT * FROM funding');
     },
-
     getExpensesReports: async () => {
         return query('SELECT * FROM expenses');
     },
@@ -81,15 +69,12 @@ module.exports = {
     getTotalCollected: async () => {
         return query('SELECT total_collected FROM total_collected');
     },
-
     getTotalSpent: async () => {
         return query('SELECT total_spent FROM total_spent');
     },
-
     getTotalAvailable: async () => {
         return query('SELECT total_available FROM total_available');
     },
-
     getMonthlyPayments: async () => {
         return query('SELECT users_id, month_id FROM monthly');
     },
@@ -98,7 +83,6 @@ module.exports = {
     getNotice: async () => {
         return query('SELECT * FROM notice ORDER BY notice_datetime DESC LIMIT 1');
     },
-
     upsertNotice: async (data, userId) => {
         console.info(`[DB] [User ${userId}] Upserting notice...`);
         const count = await query('SELECT COUNT(*) AS total FROM notice');

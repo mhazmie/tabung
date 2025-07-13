@@ -1,51 +1,51 @@
 <header>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <a class="navbar-brand" href="/">Tabung</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+  <nav class='navbar navbar-expand-lg navbar-dark bg-dark px-3'>
+    <a class='navbar-brand' href='/'>Tabung</a>
+    <button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav'
+      aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>
+      <span class='navbar-toggler-icon'></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto">
+    <div class='collapse navbar-collapse' id='navbarNav'>
+      <ul class='navbar-nav me-auto'>
         <% if (user) { %>
-          <li class="nav-item">
-            <a class="nav-link" href="/dashboard">Dashboard</a>
+          <li class='nav-item'>
+            <a class='nav-link' href='/dashboard'>Dashboard</a>
           </li>
           <% if (user.role===1 || user.role===2) { %>
-            <li class="nav-item">
-              <a class="nav-link" href="/report">Report</a>
+            <li class='nav-item'>
+              <a class='nav-link' href='/report'>Report</a>
             </li>
             <% } %>
               <% if (user.role===2) { %>
-                <li class="nav-item">
-                  <a class="nav-link" href="/spending">Spending</a>
+                <li class='nav-item'>
+                  <a class='nav-link' href='/spending'>Spending</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/admin">Administration</a>
+                <li class='nav-item'>
+                  <a class='nav-link' href='/admin'>Administration</a>
                 </li>
                 <% } %>
                   <% } %>
       </ul>
 
-      <ul class="navbar-nav ms-auto">
+      <ul class='navbar-nav ms-auto'>
         <% if (user) { %>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
+          <li class='nav-item dropdown'>
+            <a class='nav-link dropdown-toggle' href='#' id='userDropdown' role='button' data-bs-toggle='dropdown'
+              aria-expanded='false'>
               <%= user.username %>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <ul class='dropdown-menu dropdown-menu-end' aria-labelledby='userDropdown'>
               <li>
-                <form method="GET" action="/logout" class="dropdown-item m-0 p-0">
-                  <button type="submit" class="dropdown-item">Logout</button>
+                <form method='GET' action='/logout' class='dropdown-item m-0 p-0'>
+                  <button type='submit' class='dropdown-item'>Logout</button>
                 </form>
               </li>
             </ul>
           </li>
           <% } else { %>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
+            <li class='nav-item'>
+              <a class='nav-link' href='/login'>Login</a>
             </li>
             <% } %>
       </ul>
