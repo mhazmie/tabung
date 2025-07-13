@@ -1,6 +1,8 @@
 const util = require('util');
 const connection = require('../db');
 const query = util.promisify(connection.query).bind(connection);
+const { logToFile } = require('../logs/logger');
+const { log } = require('console');
 
 module.exports = {
     // Authentication & Users
@@ -21,14 +23,17 @@ module.exports = {
     },
     insertUser: async (user, userId) => {
         console.info(`[DB] [User ${userId}] Inserting new user: ${user.username}`);
+        logToFile(`[DB] [User ${userId}] Inserting new user: ${user.username}`);
         return query('INSERT INTO users SET ?', user);
     },
     updateUserWithPassword: async (data, userId) => {
         console.info(`[DB] [User ${userId}] Updating user ${data[4]} (with password)`);
+        logToFile(`[DB] [User ${userId}] Updating user ${data[4]} (with password)`);
         return query('UPDATE users SET username = ?, nickname = ?, password = ?, roles_id = ? WHERE users_id = ?', data);
     },
     updateUserWithoutPassword: async (data, userId) => {
         console.info(`[DB] [User ${userId}] Updating user ${data[3]} (without password)`);
+        logToFile(`[DB] [User ${userId}] Updating user ${data[3]} (without password)`);
         return query('UPDATE users SET username = ?, nickname = ?, roles_id = ? WHERE users_id = ?', data);
     },
 
@@ -41,16 +46,19 @@ module.exports = {
     },
     insertMonthly: async (data, userId) => {
         console.info(`[DB] [User ${userId}] Inserting monthly contribution for user: ${data.users_id}`);
+        logToFile(`[DB] [User ${userId}] Inserting monthly contribution for user: ${data.users_id}`);
         return query('INSERT INTO monthly SET ?', data);
     },
 
     // Funding & Expenses
     insertFunding: async (data, userId) => {
         console.info(`[DB] [User ${userId}] Inserting funding record`);
+        logToFile(`[DB] [User ${userId}] Inserting funding record`);
         return query('INSERT INTO funding SET ?', data);
     },
     insertSpending: async (data, userId) => {
         console.info(`[DB] [User ${userId}] Inserting spending record`);
+        logToFile(`[DB] [User ${userId}] Inserting spending record`);
         return query('INSERT INTO expenses SET ?', data);
     },
 
@@ -85,9 +93,11 @@ module.exports = {
     },
     upsertNotice: async (data, userId) => {
         console.info(`[DB] [User ${userId}] Upserting notice...`);
+        logToFile(`[DB] [User ${userId}] Upserting notice...`);
         const count = await query('SELECT COUNT(*) AS total FROM notice');
         if (count[0].total > 0) {
             console.info(`[DB] [User ${userId}] Updating existing notice`);
+            logToFile(`[DB] [User ${userId}] Updating existing notice`);
             return query(`
                 UPDATE notice SET 
                     notice_location = ?, 
@@ -106,6 +116,7 @@ module.exports = {
             ]);
         } else {
             console.info(`[DB] [User ${userId}] Inserting new notice`);
+            logToFile(`[DB] [User ${userId}] Inserting new notice`);
             return query('INSERT INTO notice SET ?', data);
         }
     }

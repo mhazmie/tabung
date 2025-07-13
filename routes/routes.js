@@ -1,9 +1,12 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validator');
 const db = require('../models/queries');
 const { isAuthenticated, isAdmin } = require('../middleware/auth');
+const { logToFile } = require('../logs/logger');
 
 const errorm = 'Error 400 : Unable to fetch data';
 const erroru = 'Error 402 : Update failed';
@@ -20,6 +23,7 @@ router.get('/', async (req, res) => {
         res.render('home', { notice: notice[0] || {} });
     } catch (err) {
         console.error(`[HOME] Failed to fetch notice:`, err);
+        logToFile(`[HOME] Failed to fetch notice:`, err);
         res.render('error', { message: errorm });
     }
 });
@@ -45,6 +49,7 @@ router.get('/dashboard', isAuthenticated, async (req, res) => {
         });
     } catch (err) {
         console.error(`[DASHBOARD] Failed to retrieve data (user ${userId}):`, err);
+        logToFile(`[DASHBOARD] Failed to retrieve data (user ${userId}):`, err);
         res.render('error', { message: errorm });
     }
 });
@@ -60,6 +65,7 @@ router.get('/report', isAuthenticated, async (req, res) => {
         res.render('report', { user_report, funding, expenses });
     } catch (err) {
         console.error(`[REPORT] Failed to fetch reports (user ${userId}):`, err);
+        logToFile(`[REPORT] Failed to fetch reports (user ${userId}):`, err);
         res.render('error', { message: errorm });
     }
 });
@@ -74,6 +80,7 @@ router.get('/spending', isAuthenticated, isAdmin, async (req, res) => {
         res.render('spending', { users, months, error: errors });
     } catch (err) {
         console.error(`[SPENDING] Failed to load (user ${userId}):`, err);
+        logToFile(`[SPENDING] Failed to load (user ${userId}):`, err);
         res.render('error', { message: errorm });
     }
 });
@@ -89,10 +96,36 @@ router.get('/admin', isAuthenticated, isAdmin, async (req, res) => {
             db.getNotice(userId),
         ]);
         const notice = noticeResult?.[0] || null;
-        res.render('admin', { users, roles, notice, error: errors });
+        // Read logs from file (e.g. logs/system.log)
+        const logFilePath = path.join(__dirname, '..', 'logs', 'system.log');
+        let logs = '';
+        if (fs.existsSync(logFilePath)) {
+            const raw = fs.readFileSync(logFilePath, 'utf-8');
+            const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+            logs = raw
+                .split('\n')
+                .filter(line => line.startsWith(today)) // only today
+                .map(line => {
+                    const match = line.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z)\s+(.*)$/);
+                    if (match) {
+                        const iso = match[1];
+                        const msg = match[2];
+                        const readable = new Date(iso).toLocaleString('en-GB', {
+                            dateStyle: 'medium',
+                            timeStyle: 'short',
+                            hour12: true,
+                        });
+                        return { raw: line, formatted: `${readable} — ${msg}` };
+                    } else {
+                        return { raw: line, formatted: line };
+                    }
+                });
+        }
+        res.render('admin', { users, roles, notice, error: errors, logs });
     } catch (err) {
         console.error(`[ADMIN] Failed to load admin data (user ${userId}):`, err);
-        res.render('error', { message: errorm });
+        logToFile(`[ADMIN] Failed to load admin data (user ${userId}):`, err);
+        res.render('error', { message: 'Failed to load admin panel.' });
     }
 });
 
@@ -101,11 +134,13 @@ router.get('/api/users/:id', async (req, res) => {
         const results = await db.getUserById(req.params.id);
         if (!results.length) {
             console.warn(`[API] User not found: ${req.params.id}`);
+            logToFile(`[API] User not found: ${req.params.id}`);
             return res.render('error', { message: erroru });
         }
         res.json(results[0]);
     } catch (err) {
         console.error(`[API] Failed to fetch user:`, err);
+        logToFile(`[API] Failed to fetch user:`, err);
         res.render('error', { message: errorm });
     }
 });
@@ -114,6 +149,7 @@ router.get('/logout', (req, res) => {
     const userId = req.session.user?.id;
     req.session.destroy();
     console.log(`[LOGOUT] User ${userId} logged out`);
+    logToFile(`[LOGOUT] User ${userId} logged out`);
     res.redirect('/');
 });
 
@@ -131,15 +167,18 @@ router.post('/login',
             const errors = [];
             if (!results.length) {
                 console.warn(`[LOGIN] Invalid username: ${username}`);
+                logToFile(`[LOGIN] Invalid username: ${username}`);
                 errors.push('invalidcredu');
             } else {
                 const user = results[0];
                 const match = await bcrypt.compare(password, user.password);
                 if (!match) {
                     console.warn(`[LOGIN] Invalid password for user: ${username}`);
+                    logToFile(`[LOGIN] Invalid password for user: ${username}`);
                     errors.push('invalidcredp');
                 } else {
                     console.info(`[LOGIN] User authenticated: ${username}`);
+                    logToFile(`[LOGIN] User authenticated: ${username}`);
                     req.session.user = {
                         id: user.users_id,
                         username: user.username,
@@ -153,6 +192,7 @@ router.post('/login',
             res.redirect('/login');
         } catch (err) {
             console.error(`[LOGIN] Error during login for ${username}:`, err);
+            logToFile(`[LOGIN] Error during login for ${username}:`, err);
             res.render('error', { message: errorm });
         }
     }
@@ -175,6 +215,7 @@ router.post('/addusers',
             const existing = await db.checkUserExists(username, nickname);
             if (existing.length > 0) {
                 console.warn(`[ADD USER] Duplicate by admin ${adminId}: ${username}, ${nickname}`);
+                logToFile(`[ADD USER] Duplicate by admin ${adminId}: ${username}, ${nickname}`);
                 errors.push('duplicate');
             }
 
@@ -186,9 +227,11 @@ router.post('/addusers',
             const hashedPassword = await bcrypt.hash(password, 10);
             await db.insertUser({ username, nickname, password: hashedPassword, roles_id }, adminId);
             console.info(`[ADD USER] User created by admin ${adminId}: ${username}`);
+            logToFile(`[ADD USER] User created by admin ${adminId}: ${username}`);
             res.redirect('/admin');
         } catch (err) {
             console.error(`[ADD USER] Failed to create user (admin ${adminId}):`, err);
+            logToFile(`[ADD USER] Failed to create user (admin ${adminId}):`, err);
             res.render('error', { message: errorm });
         }
     }
@@ -208,9 +251,11 @@ router.post('/users/edit/:id',
                 await db.updateUserWithoutPassword([username, nickname, roles_id, users_id], adminId);
             }
             console.info(`[EDIT USER] User ${users_id} updated by admin ${adminId}`);
+            logToFile(`[EDIT USER] User ${users_id} updated by admin ${adminId}`);
             res.redirect('/admin');
         } catch (err) {
             console.error(`[EDIT USER] Failed to update user ${users_id} (admin ${adminId}):`, err);
+            logToFile(`[EDIT USER] Failed to update user ${users_id} (admin ${adminId}):`, err);
             req.session.error = ['invalidcredc'];
             res.redirect('/admin');
         }
@@ -234,9 +279,11 @@ router.post('/addnotice',
                 notice_duration
             }, userId);
             console.info(`[NOTICE] Notice updated/created by user ${userId}`);
+            logToFile(`[NOTICE] Notice updated/created by user ${userId}`);
             res.redirect('/admin');
         } catch (err) {
             console.error(`[NOTICE] Failed to update/create notice (user ${userId}):`, err);
+            logToFile(`[NOTICE] Failed to update/create notice (user ${userId}):`, err);
             res.render('error', { message: errorm });
         }
     }
@@ -249,14 +296,17 @@ router.post('/addmonthly', async (req, res) => {
         const existing = await db.getMonthlyRecord(users_id, month_id);
         if (existing.length > 0) {
             console.warn(`[MONTHLY] Duplicate entry by user ${userId} for user ${users_id}`);
+            logToFile(`[MONTHLY] Duplicate entry by user ${userId} for user ${users_id}`);
             req.session.error = ['duplicate'];
             return res.redirect('/spending');
         }
         await db.insertMonthly({ users_id, month_id, monthly_amount, monthly_receipt }, userId);
         console.info(`[MONTHLY] Monthly payment added by user ${userId} for user ${users_id}`);
+        logToFile(`[MONTHLY] Monthly payment added by user ${userId} for user ${users_id}`);
         res.redirect('/spending');
     } catch (err) {
         console.error(`[MONTHLY] Failed to insert payment (user ${userId}):`, err);
+        logToFile(`[MONTHLY] Failed to insert payment (user ${userId}):`, err);
         res.render('error', { message: errorm });
     }
 });
@@ -267,9 +317,11 @@ router.post('/addfunding', async (req, res) => {
     try {
         await db.insertFunding({ funding_amount, funding_description: funding_desc, funding_receipt }, userId);
         console.info(`[FUNDING] Funding added by user ${userId}`);
+        logToFile(`[FUNDING] Funding added by user ${userId}`);
         res.redirect('/spending');
     } catch (err) {
         console.error(`[FUNDING] Failed to insert funding (user ${userId}):`, err);
+        logToFile(`[FUNDING] Failed to insert funding (user ${userId}):`, err);
         res.render('error', { message: errorm });
     }
 });
@@ -280,9 +332,11 @@ router.post('/addspending', async (req, res) => {
     try {
         await db.insertSpending({ expenses_amount, expenses_description: expenses_desc, expenses_receipt }, userId);
         console.info(`[SPENDING] Spending added by user ${userId}`);
+        logToFile(`[SPENDING] Spending added by user ${userId}`);
         res.redirect('/spending');
     } catch (err) {
         console.error(`[SPENDING] Failed to insert spending (user ${userId}):`, err);
+        logToFile(`[SPENDING] Failed to insert spending (user ${userId}):`, err);
         res.render('error', { message: errorm });
     }
 });

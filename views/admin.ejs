@@ -3,10 +3,8 @@
     <body>
         <%- include('partials/errors') %>
             <%- include('partials/header') %>
-
                 <main class='container my-4'>
                     <h1 class='mb-4'>Administration</h1>
-
                     <!-- Tabs Navigation -->
                     <ul class='nav nav-tabs mb-3' id='adminTabs' role='tablist'>
                         <li class='nav-item' role='presentation'>
@@ -21,16 +19,16 @@
                             <button class='nav-link' id='notice-tab' data-bs-toggle='tab' data-bs-target='#addNotice'
                                 type='button' role='tab'>Add Notice</button>
                         </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs"
+                                type="button" role="tab">Logs</button>
+                        </li>
                     </ul>
-
-
                     <!-- Tabs Content -->
                     <div class='tab-content' id='userTabsContent'>
-
                         <!-- Add User Tab -->
                         <div class='tab-pane fade show active' id='addUser' role='tabpanel' aria-labelledby='add-tab'>
                             <form method='POST' action='/addusers' class='row g-3 mt-2'>
-
                                 <div class='row mb-2'>
                                     <label for='username' class='col-sm-2 col-form-label text-sm-end'>Username:</label>
                                     <div class='col-sm-9'>
@@ -70,10 +68,8 @@
                                         <button type='submit' class='btn btn-primary'>Submit</button>
                                     </div>
                                 </div>
-
                             </form>
                         </div>
-
                         <!-- Manage User Tab -->
                         <div class='tab-pane fade' id='manageUser' role='tabpanel' aria-labelledby='manage-tab'>
                             <div class='table-responsive rounded-3'>
@@ -106,7 +102,6 @@
                             </div>
                             <%- include('partials/edit_users') %>
                         </div>
-
                         <!-- Add Notice Tab -->
                         <div class='tab-pane fade' id='addNotice' role='tabpanel' aria-labelledby='notice-tab'>
                             <form method='POST' action='/addnotice' class='row g-3 mt-3'>
@@ -162,6 +157,22 @@
                                 </div>
                             </form>
                         </div>
+                        <!-- View Logs Tab -->
+                        <div class='tab-pane fade' id='logs' role='tabpanel' aria-labelledby='logs-tab'>
+                            <div class="mb-3 mt-3">
+                                <input type="date" id="logDateFilter" class="form-control mb-2" />
+                                <input type="text" id="searchInput" placeholder="Search logs..." class="form-control" />
+                            </div>
+
+                            <ul class="list-group small" id="logList">
+                                <% logs.forEach(log=> { %>
+                                    <li class="list-group-item font-monospace" data-raw="<%= log.raw %>">
+                                        <%= log.formatted %>
+                                    </li>
+                                    <% }) %>
+                            </ul>
+                        </div>
                     </div>
                 </main>
+                <script src='/js/logs_search.js'></script>
     </body>

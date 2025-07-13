@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+const { logToFile } = require('./logs/logger');
 
 const connection = mysql.createPool({
   connectionLimit: 10,
@@ -13,8 +14,10 @@ const connection = mysql.createPool({
 connection.getConnection((err, conn) => {
   if (err) {
     console.error('❌ Database connection failed:', err.message);
+    logToFile('❌ Database connection failed:', err.message);
   } else {
     console.log('✅ Database connection established');
+    logToFile('✅ Database connection established');
     conn.release();
   }
 });
