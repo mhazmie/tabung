@@ -4,51 +4,116 @@ const query = util.promisify(connection.query).bind(connection);
 
 module.exports = {
     // Authentication & Users
-    getUserByUsername: (username) => query('SELECT * FROM users WHERE username = ?', [username]),
-    getUserById: (id) => query('SELECT * FROM users WHERE users_id = ?', [id]),
-    checkUserExists: (username, nickname) => query('SELECT * FROM users WHERE username = ? OR nickname = ?', [username, nickname]),
-    getAllUsers: () => query('SELECT * FROM users'),
-    getAllRoles: () => query('SELECT * FROM roles'),
-    insertUser: (user) => query('INSERT INTO users SET ?', user),
-    updateUserWithPassword: (data) => query('UPDATE users SET username = ?, nickname = ?, password = ?, roles_id = ? WHERE users_id = ?', data),
-    updateUserWithoutPassword: (data) => query('UPDATE users SET username = ?, nickname = ?, roles_id = ? WHERE users_id = ?', data),
+    getUserByUsername: async (username) => {
+        return query('SELECT * FROM users WHERE username = ?', [username]);
+    },
+
+    getUserById: async (id) => {
+        return query('SELECT * FROM users WHERE users_id = ?', [id]);
+    },
+
+    checkUserExists: async (username, nickname) => {
+        return query('SELECT * FROM users WHERE username = ? OR nickname = ?', [username, nickname]);
+    },
+
+    getAllUsers: async () => {
+        return query('SELECT * FROM users');
+    },
+
+    getAllRoles: async () => {
+        return query('SELECT * FROM roles');
+    },
+
+    insertUser: async (user, userId) => {
+        console.info(`[DB] [User ${userId}] Inserting new user: ${user.username}`);
+        return query('INSERT INTO users SET ?', user);
+    },
+
+    updateUserWithPassword: async (data, userId) => {
+        console.info(`[DB] [User ${userId}] Updating user ${data[4]} (with password)`);
+        return query('UPDATE users SET username = ?, nickname = ?, password = ?, roles_id = ? WHERE users_id = ?', data);
+    },
+
+    updateUserWithoutPassword: async (data, userId) => {
+        console.info(`[DB] [User ${userId}] Updating user ${data[3]} (without password)`);
+        return query('UPDATE users SET username = ?, nickname = ?, roles_id = ? WHERE users_id = ?', data);
+    },
 
     // Monthly Contributions
-    getAllMonths: () => query('SELECT * FROM months ORDER BY month_id'),
-    getMonthlyRecord: (userId, monthId) =>
-        query('SELECT * FROM monthly WHERE users_id = ? AND month_id = ?', [userId, monthId]),
-    insertMonthly: (data) => query('INSERT INTO monthly SET ?', data),
+    getAllMonths: async () => {
+        return query('SELECT * FROM months ORDER BY month_id');
+    },
+
+    getMonthlyRecord: async (userId, monthId) => {
+        return query('SELECT * FROM monthly WHERE users_id = ? AND month_id = ?', [userId, monthId]);
+    },
+
+    insertMonthly: async (data, userId) => {
+        console.info(`[DB] [User ${userId}] Inserting monthly contribution for user: ${data.users_id}`);
+        return query('INSERT INTO monthly SET ?', data);
+    },
 
     // Funding & Expenses
-    insertFunding: (data) => query('INSERT INTO funding SET ?', data),
-    insertSpending: (data) => query('INSERT INTO expenses SET ?', data),
+    insertFunding: async (data, userId) => {
+        console.info(`[DB] [User ${userId}] Inserting funding record`);
+        return query('INSERT INTO funding SET ?', data);
+    },
+
+    insertSpending: async (data, userId) => {
+        console.info(`[DB] [User ${userId}] Inserting spending record`);
+        return query('INSERT INTO expenses SET ?', data);
+    },
 
     // Reports
-    getUserReports: () => query('SELECT * FROM user_report'),
-    getFundingReports: () => query('SELECT * FROM funding'),
-    getExpensesReports: () => query('SELECT * FROM expenses'),
+    getUserReports: async () => {
+        return query('SELECT * FROM user_report');
+    },
+
+    getFundingReports: async () => {
+        return query('SELECT * FROM funding');
+    },
+
+    getExpensesReports: async () => {
+        return query('SELECT * FROM expenses');
+    },
 
     // Dashboard
-    getTotalCollected: () => query('SELECT total_collected FROM total_collected'),
-    getTotalSpent: () => query('SELECT total_spent FROM total_spent'),
-    getTotalAvailable: () => query('SELECT total_available FROM total_available'),
-    getMonthlyPayments: () => query('SELECT users_id, month_id FROM monthly'),
+    getTotalCollected: async () => {
+        return query('SELECT total_collected FROM total_collected');
+    },
+
+    getTotalSpent: async () => {
+        return query('SELECT total_spent FROM total_spent');
+    },
+
+    getTotalAvailable: async () => {
+        return query('SELECT total_available FROM total_available');
+    },
+
+    getMonthlyPayments: async () => {
+        return query('SELECT users_id, month_id FROM monthly');
+    },
 
     // Home
-    getNotice: () => query('SELECT * FROM notice ORDER BY notice_datetime DESC LIMIT 1'),
-    upsertNotice: async (data) => {
+    getNotice: async () => {
+        return query('SELECT * FROM notice ORDER BY notice_datetime DESC LIMIT 1');
+    },
+
+    upsertNotice: async (data, userId) => {
+        console.info(`[DB] [User ${userId}] Upserting notice...`);
         const count = await query('SELECT COUNT(*) AS total FROM notice');
         if (count[0].total > 0) {
+            console.info(`[DB] [User ${userId}] Updating existing notice`);
             return query(`
-            UPDATE notice SET 
-                notice_location = ?, 
-                notice_court = ?, 
-                notice_players = ?, 
-                notice_datetime = ?, 
-                notice_duration = ?
-            ORDER BY notice_id DESC
-            LIMIT 1
-        `, [
+                UPDATE notice SET 
+                    notice_location = ?, 
+                    notice_court = ?, 
+                    notice_players = ?, 
+                    notice_datetime = ?, 
+                    notice_duration = ?
+                ORDER BY notice_id DESC
+                LIMIT 1
+            `, [
                 data.notice_location,
                 data.notice_court,
                 data.notice_players,
@@ -56,7 +121,8 @@ module.exports = {
                 data.notice_duration
             ]);
         } else {
+            console.info(`[DB] [User ${userId}] Inserting new notice`);
             return query('INSERT INTO notice SET ?', data);
         }
-    },
+    }
 };

@@ -17,18 +17,17 @@ if (!SESSION_SECRET) {
   process.exit(1);
 }
 
-// Security and performance middleware
+// console.info('🔐 Security and performance middleware initialized');
 app.use(helmet());
 app.use(compression());
 
-// View engine
 app.set('view engine', 'ejs');
 
-// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+// console.info('📂 Static files served from /public');
 
-// Session
+// Session setup
 app.use(session({
   secret: SESSION_SECRET,
   resave: false,
@@ -39,18 +38,23 @@ app.use(session({
     sameSite: 'lax',
   }
 }));
+// console.info('💾 Session management configured');
 
-// Set user info for all views
+// Attach session user to res.locals and log per request
 app.use((req, res, next) => {
   res.locals.user = req.session.user;
+  const userId = req.session.user?.id || 'Guest';
+  console.log(`📥 Request: ${req.method} ${req.originalUrl} by User ID: ${userId}`);
   next();
 });
 
 // Routes
 app.use('/', routes);
 
-// Handle 404
+// 404 Handler
 app.use((req, res) => {
+  const userId = req.session.user?.id || 'Guest';
+  console.warn(`⚠️  404 Not Found: ${req.originalUrl} | User ID: ${userId}`);
   res.status(404).render('error', { message: '404: Page Not Found' });
 });
 

@@ -1,10 +1,34 @@
 window.addEventListener('DOMContentLoaded', () => {
-    const ctx = document.getElementById('cfchart').getContext('2d');
-    const collected = parseFloat(document.getElementById('collectedvalue').value);
-    const spent = parseFloat(document.getElementById('spentvalue').value);
-    const available = parseFloat(document.getElementById('availablevalue').value);
+    const ctx = document.getElementById('cfchart')?.getContext('2d');
+    if (!ctx) {
+        console.error('❌ Chart context not found. Ensure <canvas id="cfchart"> exists.');
+        return;
+    }
+
+    const collectedEl = document.getElementById('collectedvalue');
+    const spentEl = document.getElementById('spentvalue');
+    const availableEl = document.getElementById('availablevalue');
+
+    if (!collectedEl || !spentEl || !availableEl) {
+        console.error('❌ One or more value elements are missing.');
+        return;
+    }
+
+    const collected = parseFloat(collectedEl.value);
+    const spent = parseFloat(spentEl.value);
+    const available = parseFloat(availableEl.value);
+
+    console.log('📊 Raw values:', { collected, spent, available });
 
     const total = collected + spent + available;
+
+    if (isNaN(collected) || isNaN(spent) || isNaN(available)) {
+        console.warn('⚠️ Some of the chart data is not a number. Check hidden inputs.');
+    }
+
+    if (total === 0) {
+        console.warn('⚠️ Total is 0 — chart may appear empty.');
+    }
 
     new Chart(ctx, {
         type: 'pie',
@@ -64,4 +88,6 @@ window.addEventListener('DOMContentLoaded', () => {
         },
         plugins: [ChartDataLabels]
     });
+
+    console.log('✅ Chart initialized successfully.');
 });
