@@ -78,6 +78,14 @@ VALUES
 ('user'),
 ('admin');
 
+INSERT INTO users (username, nickname, password, roles_id)
+VALUES (
+    'admin',
+    'Admin',
+    '$$2b$10$0RKui8uGPtIx/9wy1mdyeO4fJCJ7q4ewRxp.vGnnenN5H/H8qiSn2',
+    2
+);
+
 CREATE VIEW total_paid AS
 SELECT users.users_id AS id,
 users.nickname AS nickname,

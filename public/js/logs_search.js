@@ -1,4 +1,3 @@
-
 const searchInput = document.getElementById('searchInput');
 const logItems = document.querySelectorAll('#logList li');
 const logDateFilter = document.getElementById('logDateFilter');

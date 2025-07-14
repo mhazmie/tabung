@@ -1,17 +1,13 @@
-const { logToFile } = require("../../logs/logger");
-
 document.addEventListener('DOMContentLoaded', () => {
     const editButtons = document.querySelectorAll('.edit-btn');
     if (!editButtons.length) {
         console.warn('⚠️ No edit buttons found. Make sure elements have the class `.edit-btn`.');
-        logToFile('⚠️ No edit buttons found. Make sure elements have the class `.edit-btn`.');
     }
     editButtons.forEach(button => {
         button.addEventListener('click', async () => {
             const userId = button.getAttribute('data-user-id');
             if (!userId) {
                 console.warn('⚠️ Edit button clicked without a data-user-id attribute.');
-                logToFile('⚠️ Edit button clicked without a data-user-id attribute.');
                 return;
             }
             try {
@@ -34,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 modal.show();
             } catch (err) {
                 console.error(`❌ [EditModal] Failed to fetch user data for ID: ${userId}`, err);
-                logToFile(`❌ [EditModal] Failed to fetch user data for ID: ${userId}`, err);
             }
         });
     });
