@@ -52,7 +52,7 @@ created TIMESTAMP DEFAULT NOW()
 CREATE TABLE notice (
   notice_id INT AUTO_INCREMENT PRIMARY KEY,
   notice_location VARCHAR(255) NOT NULL,
-  notice_court VARCHAR(255) NOT NULL,
+  notice_court VARCHAR(50) NOT NULL,
   notice_players VARCHAR(50) NOT NULL,
   notice_datetime DATETIME NOT NULL,
   notice_duration INT NOT NULL
