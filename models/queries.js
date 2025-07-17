@@ -119,5 +119,22 @@ module.exports = {
             logToFile(`[DB] [User ${userId}] Inserting new notice`);
             return query('INSERT INTO notice SET ?', data);
         }
+    },
+
+    // Votes
+    insertVote: async (name) => {
+        return query('INSERT INTO votes (vote_name) VALUES (?)', [name]);
+    },
+    getAllVotes: async () => {
+        return query('SELECT * FROM votes ORDER BY created DESC');
+    },
+    deleteVote: async (id) => {
+        return query('DELETE FROM votes WHERE vote_id = ?', [id]);
+    },
+    clearVotes: async () => {
+        return query('DELETE FROM votes');
+    },
+    getVoteCount: async () => {
+        return query('SELECT COUNT(*) AS total FROM votes');
     }
 };

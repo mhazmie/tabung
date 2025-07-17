@@ -18,14 +18,21 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/', async (req, res) => {
+    const errors = req.session.error || [];
+    req.session.error = null;
     try {
         const notice = await db.getNotice();
-        res.render('home', { notice: notice[0] || {} });
+        const votecount = await db.getVoteCount();
+        res.render('home', { notice: notice[0] || {}, votecount: votecount[0]?.total || 0, error: errors });
     } catch (err) {
         console.error(`[HOME] Failed to fetch notice:`, err);
         logToFile(`[HOME] Failed to fetch notice:`, err);
         res.render('error', { message: errorm });
     }
+});
+
+router.get('/vote', (req, res) => {
+    res.render('vote');
 });
 
 router.get('/dashboard', isAuthenticated, async (req, res) => {
@@ -88,6 +95,7 @@ router.get('/spending', isAuthenticated, isAdmin, async (req, res) => {
 router.get('/admin', isAuthenticated, isAdmin, async (req, res) => {
     const userId = req.session.user?.id;
     const errors = req.session.error || [];
+    const votes = await db.getAllVotes();
     req.session.error = null;
     try {
         const [users, roles, noticeResult] = await Promise.all([
@@ -96,15 +104,14 @@ router.get('/admin', isAuthenticated, isAdmin, async (req, res) => {
             db.getNotice(userId),
         ]);
         const notice = noticeResult?.[0] || null;
-        // Read logs from file (e.g. logs/system.log)
         const logFilePath = path.join(__dirname, '..', 'logs', 'system.log');
         let logs = '';
         if (fs.existsSync(logFilePath)) {
             const raw = fs.readFileSync(logFilePath, 'utf-8');
-            const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+            const today = new Date().toISOString().slice(0, 10);
             logs = raw
                 .split('\n')
-                .filter(line => line.startsWith(today)) // only today
+                .filter(line => line.startsWith(today))
                 .map(line => {
                     const match = line.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z)\s+(.*)$/);
                     if (match) {
@@ -121,7 +128,7 @@ router.get('/admin', isAuthenticated, isAdmin, async (req, res) => {
                     }
                 });
         }
-        res.render('admin', { users, roles, notice, error: errors, logs });
+        res.render('admin', { users, roles, notice, error: errors, logs, votes });
     } catch (err) {
         console.error(`[ADMIN] Failed to load admin data (user ${userId}):`, err);
         logToFile(`[ADMIN] Failed to load admin data (user ${userId}):`, err);
@@ -197,6 +204,33 @@ router.post('/login',
         }
     }
 );
+
+router.post('/vote', async (req, res) => {
+    const { name } = req.body;
+    const errors = [];
+
+    try {
+        await db.insertVote(name.trim());
+        errors.push('votesuccess');
+        req.session.error = errors;
+        res.redirect('/');
+    } catch (err) {
+        console.error('[VOTE] Failed to insert vote:', err);
+        errors.push('votefail');
+        req.session.error = errors;
+        res.redirect('/');
+    }
+});
+
+router.post('/admin/votes/delete/:id', isAuthenticated, isAdmin, async (req, res) => {
+    await db.deleteVote(req.params.id);
+    res.redirect('/admin');
+});
+
+router.post('/admin/votes/clear', isAuthenticated, isAdmin, async (req, res) => {
+    await db.clearVotes();
+    res.redirect('/admin');
+});
 
 router.post('/addusers',
     body('username').notEmpty(),

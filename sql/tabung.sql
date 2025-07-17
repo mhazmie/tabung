@@ -58,6 +58,12 @@ CREATE TABLE notice (
   notice_duration INT NOT NULL
 );
 
+CREATE TABLE votes (
+    vote_id INT AUTO_INCREMENT PRIMARY KEY,
+    vote_name VARCHAR(255) NOT NULL,
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 INSERT INTO months(month_name) 
 VALUES 
 ('January'),
