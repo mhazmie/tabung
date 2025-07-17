@@ -1,5 +1,3 @@
-const { logToFile } = require("../../logs/logger");
-
 window.addEventListener('DOMContentLoaded', () => {
     const ctx = document.getElementById('cfchart')?.getContext('2d');
     if (!ctx) {
@@ -17,11 +15,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const total = collected + spent + available;
     if (isNaN(collected) || isNaN(spent) || isNaN(available)) {
         console.warn('⚠️ Some of the chart data is not a number. Check hidden inputs.');
-        logToFile('⚠️ Some of the chart data is not a number. Check hidden inputs.');
     }
     if (total === 0) {
         console.warn('⚠️ Total is 0 — chart may appear empty.');
-        logToFile('⚠️ Total is 0 — chart may appear empty.');
     }
     new Chart(ctx, {
         type: 'pie',

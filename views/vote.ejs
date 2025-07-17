@@ -1,0 +1,14 @@
+<%- include('partials/head') %>
+
+    <body>
+        <%- include('partials/header') %>
+            <main class='container my-5'>
+                <h1>Join This Week's Badminton Session</h1>
+                <form method='POST' action='/vote' class='mt-4'>
+                    <div class='mb-3'>
+                        <input type='text' name='name' class='form-control' placeholder='Enter your name' required />
+                    </div>
+                    <button type='submit' class='btn btn-primary'>Join</button>
+                </form>
+            </main>
+    </body>

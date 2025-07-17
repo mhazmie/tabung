@@ -19,6 +19,10 @@
                             <button class='nav-link' id='notice-tab' data-bs-toggle='tab' data-bs-target='#addNotice'
                                 type='button' role='tab'>Add Notice</button>
                         </li>
+                        <li class='nav-item' role='presentation'>
+                            <button class='nav-link' id='votes-tab' data-bs-toggle='tab' data-bs-target='#votes'
+                                type='button' role='tab'>Votes</button>
+                        </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs"
                                 type="button" role="tab">Logs</button>
@@ -157,6 +161,46 @@
                                 </div>
                             </form>
                         </div>
+                        <!-- Votes Tab -->
+                        <div class='tab-pane fade' id='votes' role='tabpanel' aria-labelledby='votes-tab'>
+                            <h5 class='my-3'>Current Join List</h5>
+                            <form method='POST' action='/admin/votes/clear'
+                                data-confirm="Are you sure you want to clear all votes?">
+                                <button type='submit' class='btn btn-sm btn-danger mb-3'>Clear All</button>
+                            </form>
+                            <div class='table-responsive rounded-3'>
+                                <table class='table'>
+                                    <thead class='table-dark'>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Joined At</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-dark">
+                                        <% votes.forEach(vote=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= vote.vote_name %>
+                                                </td>
+                                                <td>
+                                                    <%= new Date(vote.created).toLocaleString('en-MY', { month: 'short'
+                                                        , day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12:
+                                                        true }) %>
+                                                </td>
+                                                <td>
+                                                    <form method='POST' action='/admin/votes/delete/<%= vote.vote_id %>'
+                                                        data-confirm="Delete this entry?">
+                                                        <button type='submit'
+                                                            class='btn btn-sm btn-outline-danger'>Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <!-- View Logs Tab -->
                         <div class='tab-pane fade' id='logs' role='tabpanel' aria-labelledby='logs-tab'>
                             <div class="mb-3 mt-3">
@@ -175,4 +219,5 @@
                     </div>
                 </main>
                 <script src='/js/logs_search.js'></script>
+                <script src='/js/data_confirm.js'></script>
     </body>

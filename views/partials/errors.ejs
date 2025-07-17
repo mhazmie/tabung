@@ -18,6 +18,15 @@
       case 'invalidcredc':
       message = '❌ Error: Password minimum 3 characters';
       break;
+
+      case 'votesuccess':
+      message = '✅ Your vote has been recorded!';
+      variant = 'success';
+      break;
+      case 'votefail':
+      message = '❌ Failed to record vote. Please try again.';
+      break;
+
       default:
       message = '⚠️ An unknown error occurred.';
       }
@@ -28,7 +37,7 @@
           <div class='toast-body'>
             <%= message %>
           </div>
-          <button type='button' class='btn-close <%= variant === 'warning' ? '' : 'btn-close-white' %> me-2 m-auto'
+          <button type='button' class='btn-close <%= variant === ' warning' ? '' : 'btn-close-white' %> me-2 m-auto'
             data-bs-dismiss='toast'></button>
         </div>
       </div>

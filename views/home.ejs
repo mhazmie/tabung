@@ -1,60 +1,66 @@
 <%- include('partials/head') %>
 
-<body>
-  <%- include('partials/header') %>
+  <body>
+    <%- include('partials/errors') %>
+      <%- include('partials/header') %>
 
-  <main class='container my-4'>
-    <h1 class='text-center mb-4'>Papan Kenyataan</h1>
+        <main class='container my-4'>
+          <h1 class='text-center mb-4'>Papan Kenyataan</h1>
 
-    <div class='card text-white bg-dark mx-auto' style='max-width: 600px;'>
-      <div class='card-header text-center py-2'>
-        <h5 class='mb-0'>Badminton Mingguan</h5>
-      </div>
+          <div class='card text-white bg-dark mx-auto' style='max-width: 600px;'>
+            <div class='card-header text-center py-2'>
+              <h5 class='mb-0'>Badminton Mingguan</h5>
+            </div>
 
-      <div class='card-body py-3 px-4'>
-        <div class='row mb-2'>
-          <div class='col-5 text-end'>
-            📍 <strong>Location:</strong>
-          </div>
-          <div class='col-7 text-start'>
-            <%= notice.notice_location %>
-          </div>
-        </div>
+            <div class='card-body py-3 px-4'>
+              <div class='row mb-2'>
+                <div class='col-5 text-end'>
+                  📍 <strong>Location:</strong>
+                </div>
+                <div class='col-7 text-start'>
+                  <%= notice.notice_location %>
+                </div>
+              </div>
 
-        <div class='row mb-2'>
-          <div class='col-5 text-end'>
-            🏸 <strong>Court:</strong>
-          </div>
-          <div class='col-7 text-start'>
-            <%= notice.notice_court %>
-          </div>
-        </div>
+              <div class='row mb-2'>
+                <div class='col-5 text-end'>
+                  🏸 <strong>Court:</strong>
+                </div>
+                <div class='col-7 text-start'>
+                  <%= notice.notice_court %>
+                </div>
+              </div>
 
-        <div class='row mb-2'>
-          <div class='col-5 text-end'>
-            👥 <strong>Players:</strong>
-          </div>
-          <div class='col-7 text-start'>
-            <%= notice.notice_players %>
-          </div>
-        </div>
+              <div class='row mb-2'>
+                <div class='col-5 text-end'>
+                  👥 <strong>Players:</strong>
+                </div>
+                <div class='col-7 text-start'>
+                  <% if (votecount> 0) { %>
+                    <%= votecount %>
+                      <% } else { %>
+                        <em>Vote pls</em>
+                        <% } %>
+                </div>
+              </div>
 
-        <div class='row'>
-          <div class='col-5 text-end'>
-            📅 <strong>Date & Time:</strong>
+              <div class='row'>
+                <div class='col-5 text-end'>
+                  📅 <strong>Date & Time:</strong>
+                </div>
+                <div class='col-7 text-start'>
+                  <%= new Date(notice.notice_datetime).toLocaleString('en-GB', { hour: 'numeric' , minute: '2-digit' ,
+                    hour12: true, day: '2-digit' , month: '2-digit' , year: 'numeric' }) %> (<%= notice.notice_duration
+                      %>
+                      hrs)
+                </div>
+              </div>
+
+              <div class="text-center mt-4">
+                <a href="/vote" class="btn btn-outline-light">Vote to Join</a>
+              </div>
+            </div>
           </div>
-          <div class='col-7 text-start'>
-            <%= new Date(notice.notice_datetime).toLocaleString('en-GB', {
-              hour: 'numeric',
-              minute: '2-digit',
-              hour12: true,
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric'
-            }) %> (<%= notice.notice_duration %> hrs)
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-</body>
+        </main>
+
+  </body>
