@@ -37,9 +37,25 @@
                 </div>
                 <div class='col-7 text-start'>
                   <% if (votecount> 0) { %>
-                    <%= votecount %>
+                    <%= votecount %> Player(s)
+                      <button class="btn btn-sm btn-outline-light ms-2" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#voteList" aria-expanded="false" aria-controls="voteList">
+                        Show
+                      </button>
+
+                      <div class="collapse mt-2" id="voteList">
+                        <div class="card card-body bg-secondary text-white p-2">
+                          <ul class="mb-0 ps-3">
+                            <% voters.forEach(voter=> { %>
+                              <li>
+                                <%= voter.vote_name %>
+                              </li>
+                              <% }) %>
+                          </ul>
+                        </div>
+                      </div>
                       <% } else { %>
-                        <em>Vote pls</em>
+                        <em>No players joined yet</em>
                         <% } %>
                 </div>
               </div>

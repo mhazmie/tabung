@@ -19,17 +19,27 @@ router.get('/login', (req, res) => {
 
 router.get('/', async (req, res) => {
     const errors = req.session.error || [];
+    const success = req.session.success || [];
     req.session.error = null;
+    req.session.success = null;
     try {
         const notice = await db.getNotice();
         const votecount = await db.getVoteCount();
-        res.render('home', { notice: notice[0] || {}, votecount: votecount[0]?.total || 0, error: errors });
+        const voters = await db.getVoteNames();
+        res.render('home', {
+            notice: notice[0] || {},
+            votecount: votecount[0]?.total || 0,
+            voters: voters || [],
+            error: errors,
+            success: success
+        });
     } catch (err) {
-        console.error(`[HOME] Failed to fetch notice:`, err);
-        logToFile(`[HOME] Failed to fetch notice:`, err);
+        console.error(`[HOME] Failed to fetch data:`, err);
+        logToFile(`[HOME] Failed to fetch data:`, err);
         res.render('error', { message: errorm });
     }
 });
+
 
 router.get('/vote', (req, res) => {
     res.render('vote');

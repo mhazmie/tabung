@@ -136,5 +136,8 @@ module.exports = {
     },
     getVoteCount: async () => {
         return query('SELECT COUNT(*) AS total FROM votes');
+    },
+    getVoteNames: async () => {
+        return query('SELECT vote_name FROM votes');
     }
 };
