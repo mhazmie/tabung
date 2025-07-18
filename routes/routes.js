@@ -218,10 +218,10 @@ router.post('/login',
 router.post('/vote', async (req, res) => {
     const { name } = req.body;
     const errors = [];
-
     try {
         await db.insertVote(name.trim());
-        errors.push('votesuccess');
+        errors.push('votesuccess', 'votenotify');
+        console.info(`[VOTE] User ${req.session.user?.id} voted for: ${name}`);
         req.session.error = errors;
         res.redirect('/');
     } catch (err) {
@@ -239,6 +239,18 @@ router.post('/admin/votes/delete/:id', isAuthenticated, isAdmin, async (req, res
 
 router.post('/admin/votes/clear', isAuthenticated, isAdmin, async (req, res) => {
     await db.clearVotes();
+    res.redirect('/admin');
+});
+
+router.post('/admin/votes/verify/:id', async (req, res) => {
+    const voteId = req.params.id;
+    try {
+        await db.verifyVote(voteId);
+        req.session.error = ['verifyok'];
+    } catch (err) {
+        console.error('[ADMIN] Failed to verify vote:', err);
+        req.session.error = ['verifyfail'];
+    }
     res.redirect('/admin');
 });
 

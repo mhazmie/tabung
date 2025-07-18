@@ -1,5 +1,5 @@
 <% if (Array.isArray(error) && error.length> 0) { %>
-  <div class='position-fixed bottom-0 end-0 p-3' style='z-index: 9999'>
+  <div class='toast-stack position-fixed top-0 start-50 translate-middle-x p-3' style='z-index: 9999'>
     <% error.forEach(e=> {
       let message = '';
       let variant = 'danger';
@@ -23,16 +23,27 @@
       message = '✅ Your vote has been recorded!';
       variant = 'success';
       break;
+      case 'votenotify':
+      message = 'Wait for admin to verify your vote.';
+      variant = 'info';
+      break;
       case 'votefail':
       message = '❌ Failed to record vote. Please try again.';
+      break;
+      case 'verifyok':
+      message = '✅ Vote has been verified!';
+      variant = 'success';
+      break;
+      case 'verifyfail':
+      message = '❌ Failed to verify vote.';
       break;
 
       default:
       message = '⚠️ An unknown error occurred.';
       }
       %>
-      <div class='toast align-items-center text-bg-<%= variant %> border-0 show' role='alert' data-bs-delay='5000'
-        data-bs-autohide='true'>
+      <div class='toast align-items-center text-bg-<%= variant %> border-0 <% if (e !== "votenotify") { %>show<% } %>'
+        id='toast-<%= e %>' role='alert' data-bs-delay='5000' data-bs-autohide='true'>
         <div class='d-flex'>
           <div class='toast-body'>
             <%= message %>
@@ -41,6 +52,7 @@
             data-bs-dismiss='toast'></button>
         </div>
       </div>
+
       <% }); %>
   </div>
   <% } %>

@@ -3,12 +3,13 @@
     <body>
         <%- include('partials/header') %>
             <main class='container my-5'>
-                <h1>Join This Week's Badminton Session</h1>
+                <h1>Minton or Mintoff ?</h1>
                 <form method='POST' action='/vote' class='mt-4'>
-                    <div class='mb-3'>
-                        <input type='text' name='name' class='form-control' placeholder='Enter your name' required />
+                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+                        <input type='text' name='name' class='form-control w-auto' placeholder='Enter your name'
+                            required />
+                        <button type='submit' class='btn btn-primary'>Join</button>
                     </div>
-                    <button type='submit' class='btn btn-primary'>Join</button>
                 </form>
             </main>
     </body>

@@ -1,7 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
     const toastElList = [].slice.call(document.querySelectorAll('.toast'));
-    toastElList.forEach(function (toastEl) {
-        const toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 5000 });
-        toast.show();
+    let delayBetweenToasts = 900;
+    let baseDelay = 0;
+
+    toastElList.forEach(function (toastEl, index) {
+        const toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 5500 });
+
+        setTimeout(() => {
+            toast.show();
+        }, baseDelay);
+
+        baseDelay += delayBetweenToasts;
     });
 });

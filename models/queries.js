@@ -135,9 +135,14 @@ module.exports = {
         return query('DELETE FROM votes');
     },
     getVoteCount: async () => {
-        return query('SELECT COUNT(*) AS total FROM votes');
+        return query('SELECT COUNT(*) AS total FROM votes WHERE verified = 1');
     },
     getVoteNames: async () => {
-        return query('SELECT vote_name FROM votes');
+        return query('SELECT vote_name FROM votes WHERE verified = 1');
+    },
+    verifyVote: async (voteId) => {
+        console.info(`[DB] Verifying vote with ID: ${voteId}`);
+        logToFile(`[DB] Verifying vote with ID: ${voteId}`);
+        return query('UPDATE votes SET verified = 1 WHERE vote_id = ?', [voteId]);
     }
 };

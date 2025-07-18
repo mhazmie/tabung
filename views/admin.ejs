@@ -163,17 +163,20 @@
                         </div>
                         <!-- Votes Tab -->
                         <div class='tab-pane fade' id='votes' role='tabpanel' aria-labelledby='votes-tab'>
-                            <h5 class='my-3'>Current Join List</h5>
-                            <form method='POST' action='/admin/votes/clear'
-                                data-confirm="Are you sure you want to clear all votes?">
-                                <button type='submit' class='btn btn-sm btn-danger mb-3'>Clear All</button>
-                            </form>
+                            <div class="d-flex justify-content-center gap-3 flex-wrap my-2">
+                                <h5 class='mb-0 pt-1'>Current Join List</h5>
+                                <form method='POST' action='/admin/votes/clear'
+                                    data-confirm="Are you sure you want to clear all votes?">
+                                    <button type='submit' class='btn btn-sm btn-danger'>Clear All</button>
+                                </form>
+                            </div>
                             <div class='table-responsive rounded-3'>
                                 <table class='table'>
                                     <thead class='table-dark'>
                                         <tr>
                                             <th>Name</th>
                                             <th>Joined At</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -189,11 +192,28 @@
                                                         true }) %>
                                                 </td>
                                                 <td>
-                                                    <form method='POST' action='/admin/votes/delete/<%= vote.vote_id %>'
-                                                        data-confirm="Delete this entry?">
-                                                        <button type='submit'
-                                                            class='btn btn-sm btn-outline-danger'>Delete</button>
-                                                    </form>
+                                                    <% if (vote.verified==1) { %>
+                                                        ✅
+                                                        <% } else { %>
+                                                            ❌
+                                                            <% } %>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center gap-2">
+                                                        <% if (vote.verified !=1) { %>
+                                                            <form method="POST"
+                                                                action="/admin/votes/verify/<%= vote.vote_id %>">
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-success">Verify</button>
+                                                            </form>
+                                                            <% } %>
+                                                                <form method="POST"
+                                                                    action="/admin/votes/delete/<%= vote.vote_id %>"
+                                                                    data-confirm="Delete this entry?">
+                                                                    <button type="submit"
+                                                                        class="btn btn-sm btn-outline-danger">Delete</button>
+                                                                </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <% }) %>
@@ -203,9 +223,9 @@
                         </div>
                         <!-- View Logs Tab -->
                         <div class='tab-pane fade' id='logs' role='tabpanel' aria-labelledby='logs-tab'>
-                            <div class="mb-3 mt-3">
-                                <input type="date" id="logDateFilter" class="form-control mb-2" />
+                            <div class="d-flex align-items-center mb-3 mt-3 gap-2">
                                 <input type="text" id="searchInput" placeholder="Search logs..." class="form-control" />
+                                <input type="date" id="logDateFilter" class="form-control" />
                             </div>
 
                             <ul class="list-group small" id="logList">

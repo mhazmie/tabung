@@ -5,10 +5,15 @@ body {
   background: url('/images/home.png') no-repeat center center fixed;
   background-size: cover;
   color: rgba(255, 255, 255, 0.85);
+  font-size: 1rem;
+  padding: 1rem;
 }
+
 @media (max-width: 767px) {
   body {
     background-attachment: scroll;
+    font-size: 1.1rem;
+    padding: 1.5rem;
   }
 }
 
@@ -16,11 +21,8 @@ body {
 .navbar {
   justify-content: space-between;
   align-items: center;
-}
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  padding: 1rem;
+  font-size: 1rem;
 }
 
 /* === Dropdown === */
@@ -28,15 +30,18 @@ body {
   background: transparent;
   color: rgba(255, 255, 255, 0.8);
   border: 2px solid rgba(255, 255, 255, 0.5);
-  padding: 5px 16px;
+  padding: 0.5rem 1rem;
   border-radius: 10px;
   cursor: pointer;
+  font-size: 1rem;
 }
+
 .dropbtn:hover {
   color: #fff;
   border-color: #fff;
   transition: 0.3s;
 }
+
 .dropdown-content {
   display: none;
   position: absolute;
@@ -44,8 +49,11 @@ body {
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.8);
   border-radius: 10px;
-  padding: 10px;
+  padding: 1rem;
+  min-width: 10rem;
+  font-size: 0.95rem;
 }
+
 .dropdown.show .dropdown-content {
   display: block;
 }
@@ -56,8 +64,10 @@ body {
   color: rgba(255, 255, 255, 0.8);
   border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 10px;
-  padding: 5px 16px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
 }
+
 .btn-custom:hover {
   color: #fff;
   border-color: #fff;
@@ -71,7 +81,9 @@ body {
   border-bottom: 2px solid rgba(255, 255, 255, 0.5);
   color: rgba(255, 255, 255, 0.8);
   border-radius: 0;
+  font-size: 1rem;
 }
+
 .form-control-custom:focus {
   border-bottom-color: #fff;
   color: #fff;
@@ -80,60 +92,73 @@ body {
 }
 
 /* === Tables === */
-table {
-  border-radius: 3px;
-}
-.table thead th {
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  border: none;
-}
+.table thead th,
 .table td {
   color: white;
+  font-size: 0.95rem;
   text-align: center;
   vertical-align: middle;
   border: none;
+  padding: 0.75rem;
+}
+
+@media (max-width: 767px) {
+
+  .table thead th,
+  .table td {
+    font-size: 1.1rem;
+    padding: 0.5rem;
+  }
 }
 
 /* === Dashboard Layout === */
 .dashboard-container {
   display: flex;
-  gap: 20px;
   flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
 }
+
 .chart-container,
 .table-container {
   background: rgba(0, 0, 0, 0.7);
-  padding: 20px;
+  padding: 1.25rem;
   border-radius: 10px;
   color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
 }
 
 /* === Tabs === */
 .rtabs {
   display: flex;
   justify-content: center;
-  margin-bottom: 15px;
-  gap: 10px;
+  margin-bottom: 1rem;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
+
 .rtab {
   cursor: pointer;
-  padding: 10px 20px;
+  padding: 0.6rem 1.2rem;
   border-radius: 10px;
   background: transparent;
   color: rgba(255, 255, 255, 0.7);
   border: 1px solid transparent;
+  font-size: 1rem;
 }
+
 .rtab.active {
   font-weight: bold;
   color: #fff;
   border-color: #fff;
 }
+
 .rtab-content {
   display: none;
 }
+
 .rtab-content.active {
   display: block;
 }
@@ -142,16 +167,19 @@ table {
 .toast {
   background-color: rgba(0, 0, 0, 0.85);
   color: white;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 /* === Error Page === */
 .errorbody {
   background: #fff0f0 url('/images/home.png') no-repeat center center fixed;
   background-size: cover;
-  padding: 30px;
+  padding: 2rem;
 }
+
 .errorlink {
-  font-size: 18px;
+  font-size: 1.2rem;
   color: white;
   text-decoration: underline;
 }
@@ -162,55 +190,71 @@ table {
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.6);
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   z-index: 1050;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .etable {
   background: rgba(0, 0, 0, 0.6);
-  padding: 20px;
+  padding: 1.5rem;
   border-radius: 10px;
   color: white;
-  min-width: 350px;
+  width: 90vw;
+  max-width: 400px;
 }
+
 .form-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 400px;
 }
+
 .form-row label {
   flex: 1;
   text-align: right;
-  margin-right: 10px;
+  margin-right: 0.75rem;
   color: #ffffffcc;
   font-weight: 300;
 }
+
 .form-row .eform {
   flex: 2;
 }
+
 .form-actions {
   display: flex;
-  gap: 10px;
+  gap: 0.75rem;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 1rem;
 }
 
 /* === Utility === */
 input[type="checkbox"] {
   pointer-events: none;
 }
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="url"]:focus {
+
+input:focus {
   outline: none;
 }
+
 h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 300;
   margin-bottom: 1rem;
+}
+
+@media (max-width: 767px) {
+  h1 {
+    font-size: 2.4rem;
+  }
+}
+
+/* === Toast Stack === */
+.toast-stack .toast+.toast {
+  margin-top: 0.5rem;
 }
