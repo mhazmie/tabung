@@ -11,6 +11,58 @@
       case 'invalidcredp':
       message = '❌ Error: Invalid Password';
       break;
+      case 'successlogin':
+      message = '✅ Login successful!';
+      variant = 'success';
+      break;
+      case 'loginfail':
+      message = '❌ Login failed. Please try again.';
+      break;
+
+      case 'useraddsuccess':
+      message = '✅ User added successfully!';
+      variant = 'success';
+      break;
+      case 'useraddfail':
+      message = '❌ User failed to add.';
+      break;
+
+      case 'usereditsuccess':
+      message = '✅ User edited successfully!';
+      variant = 'success';
+      break;
+      case 'usereditfail':
+      message = '❌ User failed to update.';
+      break;
+
+      case 'monthlysuccess':
+      message = '✅ Monthly payment added successfully!';
+      variant = 'success';
+      break;
+      case 'monthlyfail':
+      message = '❌ Monthly payment failed to update.';
+      break;
+      case 'monthlyduplicate':
+      message = '❌ Payment already made for selected month.';
+      variant = 'warning';
+      break;
+
+      case 'fundingsuccess':
+      message = '✅ Funding added successfully!';
+      variant = 'success';
+      break;
+      case 'fundingfail':
+      message = '❌ Funding failed to update.';
+      break;
+
+      case 'spendingsuccess':
+      message = '✅ Spending added successfully!';
+      variant = 'success';
+      break;
+      case 'spendingfail':
+      message = '❌ Spending failed to update.';
+      break;
+
       case 'duplicate':
       message = '⚠️ Error: User already exists';
       variant = 'warning';
@@ -30,7 +82,22 @@
       case 'votefail':
       message = '❌ Failed to record vote. Please try again.';
       break;
-      case 'verifyok':
+      case 'voteclearsuccess':
+      message = '✅ Votes have been cleared!';
+      variant = 'success';
+      break;
+      case 'voteclearfail':
+      message = '❌ Failed to clear votes.';
+      break;
+      case 'votedelsuccess':
+      message = '✅ Vote has been deleted!';
+      variant = 'success';
+      break;
+      case 'votedelfail':
+      message = '❌ Failed to delete vote.';
+      break;
+
+      case 'verifysuccess':
       message = '✅ Vote has been verified!';
       variant = 'success';
       break;
@@ -38,6 +105,17 @@
       message = '❌ Failed to verify vote.';
       break;
 
+      case 'noticesuccess':
+      message = '✅ Notice has been updated successfully!';
+      variant = 'success';
+      break;
+      case 'noticefail':
+      message = '❌ Failed to create notice.';
+      break;
+
+      case 'dberror':
+      message = '❌ Database operation failed.';
+      break;
       default:
       message = '⚠️ An unknown error occurred.';
       }
