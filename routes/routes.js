@@ -7,7 +7,6 @@ const { body, validationResult } = require('express-validator');
 const db = require('../models/queries');
 const { isAuthenticated, isAdmin } = require('../middleware/auth');
 const { logToFile } = require('../logs/logger');
-const { log } = require('console');
 
 const errorm = 'Error 400 : Unable to fetch data';
 const erroru = 'Error 402 : Update failed';
