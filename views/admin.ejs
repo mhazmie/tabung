@@ -8,7 +8,11 @@
                     <!-- Tabs Navigation -->
                     <ul class='nav nav-tabs mb-3' id='adminTabs' role='tablist'>
                         <li class='nav-item' role='presentation'>
-                            <button class='nav-link active' id='add-tab' data-bs-toggle='tab' data-bs-target='#addUser'
+                            <button class='nav-link active' id='votes-tab' data-bs-toggle='tab' data-bs-target='#votes'
+                                type='button' role='tab'>Votes</button>
+                        </li>
+                        <li class='nav-item' role='presentation'>
+                            <button class='nav-link' id='add-tab' data-bs-toggle='tab' data-bs-target='#addUser'
                                 type='button' role='tab'>Add User</button>
                         </li>
                         <li class='nav-item' role='presentation'>
@@ -19,10 +23,6 @@
                             <button class='nav-link' id='notice-tab' data-bs-toggle='tab' data-bs-target='#addNotice'
                                 type='button' role='tab'>Add Notice</button>
                         </li>
-                        <li class='nav-item' role='presentation'>
-                            <button class='nav-link' id='votes-tab' data-bs-toggle='tab' data-bs-target='#votes'
-                                type='button' role='tab'>Votes</button>
-                        </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs"
                                 type="button" role="tab">Logs</button>
@@ -30,8 +30,68 @@
                     </ul>
                     <!-- Tabs Content -->
                     <div class='tab-content' id='userTabsContent'>
+                        <!-- Votes Tab -->
+                        <div class='tab-pane fade show active' id='votes' role='tabpanel' aria-labelledby='votes-tab'>
+                            <div class="d-flex justify-content-center gap-3 flex-wrap my-2">
+                                <h5 class='mb-0 pt-1'>Current Join List</h5>
+                                <form method='POST' action='/admin/votes/clear'
+                                    data-confirm="Are you sure you want to clear all votes?">
+                                    <button type='submit' class='btn btn-sm btn-danger'>Clear All</button>
+                                </form>
+                            </div>
+                            <div class='table-responsive rounded-3'>
+                                <table class='table'>
+                                    <thead class='table-dark'>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Joined At</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-dark">
+                                        <% votes.forEach(vote=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= vote.vote_name %>
+                                                </td>
+                                                <td>
+                                                    <%= new Date(vote.created).toLocaleString('en-MY', { month: 'short'
+                                                        , day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12:
+                                                        true }) %>
+                                                </td>
+                                                <td>
+                                                    <% if (vote.verified==1) { %>
+                                                        ✅
+                                                        <% } else { %>
+                                                            ❌
+                                                            <% } %>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center gap-2">
+                                                        <% if (vote.verified !=1) { %>
+                                                            <form method="POST"
+                                                                action="/admin/votes/verify/<%= vote.vote_id %>">
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-success">Verify</button>
+                                                            </form>
+                                                            <% } %>
+                                                                <form method="POST"
+                                                                    action="/admin/votes/delete/<%= vote.vote_id %>"
+                                                                    data-confirm="Delete this entry?">
+                                                                    <button type="submit"
+                                                                        class="btn btn-sm btn-outline-danger">Delete</button>
+                                                                </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <!-- Add User Tab -->
-                        <div class='tab-pane fade show active' id='addUser' role='tabpanel' aria-labelledby='add-tab'>
+                        <div class='tab-pane fade' id='addUser' role='tabpanel' aria-labelledby='add-tab'>
                             <form method='POST' action='/addusers' class='row g-3 mt-2'>
                                 <div class='row mb-2'>
                                     <label for='username' class='col-sm-2 col-form-label text-sm-end'>Username:</label>
@@ -127,15 +187,6 @@
                                     </div>
                                 </div>
                                 <div class='row mb-2'>
-                                    <label for='notice_players'
-                                        class='col-sm-2 col-form-label text-sm-end'>Participants:</label>
-                                    <div class='col-sm-9'>
-                                        <input type='text' name='notice_players' id='notice_players'
-                                            class='form-control' placeholder='Number of Players'
-                                            value='<%= notice?.notice_players || '' %>' required>
-                                    </div>
-                                </div>
-                                <div class='row mb-2'>
                                     <label for='notice_datetime' class='col-sm-2 col-form-label text-sm-end'>Date &
                                         Time:</label>
                                     <div class='col-sm-9'>
@@ -160,66 +211,6 @@
                                     </div>
                                 </div>
                             </form>
-                        </div>
-                        <!-- Votes Tab -->
-                        <div class='tab-pane fade' id='votes' role='tabpanel' aria-labelledby='votes-tab'>
-                            <div class="d-flex justify-content-center gap-3 flex-wrap my-2">
-                                <h5 class='mb-0 pt-1'>Current Join List</h5>
-                                <form method='POST' action='/admin/votes/clear'
-                                    data-confirm="Are you sure you want to clear all votes?">
-                                    <button type='submit' class='btn btn-sm btn-danger'>Clear All</button>
-                                </form>
-                            </div>
-                            <div class='table-responsive rounded-3'>
-                                <table class='table'>
-                                    <thead class='table-dark'>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Joined At</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-dark">
-                                        <% votes.forEach(vote=> { %>
-                                            <tr>
-                                                <td>
-                                                    <%= vote.vote_name %>
-                                                </td>
-                                                <td>
-                                                    <%= new Date(vote.created).toLocaleString('en-MY', { month: 'short'
-                                                        , day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12:
-                                                        true }) %>
-                                                </td>
-                                                <td>
-                                                    <% if (vote.verified==1) { %>
-                                                        ✅
-                                                        <% } else { %>
-                                                            ❌
-                                                            <% } %>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex justify-content-center gap-2">
-                                                        <% if (vote.verified !=1) { %>
-                                                            <form method="POST"
-                                                                action="/admin/votes/verify/<%= vote.vote_id %>">
-                                                                <button type="submit"
-                                                                    class="btn btn-sm btn-success">Verify</button>
-                                                            </form>
-                                                            <% } %>
-                                                                <form method="POST"
-                                                                    action="/admin/votes/delete/<%= vote.vote_id %>"
-                                                                    data-confirm="Delete this entry?">
-                                                                    <button type="submit"
-                                                                        class="btn btn-sm btn-outline-danger">Delete</button>
-                                                                </form>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <% }) %>
-                                    </tbody>
-                                </table>
-                            </div>
                         </div>
                         <!-- View Logs Tab -->
                         <div class='tab-pane fade' id='logs' role='tabpanel' aria-labelledby='logs-tab'>
