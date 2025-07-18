@@ -21,7 +21,7 @@
                         </li>
                         <li class='nav-item' role='presentation'>
                             <button class='nav-link' id='notice-tab' data-bs-toggle='tab' data-bs-target='#addNotice'
-                                type='button' role='tab'>Add Notice</button>
+                                type='button' role='tab'>Update Notice</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs"
@@ -34,8 +34,7 @@
                         <div class='tab-pane fade show active' id='votes' role='tabpanel' aria-labelledby='votes-tab'>
                             <div class="d-flex justify-content-center gap-3 flex-wrap my-2">
                                 <h5 class='mb-0 pt-1'>Current Join List</h5>
-                                <form method='POST' action='/admin/votes/clear'
-                                    data-confirm="Are you sure you want to clear all votes?">
+                                <form method='POST' action='/admin/votes/clear'>
                                     <button type='submit' class='btn btn-sm btn-danger'>Clear All</button>
                                 </form>
                             </div>
@@ -77,8 +76,7 @@
                                                             </form>
                                                             <% } %>
                                                                 <form method="POST"
-                                                                    action="/admin/votes/delete/<%= vote.vote_id %>"
-                                                                    data-confirm="Delete this entry?">
+                                                                    action="/admin/votes/delete/<%= vote.vote_id %>">
                                                                     <button type="submit"
                                                                         class="btn btn-sm btn-outline-danger">Delete</button>
                                                                 </form>

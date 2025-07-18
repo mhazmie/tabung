@@ -102,7 +102,6 @@ module.exports = {
                 UPDATE notice SET 
                     notice_location = ?, 
                     notice_court = ?, 
-                    notice_players = ?, 
                     notice_datetime = ?, 
                     notice_duration = ?
                 ORDER BY notice_id DESC
@@ -110,7 +109,6 @@ module.exports = {
             `, [
                 data.notice_location,
                 data.notice_court,
-                data.notice_players,
                 data.notice_datetime,
                 data.notice_duration
             ]);
