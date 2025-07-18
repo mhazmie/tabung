@@ -55,8 +55,8 @@
                                                     <%= vote.vote_name %>
                                                 </td>
                                                 <td>
-                                                    <%= new Date(vote.created).'en-GB', { month: 'short' ,
-                                                        day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12:
+                                                    <%= new Date(vote.created).toLocaleString('en-GB', { month: 'short'
+                                                        , day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12:
                                                         true }) %>
                                                 </td>
                                                 <td>
