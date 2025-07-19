@@ -8,7 +8,8 @@ const connection = mysql.createPool({
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'your_database_name',
   charset: 'utf8mb4',
-  multipleStatements: false
+  multipleStatements: false,
+  timezone: '+08:00'
 });
 
 connection.getConnection((err, conn) => {
