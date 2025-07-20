@@ -20,9 +20,11 @@
               role='tab'>Spending</button>
           </li>
         </ul>
-
-        <input class='form-control mb-4' type='text' id='searchInput' placeholder='Search...'>
-
+        <div class="d-flex align-items-center mb-3 mt-3 gap-2">
+          <input type='text' id='searchInput' class='form-control' placeholder='Search...'>
+          <input type="date" id="reportDateFilter" class="form-control" />
+        </div>
+        <!-- User's Tab -->
         <div class='tab-content' id='reportTabContent'>
           <div class='tab-pane fade show active' id='usersr' role='tabpanel'>
             <div class='table-responsive rounded-3'>
@@ -63,6 +65,8 @@
               </table>
             </div>
           </div>
+
+          <!-- Additional Funding Tab -->
           <div class='tab-pane fade' id='fundingr' role='tabpanel'>
             <div class='table-responsive rounded-3'>
               <table class='table table-hover align-middle'>
@@ -94,6 +98,8 @@
               </table>
             </div>
           </div>
+
+          <!-- Spending Tab -->
           <div class='tab-pane fade' id='spendingr' role='tabpanel'>
             <div class='table-responsive rounded-3'>
               <table class='table table-hover align-middle'>

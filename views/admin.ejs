@@ -55,9 +55,11 @@
                                                     <%= vote.vote_name %>
                                                 </td>
                                                 <td>
-                                                    <%= new Date(vote.created).toLocaleString('en-GB', { month: 'short'
-                                                        , day: 'numeric' , hour: 'numeric' , minute: 'numeric' , hour12:
-                                                        true }) %>
+                                                    <%= new Date(notice.notice_datetime).toLocaleString('en-GB', {
+                                                        weekday: 'long' }) %>,
+                                                        <%= new Date(vote.created).toLocaleString('en-GB', {
+                                                            month: 'short' , day: 'numeric' , hour: 'numeric' ,
+                                                            minute: 'numeric' , hour12: true }) %>
                                                 </td>
                                                 <td>
                                                     <% if (vote.verified==1) { %>
@@ -134,6 +136,9 @@
                         </div>
                         <!-- Manage User Tab -->
                         <div class='tab-pane fade' id='manageUser' role='tabpanel' aria-labelledby='manage-tab'>
+                            <div class="d-flex align-items-center mb-3 mt-3 gap-2">
+                                <input type="text" id="searchInput" placeholder="Search user..." class="form-control" />
+                            </div>
                             <div class='table-responsive rounded-3'>
                                 <table class='table align-middle'>
                                     <thead class='table-dark'>

@@ -43,7 +43,7 @@ app.use('/', routes);
 app.use((req, res) => {
   const userId = req.session.user?.id || 'Guest';
   console.warn(`⚠️  404 Not Found: ${req.originalUrl} | User ID: ${userId}`);
-  logToFile(`⚠️  404 Not Found: ${req.originalUrl} | User ID: ${userId}`);
+  // logToFile(`⚠️  404 Not Found: ${req.originalUrl} | User ID: ${userId}`);
   res.status(404).render('error', { message: '404: Page Not Found' });
 });
 
