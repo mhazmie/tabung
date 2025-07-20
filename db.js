@@ -9,7 +9,6 @@ const connection = mysql.createPool({
   database: process.env.DB_NAME || 'your_database_name',
   charset: 'utf8mb4',
   multipleStatements: false,
-  timezone: '+08:00'
 });
 
 connection.getConnection((err, conn) => {
