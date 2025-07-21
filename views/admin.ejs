@@ -23,10 +23,10 @@
                             <button class='nav-link' id='notice-tab' data-bs-toggle='tab' data-bs-target='#addNotice'
                                 type='button' role='tab'>Update Notice</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        <!-- <li class="nav-item" role="presentation">
                             <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs"
                                 type="button" role="tab">Logs</button>
-                        </li>
+                        </li> -->
                     </ul>
                     <!-- Tabs Content -->
                     <div class='tab-content' id='userTabsContent'>
@@ -90,6 +90,7 @@
                                 </table>
                             </div>
                         </div>
+
                         <!-- Add User Tab -->
                         <div class='tab-pane fade' id='addUser' role='tabpanel' aria-labelledby='add-tab'>
                             <form method='POST' action='/addusers' class='row g-3 mt-2'>
@@ -134,10 +135,11 @@
                                 </div>
                             </form>
                         </div>
+
                         <!-- Manage User Tab -->
                         <div class='tab-pane fade' id='manageUser' role='tabpanel' aria-labelledby='manage-tab'>
                             <div class="d-flex align-items-center mb-3 mt-3 gap-2">
-                                <input type="text" id="searchInput" placeholder="Search user..." class="form-control" />
+                                <input type="text" class="form-control search-input" placeholder="Search user..." />
                             </div>
                             <div class='table-responsive rounded-3'>
                                 <table class='table align-middle'>
@@ -169,6 +171,7 @@
                             </div>
                             <%- include('partials/edit_users') %>
                         </div>
+
                         <!-- Add Notice Tab -->
                         <div class='tab-pane fade' id='addNotice' role='tabpanel' aria-labelledby='notice-tab'>
                             <form method='POST' action='/addnotice' class='row g-3 mt-3'>
@@ -215,8 +218,9 @@
                                 </div>
                             </form>
                         </div>
+
                         <!-- View Logs Tab -->
-                        <div class='tab-pane fade' id='logs' role='tabpanel' aria-labelledby='logs-tab'>
+                        <!-- <div class='tab-pane fade' id='logs' role='tabpanel' aria-labelledby='logs-tab'>
                             <div class="d-flex align-items-center mb-3 mt-3 gap-2">
                                 <input type="text" id="searchInput" placeholder="Search logs..." class="form-control" />
                                 <input type="date" id="logDateFilter" class="form-control" />
@@ -229,9 +233,8 @@
                                     </li>
                                     <% }) %>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                 </main>
-                <script src='/js/logs_search.js'></script>
-                <script src='/js/data_confirm.js'></script>
+                <script src='/js/search.js'></script>
     </body>
