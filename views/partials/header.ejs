@@ -11,9 +11,6 @@
         <% if (user) { %>
           <li class='nav-item'>
             <a class='nav-link' href='/dashboard'>Dashboard</a>
-          <li class='nav-item'>
-            <a class='nav-link' href='/vote'>Vote</a>
-          </li>
           </li>
           <% if (user.role===1 || user.role===2) { %>
             <li class='nav-item'>
