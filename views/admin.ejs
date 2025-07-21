@@ -23,10 +23,10 @@
                             <button class='nav-link' id='notice-tab' data-bs-toggle='tab' data-bs-target='#addNotice'
                                 type='button' role='tab'>Update Notice</button>
                         </li>
-                        <!-- <li class="nav-item" role="presentation">
+                        <li class="nav-item" role="presentation">
                             <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs"
                                 type="button" role="tab">Logs</button>
-                        </li> -->
+                        </li>
                     </ul>
                     <!-- Tabs Content -->
                     <div class='tab-content' id='userTabsContent'>
@@ -39,7 +39,7 @@
                                 </form>
                             </div>
                             <div class='table-responsive rounded-3'>
-                                <table class='table'>
+                                <table class='table table-hover table-sm align-middle'>
                                     <thead class='table-dark'>
                                         <tr>
                                             <th>Name</th>
@@ -142,7 +142,7 @@
                                 <input type="text" class="form-control search-input" placeholder="Search user..." />
                             </div>
                             <div class='table-responsive rounded-3'>
-                                <table class='table align-middle'>
+                                <table class='table table-hover table-sm align-middle'>
                                     <thead class='table-dark'>
                                         <tr>
                                             <th>Username</th>
@@ -220,21 +220,41 @@
                         </div>
 
                         <!-- View Logs Tab -->
-                        <!-- <div class='tab-pane fade' id='logs' role='tabpanel' aria-labelledby='logs-tab'>
+                        <div class='tab-pane fade' id='logs' role='tabpanel' aria-labelledby='logs-tab'>
                             <div class="d-flex align-items-center mb-3 mt-3 gap-2">
-                                <input type="text" id="searchInput" placeholder="Search logs..." class="form-control" />
-                                <input type="date" id="logDateFilter" class="form-control" />
+                                <input type='text' class='form-control search-input' placeholder='Search...'>
+                                <input type='date' class='form-control date-filter' />
                             </div>
 
-                            <ul class="list-group small" id="logList">
-                                <% logs.forEach(log=> { %>
-                                    <li class="list-group-item font-monospace" data-raw="<%= log.raw %>">
-                                        <%= log.formatted %>
-                                    </li>
-                                    <% }) %>
-                            </ul>
-                        </div> -->
+                            <div class="table-responsive rounded-3">
+                                <table class="table table-hover table-sm align-middle">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Message</th>
+                                            <th>Timestamp</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-dark">
+                                        <% logs.forEach(log=> {
+                                            const [timestamp, ...msgParts] = log.raw.split(' ');
+                                            const logDate = timestamp.slice(0, 10); // e.g. 2025-07-20
+                                            const msg = msgParts.join(' ');
+                                            %>
+                                            <tr data-raw="<%= log.raw.toLowerCase() %>" data-date="<%= logDate %>">
+                                                <td>
+                                                    <%= log.formatted.split(' — ')[1] %>
+                                                </td>
+                                                <td>
+                                                    <%= log.formatted.split(' — ')[0] %>
+                                                </td>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </main>
-                <script src='/js/search.js'></script>
+                <script src=' /js/search.js'>
+                </script>
     </body>

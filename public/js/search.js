@@ -8,11 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const searchInput = pane.querySelector('.search-input');
         const dateFilter = pane.querySelector('.date-filter');
 
-        // Set default value to today
-        // if (dateFilter) {
-        //     dateFilter.value = today;
-        // }
-
         function applyFilter() {
             const keyword = searchInput?.value.toLowerCase() || '';
             const selectedDate = dateFilter?.value || '';
