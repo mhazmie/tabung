@@ -2,7 +2,6 @@ const util = require('util');
 const connection = require('../db');
 const query = util.promisify(connection.query).bind(connection);
 const { logToFile } = require('../logs/logger');
-const { log } = require('console');
 
 module.exports = {
     // Authentication & Users
