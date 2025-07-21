@@ -118,7 +118,8 @@ router.get('/admin', isAuthenticated, isAdmin, async (req, res) => {
             const today = new Date().toISOString().slice(0, 10);
             logs = raw
                 .split('\n')
-                .filter(line => line.startsWith(today))
+                // .filter(line => line.startsWith(today))
+                .filter(line => line.trim() !== '')
                 .map(line => {
                     const match = line.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z)\s+(.*)$/);
                     if (match) {
