@@ -31,14 +31,14 @@
       <ul class='navbar-nav ms-auto'>
         <% if (user) { %>
           <li class='nav-item dropdown'>
-            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button"
-              data-bs-toggle="dropdown">
+            <a class="nav-link dropdown-toggle d-flex flex-column flex-sm-row align-items-center text-center text-sm-start gap-1 gap-sm-2"
+              href="#" role="button" data-bs-toggle="dropdown">
               <span>
                 <%= user.username %>
               </span>
               <% if (user.profile_picture) { %>
-                <img src="/uploads/profile/<%= user.profile_picture %>" alt="Profile" width="36" height="36"
-                  class="rounded-circle bg-light">
+                <img src="/uploads/profile/<%= user.profile_picture %>" alt="Profile" class="rounded-circle bg-light"
+                  style="width: 32px; height: 32px;">
                 <% } %>
             </a>
             <ul class='dropdown-menu dropdown-menu-end' aria-labelledby='userDropdown'>
