@@ -3,3 +3,7 @@
 
 # Ignore all log files in the logs folder
 logs/*.log
+
+# Ignore user-uploaded profile pictures except default.png
+public/uploads/profile/*
+!public/uploads/profile/default.png
