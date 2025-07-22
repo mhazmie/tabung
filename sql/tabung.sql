@@ -11,6 +11,7 @@ CREATE TABLE users (
 users_id INT AUTO_INCREMENT PRIMARY KEY,
 username VARCHAR(255) UNIQUE NOT NULL,
 nickname VARCHAR(255) UNIQUE NOT NULL,
+profile_picture VARCHAR(255) DEFAULT 'default.png',
 password VARCHAR(255) NOT NULL,
 roles_id INT NOT NULL,
 created TIMESTAMP DEFAULT NOW(),

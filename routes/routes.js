@@ -7,6 +7,7 @@ const { body, validationResult } = require('express-validator');
 const db = require('../models/queries');
 const { isAuthenticated, isAdmin } = require('../middleware/auth');
 const { logToFile } = require('../logs/logger');
+const upload = require('../middleware/upload');
 
 const errorm = 'Error 400 : Unable to fetch data';
 const erroru = 'Error 402 : Update failed';
@@ -198,7 +199,8 @@ router.post('/login',
             req.session.user = {
                 id: user.users_id,
                 username: user.username,
-                role: user.roles_id
+                role: user.roles_id,
+                profile_picture: user.profile_picture
             };
             req.session.error = ['successlogin'];
             return res.redirect('/');
@@ -321,31 +323,30 @@ router.post('/addusers',
     }
 );
 
-router.post('/users/edit/:id',
-    body('username').notEmpty(),
-    body('nickname').notEmpty(),
-    async (req, res) => {
-        const adminId = req.session.user?.id;
-        const { username, nickname, password, roles_id, users_id } = req.body;
-        try {
-            if (password) {
-                const hashedPassword = await bcrypt.hash(password, 10);
-                await db.updateUserWithPassword([username, nickname, hashedPassword, roles_id, users_id], adminId);
-            } else {
-                await db.updateUserWithoutPassword([username, nickname, roles_id, users_id], adminId);
-            }
-            console.info(`[EDIT USER] User ${users_id} updated by admin ${adminId}`);
-            logToFile(`[EDIT USER] User ${users_id} updated by admin ${adminId}`);
-            req.session.error = ['usereditsuccess'];
-            return res.redirect('/admin');
-        } catch (err) {
-            console.error(`[EDIT USER] Failed to update user ${users_id} (admin ${adminId}):`, err);
-            logToFile(`[EDIT USER] Failed to update user ${users_id} (admin ${adminId}):`, err);
-            req.session.error = ['usereditfail'];
-            return res.redirect('/admin');
+router.post('/admin/user/update', upload.single('profile_picture'), async (req, res) => {
+    const { username, nickname, password, roles_id, users_id } = req.body;
+    const profile_picture = req.file ? req.file.filename : null;
+    const currentUserId = req.session.user?.id;
+    try {
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const data = [username, nickname, hashedPassword, roles_id, users_id];
+            await db.updateUserWithPassword(data, currentUserId, profile_picture);
+        } else {
+            const data = [username, nickname, roles_id, users_id];
+            await db.updateUserWithoutPassword(data, currentUserId, profile_picture);
         }
+        if (profile_picture && req.session.user.id == parseInt(users_id)) {
+            req.session.user.profile_picture = profile_picture;
+        }
+        req.session.error = ['userupdatesuccess'];
+        res.redirect('/admin');
+    } catch (err) {
+        console.error('[ADMIN USER UPDATE]', err);
+        req.session.error = ['userupdatefail'];
+        res.redirect('/admin');
     }
-);
+});
 
 router.post('/addnotice',
     body('notice_location').notEmpty(),

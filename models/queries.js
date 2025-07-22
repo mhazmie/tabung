@@ -25,15 +25,33 @@ module.exports = {
         logToFile(`[DB] [User ${userId}] Inserting new user: ${user.username}`);
         return query('INSERT INTO users SET ?', user);
     },
-    updateUserWithPassword: async (data, userId) => {
-        console.info(`[DB] [User ${userId}] Updating user ${data[4]} (with password)`);
-        logToFile(`[DB] [User ${userId}] Updating user ${data[4]} (with password)`);
-        return query('UPDATE users SET username = ?, nickname = ?, password = ?, roles_id = ? WHERE users_id = ?', data);
+    updateUserWithPassword: async (data, userId, profile_picture = null) => {
+        const [username, nickname, password, roles_id, users_id] = data;
+        let sql = 'UPDATE users SET username = ?, nickname = ?, password = ?, roles_id = ?';
+        const params = [username, nickname, password, roles_id];
+        if (profile_picture) {
+            sql += ', profile_picture = ?';
+            params.push(profile_picture);
+        }
+        sql += ' WHERE users_id = ?';
+        params.push(users_id);
+        console.info(`[DB] [User ${userId}] Updating user ${users_id} (with password)`);
+        logToFile(`[DB] [User ${userId}] Updating user ${users_id} (with password)`);
+        return query(sql, params);
     },
-    updateUserWithoutPassword: async (data, userId) => {
-        console.info(`[DB] [User ${userId}] Updating user ${data[3]} (without password)`);
-        logToFile(`[DB] [User ${userId}] Updating user ${data[3]} (without password)`);
-        return query('UPDATE users SET username = ?, nickname = ?, roles_id = ? WHERE users_id = ?', data);
+    updateUserWithoutPassword: async (data, userId, profile_picture = null) => {
+        const [username, nickname, roles_id, users_id] = data;
+        let sql = 'UPDATE users SET username = ?, nickname = ?, roles_id = ?';
+        const params = [username, nickname, roles_id];
+        if (profile_picture) {
+            sql += ', profile_picture = ?';
+            params.push(profile_picture);
+        }
+        sql += ' WHERE users_id = ?';
+        params.push(users_id);
+        console.info(`[DB] [User ${userId}] Updating user ${users_id} (without password)`);
+        logToFile(`[DB] [User ${userId}] Updating user ${users_id} (without password)`);
+        return query(sql, params);
     },
 
     // Monthly Contributions

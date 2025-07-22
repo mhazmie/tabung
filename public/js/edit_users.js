@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('edit-nickname').value = data.nickname;
                 document.getElementById('edit-password').value = '';
                 document.getElementById('edit-role').value = data.roles_id;
-                document.getElementById('editform').action = `/users/edit/${data.users_id}`;
+                document.getElementById('editform').action = `/admin/user/update`;
 
                 // Display the modal
                 const modal = new bootstrap.Modal(document.getElementById('editUserModal'));
