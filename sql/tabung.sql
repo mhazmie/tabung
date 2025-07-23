@@ -126,6 +126,7 @@ CREATE VIEW user_report AS
 SELECT 
 users.username,
 users.nickname,
+users.profile_picture,
 months.month_name,
 monthly.monthly_amount,
 monthly.monthly_receipt,

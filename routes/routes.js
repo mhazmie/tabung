@@ -339,11 +339,11 @@ router.post('/admin/user/update', upload.single('profile_picture'), async (req, 
         if (profile_picture && req.session.user.id == parseInt(users_id)) {
             req.session.user.profile_picture = profile_picture;
         }
-        req.session.error = ['userupdatesuccess'];
+        req.session.error = ['usereditsuccess'];
         res.redirect('/admin');
     } catch (err) {
         console.error('[ADMIN USER UPDATE]', err);
-        req.session.error = ['userupdatefail'];
+        req.session.error = ['usereditfail'];
         res.redirect('/admin');
     }
 });
