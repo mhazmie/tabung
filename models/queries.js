@@ -53,6 +53,34 @@ module.exports = {
         logToFile(`[DB] [User ${userId}] Updating user ${users_id} (without password)`);
         return query(sql, params);
     },
+    updateProfileWithPassword: async (data, profile_picture = null) => {
+        const [nickname, password, users_id] = data;
+        let sql = 'UPDATE users SET nickname = ?, password = ?';
+        const params = [nickname, password];
+        if (profile_picture) {
+            sql += ', profile_picture = ?';
+            params.push(profile_picture);
+        }
+        sql += ' WHERE users_id = ?';
+        params.push(users_id);
+        console.info(`[DB] [User ${users_id}] Updating own profile (with password)`);
+        logToFile(`[DB] [User ${users_id}] Updating own profile (with password)`);
+        return query(sql, params);
+    },
+    updateProfileWithoutPassword: async (data, profile_picture = null) => {
+        const [nickname, users_id] = data;
+        let sql = 'UPDATE users SET nickname = ?';
+        const params = [nickname];
+        if (profile_picture) {
+            sql += ', profile_picture = ?';
+            params.push(profile_picture);
+        }
+        sql += ' WHERE users_id = ?';
+        params.push(users_id);
+        console.info(`[DB] [User ${users_id}] Updating own profile (without password)`);
+        logToFile(`[DB] [User ${users_id}] Updating own profile (without password)`);
+        return query(sql, params);
+    },
 
     // Monthly Contributions
     getAllMonths: async () => {

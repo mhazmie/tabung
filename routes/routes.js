@@ -199,6 +199,7 @@ router.post('/login',
             req.session.user = {
                 id: user.users_id,
                 username: user.username,
+                nickname: user.nickname,
                 role: user.roles_id,
                 profile_picture: user.profile_picture
             };
@@ -336,8 +337,9 @@ router.post('/admin/user/update', upload.single('profile_picture'), async (req, 
             const data = [username, nickname, roles_id, users_id];
             await db.updateUserWithoutPassword(data, currentUserId, profile_picture);
         }
-        if (profile_picture && req.session.user.id == parseInt(users_id)) {
-            req.session.user.profile_picture = profile_picture;
+        if (parseInt(users_id) === req.session.user.id) {
+            if (nickname) req.session.user.nickname = nickname;
+            if (profile_picture) req.session.user.profile_picture = profile_picture;
         }
         req.session.error = ['usereditsuccess'];
         res.redirect('/admin');
@@ -345,6 +347,28 @@ router.post('/admin/user/update', upload.single('profile_picture'), async (req, 
         console.error('[ADMIN USER UPDATE]', err);
         req.session.error = ['usereditfail'];
         res.redirect('/admin');
+    }
+});
+
+router.post('/user/profile/update', upload.single('profile_picture'), async (req, res) => {
+    const { nickname, password } = req.body;
+    const userId = req.session.user?.id;
+    const profile_picture = req.file ? req.file.filename : null;
+    try {
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            await db.updateProfileWithPassword([nickname, hashedPassword, userId], profile_picture);
+        } else {
+            await db.updateProfileWithoutPassword([nickname, userId], profile_picture);
+        }
+        if (nickname) req.session.user.nickname = nickname;
+        if (profile_picture) req.session.user.profile_picture = profile_picture;
+        req.session.error = ['profileeditsuccess'];
+        res.redirect('/');
+    } catch (err) {
+        console.error('[USER PROFILE UPDATE]', err);
+        req.session.error = ['profileeditfail'];
+        res.redirect('/');
     }
 });
 
