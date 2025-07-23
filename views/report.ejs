@@ -33,6 +33,7 @@
               <table class='table table-hover align-middle'>
                 <thead class='table-dark'>
                   <tr>
+                    <th></th>
                     <th>Name</th>
                     <th>Nickname</th>
                     <th>Month</th>
@@ -44,6 +45,10 @@
                 <tbody class='table-dark'>
                   <% user_report.forEach(user=> { %>
                     <tr data-date="<%= new Date(user.created).toISOString().slice(0, 10) %>">
+                      <td>
+                        <img src="/uploads/profile/<%= user.profile_picture %>" alt="Profile" width="36" height="36"
+                          class="rounded-circle bg-light">
+                      </td>
                       <td>
                         <%= user.username %>
                       </td>
