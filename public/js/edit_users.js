@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Populate modal form fields
                 document.getElementById('edit-id').value = data.users_id;
                 document.getElementById('edit-username').value = data.username;
-                document.getElementById('edit-nickname').value = data.nickname;
+                document.getElementById('admin-edit-nickname').value = data.nickname;
                 document.getElementById('edit-password').value = '';
                 document.getElementById('edit-role').value = data.roles_id;
                 document.getElementById('editform').action = `/admin/user/update`;

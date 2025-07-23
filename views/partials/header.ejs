@@ -34,7 +34,7 @@
             <a class="nav-link dropdown-toggle d-flex justify-content-center justify-content-lg-end align-items-center gap-2"
               href="#" role="button" data-bs-toggle="dropdown">
               <span>
-                <%= user.username %>
+                <%= user.nickname %>
               </span>
               <% if (user.profile_picture) { %>
                 <img src="/uploads/profile/<%= user.profile_picture %>" alt="Profile" width="36" height="36"
@@ -42,6 +42,9 @@
                 <% } %>
             </a>
             <ul class='dropdown-menu dropdown-menu-end' aria-labelledby='userDropdown'>
+              <li>
+                <a class="dropdown-item" href="#" id="openEditProfileModal">Edit Profile</a>
+              </li>
               <li>
                 <form method='GET' action='/logout' class='dropdown-item m-0 p-0'>
                   <button type='submit' class='dropdown-item'>Logout</button>
@@ -57,4 +60,5 @@
       </ul>
     </div>
   </nav>
+  <%- include('edit_profile') %>
 </header>
