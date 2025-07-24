@@ -1,4 +1,4 @@
-const { logToFile } = require("../logs/logger");
+const { logToFile } = require('../logs/logger');
 
 const errorr = 'Error 403 : Access denied';
 

@@ -1,42 +1,42 @@
-<div class="modal fade" id="voteModal" tabindex="-1" aria-labelledby="voteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark text-white">
-            <form method="POST" action="/vote">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title" id="voteModalLabel">Lesgoo minton</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+<div class='modal fade' id='voteModal' tabindex='-1' aria-labelledby='voteModalLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-centered'>
+        <div class='modal-content bg-dark text-white'>
+            <form method='POST' action='/vote'>
+                <div class='modal-header border-0'>
+                    <h5 class='modal-title' id='voteModalLabel'>Lesgoo minton</h5>
+                    <button type='button' class='btn-close btn-close-white' data-bs-dismiss='modal'
+                        aria-label='Close'></button>
                 </div>
 
-                <div class="modal-body">
+                <div class='modal-body'>
                     <% if (user) { %>
                         <p>You're voting as <strong>
                                 <%= user.nickname %>
                             </strong>.</p>
-                        <input type="hidden" name="users_id" value="<%= user.id %>">
+                        <input type='hidden' name='users_id' value='<%= user.id %>'>
                         <% } else { %>
-                            <p class="mb-3">You're not logged in.</p>
+                            <p class='mb-3'>You're not logged in.</p>
 
-                            <div class="d-grid gap-2 mb-3">
-                                <a href="/login" class="btn btn-outline-primary">Log in to Vote</a>
+                            <div class='d-grid gap-2 mb-3'>
+                                <a href='/login' class='btn btn-outline-primary'>Log in to Vote</a>
                             </div>
 
-                            <div class="text-center">
-                                <hr class="text-light">
-                                <span class="bg-dark px-2 text-secondary small"
-                                    style="position: relative; top: -22px;">or vote as guest</span>
+                            <div class='text-center'>
+                                <hr class='text-light'>
+                                <span class='bg-dark px-2 text-secondary small'
+                                    style='position: relative; top: -22px;'>or vote as guest</span>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="guest_name" class="form-label">Your Name</label>
-                                <input type="text" name="guest_name" class="form-control" id="guest_name" required>
+                            <div class='mb-3'>
+                                <label for='guest_name' class='form-label'>Your Name</label>
+                                <input type='text' name='guest_name' class='form-control' id='guest_name' required>
                             </div>
                             <% } %>
                 </div>
 
-                <div class="modal-footer border-0">
-                    <button type="submit" class="btn btn-primary">Confirm</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <div class='modal-footer border-0'>
+                    <button type='submit' class='btn btn-primary'>Confirm</button>
+                    <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancel</button>
                 </div>
             </form>
         </div>

@@ -23,9 +23,9 @@
                             <button class='nav-link' id='notice-tab' data-bs-toggle='tab' data-bs-target='#addNotice'
                                 type='button' role='tab'>Update Notice</button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs"
-                                type="button" role="tab">Logs</button>
+                        <li class='nav-item' role='presentation'>
+                            <button class='nav-link' id='logs-tab' data-bs-toggle='tab' data-bs-target='#logs'
+                                type='button' role='tab'>Logs</button>
                         </li>
                     </ul>
                     <!-- Tabs Content -->
@@ -33,7 +33,7 @@
 
                         <!-- Votes Tab -->
                         <div class='tab-pane fade show active' id='votes' role='tabpanel' aria-labelledby='votes-tab'>
-                            <div class="d-flex justify-content-center gap-3 flex-wrap my-2">
+                            <div class='d-flex justify-content-center gap-3 flex-wrap my-2'>
                                 <h5 class='mb-0 pt-1'>Current Join List</h5>
                                 <form method='POST' action='/admin/votes/clear'>
                                     <button type='submit' class='btn btn-sm btn-danger'>Clear All</button>
@@ -43,17 +43,31 @@
                                 <table class='table table-hover table-sm align-middle'>
                                     <thead class='table-dark'>
                                         <tr>
+                                            <th></th>
                                             <th>Name</th>
+                                            <th>Type</th>
                                             <th>Joined At</th>
                                             <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="table-dark">
+                                    <tbody class='table-dark'>
                                         <% votes.forEach(vote=> { %>
                                             <tr>
                                                 <td>
+                                                    <img src='/uploads/profile/<%= vote.profile_picture || "default.png" %>'
+                                                        alt='Profile' class='rounded-circle bg-light' width='32'
+                                                        height='32' style='object-fit: cover;' />
+                                                </td>
+                                                <td>
                                                     <%= vote.vote_name %>
+                                                </td>
+                                                <td>
+                                                    <% if (vote.users_id) { %>
+                                                        <span class='badge bg-success ms-2'>User</span>
+                                                        <% } else { %>
+                                                            <span class='badge bg-secondary ms-2'>Guest</span>
+                                                            <% } %>
                                                 </td>
                                                 <td>
                                                     <%= new Date(notice.notice_datetime).toLocaleString('en-GB', {
@@ -70,18 +84,18 @@
                                                             <% } %>
                                                 </td>
                                                 <td>
-                                                    <div class="d-flex justify-content-center gap-2">
+                                                    <div class='d-flex justify-content-center gap-2'>
                                                         <% if (vote.verified !=1) { %>
-                                                            <form method="POST"
-                                                                action="/admin/votes/verify/<%= vote.vote_id %>">
-                                                                <button type="submit"
-                                                                    class="btn btn-sm btn-success">Verify</button>
+                                                            <form method='POST'
+                                                                action='/admin/votes/verify/<%= vote.vote_id %>'>
+                                                                <button type='submit'
+                                                                    class='btn btn-sm btn-success'>Verify</button>
                                                             </form>
                                                             <% } %>
-                                                                <form method="POST"
-                                                                    action="/admin/votes/delete/<%= vote.vote_id %>">
-                                                                    <button type="submit"
-                                                                        class="btn btn-sm btn-outline-danger">Delete</button>
+                                                                <form method='POST'
+                                                                    action='/admin/votes/delete/<%= vote.vote_id %>'>
+                                                                    <button type='submit'
+                                                                        class='btn btn-sm btn-outline-danger'>Delete</button>
                                                                 </form>
                                                     </div>
                                                 </td>
@@ -139,9 +153,9 @@
 
                         <!-- Manage User Tab -->
                         <div class='tab-pane fade' id='manageUser' role='tabpanel' aria-labelledby='manage-tab'>
-                            <div class="d-flex align-items-center mb-3 mt-3 gap-2">
-                                <input type="text" class="form-control search-input" placeholder="Search user..." />
-                                <button type="button" class="btn btn-secondary clear-filters">Clear</button>
+                            <div class='d-flex align-items-center mb-3 mt-3 gap-2'>
+                                <input type='text' class='form-control search-input' placeholder='Search user...' />
+                                <button type='button' class='btn btn-secondary clear-filters'>Clear</button>
                             </div>
                             <div class='table-responsive rounded-3'>
                                 <table class='table table-hover table-sm align-middle'>
@@ -157,9 +171,9 @@
                                         <% users.forEach(user=> { %>
                                             <tr>
                                                 <td>
-                                                    <img src="/uploads/profile/<%= user.profile_picture %>"
-                                                        alt="Profile" width="36" height="36"
-                                                        class="rounded-circle bg-light">
+                                                    <img src='/uploads/profile/<%= user.profile_picture %>'
+                                                        alt='Profile' width='36' height='36'
+                                                        class='rounded-circle bg-light'>
                                                 </td>
                                                 <td>
                                                     <%= user.username %>
@@ -229,26 +243,26 @@
 
                         <!-- View Logs Tab -->
                         <div class='tab-pane fade' id='logs' role='tabpanel' aria-labelledby='logs-tab'>
-                            <div class="d-flex align-items-center mb-3 mt-3 gap-2">
+                            <div class='d-flex align-items-center mb-3 mt-3 gap-2'>
                                 <input type='text' class='form-control search-input' placeholder='Search...'>
                                 <input type='date' class='form-control date-filter' />
-                                <button type="button" class="btn btn-secondary clear-filters">Clear</button>
+                                <button type='button' class='btn btn-secondary clear-filters'>Clear</button>
                             </div>
-                            <div class="table-responsive rounded-3">
-                                <table class="table table-hover table-sm align-middle">
-                                    <thead class="table-dark">
+                            <div class='table-responsive rounded-3'>
+                                <table class='table table-hover table-sm align-middle'>
+                                    <thead class='table-dark'>
                                         <tr>
                                             <th>Message</th>
                                             <th>Timestamp</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="table-dark">
+                                    <tbody class='table-dark'>
                                         <% logs.forEach(log=> {
                                             const [timestamp, ...msgParts] = log.raw.split(' ');
                                             const logDate = timestamp.slice(0, 10); // e.g. 2025-07-20
                                             const msg = msgParts.join(' ');
                                             %>
-                                            <tr data-raw="<%= log.raw.toLowerCase() %>" data-date="<%= logDate %>">
+                                            <tr data-raw='<%= log.raw.toLowerCase() %>' data-date='<%= logDate %>'>
                                                 <td>
                                                     <%= log.formatted.split(' — ')[1] %>
                                                 </td>

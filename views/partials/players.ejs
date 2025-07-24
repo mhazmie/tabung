@@ -1,38 +1,38 @@
-<div class="modal fade" id="playersModal" tabindex="-1" aria-labelledby="playersModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
-        <div class="modal-content bg-dark text-white">
-            <div class="modal-header">
-                <h5 class="modal-title" id="playersModalLabel">Joined Players</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+<div class='modal fade' id='playersModal' tabindex='-1' aria-labelledby='playersModalLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered'>
+        <div class='modal-content bg-dark text-white'>
+            <div class='modal-header'>
+                <h5 class='modal-title' id='playersModalLabel'>Joined Players</h5>
+                <button type='button' class='btn-close btn-close-white' data-bs-dismiss='modal'
+                    aria-label='Close'></button>
             </div>
 
-            <div class="modal-body">
+            <div class='modal-body'>
                 <% if (voters.length> 0) { %>
-                    <table class="table table-sm table-dark table-bordered align-middle mb-0 table-hover">
+                    <table class='table table-sm table-dark table-bordered align-middle mb-0 table-hover'>
                         <thead>
                             <tr>
-                                <th scope="col"></th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Type</th>
+                                <th scope='col'></th>
+                                <th scope='col'>Name</th>
+                                <th scope='col'>Type</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% voters.forEach((voter, index)=> { %>
                                 <tr>
                                     <td>
-                                        <img src="/uploads/profile/<%= voter.profile_picture || 'default.png' %>"
-                                            alt="Profile" class="rounded-circle bg-light" width="32" height="32"
-                                            style="object-fit: cover;" />
+                                        <img src='/uploads/profile/<%= voter.profile_picture || "default.png" %>'
+                                            alt='Profile' class='rounded-circle bg-light' width='32' height='32'
+                                            style='object-fit: cover;' />
                                     </td>
                                     <td>
                                         <%= voter.vote_name %>
                                     </td>
                                     <td>
                                         <% if (voter.users_id) { %>
-                                            <span class="badge bg-success">User</span>
+                                            <span class='badge bg-success'>User</span>
                                             <% } else { %>
-                                                <span class="badge bg-secondary">Guest</span>
+                                                <span class='badge bg-secondary'>Guest</span>
                                                 <% } %>
                                     </td>
                                 </tr>
@@ -44,8 +44,8 @@
                         <% } %>
             </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+            <div class='modal-footer'>
+                <button type='button' class='btn btn-outline-light' data-bs-dismiss='modal'>Close</button>
             </div>
         </div>
     </div>
