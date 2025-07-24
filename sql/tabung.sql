@@ -61,9 +61,11 @@ CREATE TABLE notice (
 
 CREATE TABLE votes (
   vote_id INT AUTO_INCREMENT PRIMARY KEY,
+  users_id INT DEFAULT NULL,
   vote_name VARCHAR(255) NOT NULL,
   created TIMESTAMP DEFAULT NOW(),
-  verified TINYINT DEFAULT 0
+  verified TINYINT DEFAULT 0,
+  ADD FOREIGN KEY (users_id) REFERENCES users(users_id)
 );
 
 INSERT INTO months(month_name) 

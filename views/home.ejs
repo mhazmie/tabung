@@ -38,25 +38,16 @@
                 <div class='col-7 text-start'>
                   <% if (votecount> 0) { %>
                     <%= votecount %> Player(s)
-                      <button class="btn btn-sm btn-outline-light ms-2" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#voteList" aria-expanded="false" aria-controls="voteList">
+                      <button class="btn btn-sm btn-outline-light ms-2" type="button" data-bs-toggle="modal"
+                        data-bs-target="#playersModal">
                         Show
                       </button>
 
-                      <div class="collapse mt-2" id="voteList">
-                        <div class="card card-body bg-secondary text-white p-2">
-                          <ul class="mb-0 ps-3">
-                            <% voters.forEach(voter=> { %>
-                              <li>
-                                <%= voter.vote_name %>
-                              </li>
-                              <% }) %>
-                          </ul>
-                        </div>
-                      </div>
-                      <% } else { %>
-                        <em>No players joined yet</em>
-                        <% } %>
+                      <%- include('partials/players') %>
+
+                        <% } else { %>
+                          <em>No players joined yet</em>
+                          <% } %>
                 </div>
               </div>
 
@@ -73,8 +64,11 @@
               </div>
 
               <div class="text-center mt-4">
-                <a href="/vote" class="btn btn-outline-light">Vote to Join</a>
+                <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#voteModal">
+                  Vote to Join
+                </button>
               </div>
+              <%- include('partials/vote') %>
             </div>
           </div>
         </main>
