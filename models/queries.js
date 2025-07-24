@@ -165,9 +165,6 @@ module.exports = {
     },
 
     // Votes
-    insertVote: async (name) => {
-        return query('INSERT INTO votes (vote_name) VALUES (?)', [name]);
-    },
     getAllVotes: async () => {
         return query('SELECT * FROM votes ORDER BY created DESC');
     },
@@ -180,12 +177,31 @@ module.exports = {
     getVoteCount: async () => {
         return query('SELECT COUNT(*) AS total FROM votes WHERE verified = 1');
     },
-    getVoteNames: async () => {
-        return query('SELECT vote_name FROM votes WHERE verified = 1');
-    },
     verifyVote: async (voteId) => {
         console.info(`[DB] Verifying vote with ID: ${voteId}`);
         logToFile(`[DB] Verifying vote with ID: ${voteId}`);
         return query('UPDATE votes SET verified = 1 WHERE vote_id = ?', [voteId]);
+    },
+    insertRegisteredVote: async (nickname, users_id) => {
+        return query('INSERT INTO votes (vote_name, users_id, verified) VALUES (?, ?, 1)', [nickname, users_id]);
+    },
+    insertGuestVote: async (name) => {
+        return query('INSERT INTO votes (vote_name) VALUES (?)', [name]);
+    },
+    checkDuplicateVote: async (users_id) => {
+        return query('SELECT * FROM votes WHERE users_id = ?', [users_id]);
+    },
+    getDetailedVotes: async () => {
+        return query(`
+        SELECT 
+            votes.vote_name,
+            votes.users_id,
+            users.nickname,
+            users.profile_picture
+        FROM votes
+        LEFT JOIN users ON votes.users_id = users.users_id
+        WHERE votes.verified = 1
+        ORDER BY votes.created DESC
+    `);
     }
 };

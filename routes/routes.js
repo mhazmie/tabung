@@ -24,11 +24,11 @@ router.get('/', async (req, res) => {
     try {
         const notice = await db.getNotice();
         const votecount = await db.getVoteCount();
-        const voters = await db.getVoteNames();
+        const detailedVoters = await db.getDetailedVotes();
         res.render('home', {
             notice: notice[0] || {},
             votecount: votecount[0]?.total || 0,
-            voters: voters || [],
+            voters: detailedVoters || [],
             error: errors,
         });
     } catch (err) {
@@ -38,9 +38,14 @@ router.get('/', async (req, res) => {
     }
 });
 
-
-router.get('/vote', (req, res) => {
-    res.render('vote');
+router.get('/vote', async (req, res) => {
+    try {
+        const users = await db.getAllUsers();
+        res.render('vote', { users });
+    } catch (err) {
+        console.error('[VOTE PAGE]', err);
+        res.redirect('/');
+    }
 });
 
 router.get('/dashboard', isAuthenticated, async (req, res) => {
@@ -214,17 +219,31 @@ router.post('/login',
 );
 
 router.post('/vote', async (req, res) => {
-    const { name } = req.body;
+    const { users_id, guest_name } = req.body;
     try {
-        await db.insertVote(name.trim());
-        req.session.error = ['votesuccess', 'votenotify'];
-        console.info(`[VOTE] User voted for: ${name}`);
-        logToFile(`[VOTE] User voted for: ${name}`);
+        if (users_id) {
+            const user = await db.getUserById(users_id);
+            if (!user || !user[0]?.nickname) throw new Error('User not found or missing nickname');
+            const nickname = user[0].nickname;
+            const existing = await db.checkDuplicateVote(users_id);
+            if (existing.length > 0) {
+                req.session.error = ['voteduplicate'];
+                return res.redirect('/');
+            }
+            await db.insertRegisteredVote(nickname, users_id);
+            req.session.error = ['votesuccess'];
+            logToFile(`[VOTE] Registered user ${nickname} (ID: ${users_id}) voted`);
+        } else if (guest_name?.trim()) {
+            await db.insertGuestVote(guest_name.trim());
+            req.session.error = ['votesuccess', 'votenotify'];
+            logToFile(`[VOTE] Guest voted: ${guest_name}`);
+        } else {
+            req.session.error = ['votefail'];
+        }
         res.redirect('/');
     } catch (err) {
+        console.error('[VOTE ERROR]', err);
         req.session.error = ['votefail'];
-        console.error('[VOTE] Failed to insert vote:', err);
-        logToFile('[VOTE] Failed to insert vote:', err);
         res.redirect('/');
     }
 });
