@@ -31,19 +31,19 @@
       <ul class='navbar-nav ms-auto'>
         <% if (user) { %>
           <li class='nav-item dropdown w-100 text-center text-lg-start'>
-            <a class="nav-link dropdown-toggle d-flex justify-content-center justify-content-lg-end align-items-center gap-2"
-              href="#" role="button" data-bs-toggle="dropdown">
+            <a class='nav-link dropdown-toggle d-flex justify-content-center justify-content-lg-end align-items-center gap-2'
+              href='#' role='button' data-bs-toggle='dropdown'>
               <span>
                 <%= user.nickname %>
               </span>
               <% if (user.profile_picture) { %>
-                <img src="/uploads/profile/<%= user.profile_picture %>" alt="Profile" width="36" height="36"
-                  class="rounded-circle bg-light">
+                <img src='/uploads/profile/<%= user.profile_picture %>' alt='Profile' width='36' height='36'
+                  class='rounded-circle bg-light'>
                 <% } %>
             </a>
             <ul class='dropdown-menu dropdown-menu-end' aria-labelledby='userDropdown'>
               <li>
-                <a class="dropdown-item" href="#" id="openEditProfileModal">Edit Profile</a>
+                <a class='dropdown-item' href='#' id='openEditProfileModal'>Edit Profile</a>
               </li>
               <li>
                 <form method='GET' action='/logout' class='dropdown-item m-0 p-0'>

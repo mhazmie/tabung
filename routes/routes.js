@@ -108,14 +108,30 @@ router.get('/spending', isAuthenticated, isAdmin, async (req, res) => {
 router.get('/admin', isAuthenticated, isAdmin, async (req, res) => {
     const userId = req.session.user?.id;
     const errors = req.session.error || [];
-    const votes = await db.getAllVotes();
-    req.session.error = null;
     try {
-        const [users, roles, noticeResult] = await Promise.all([
+        const [users, roles, noticeResult, votes, detailedVotes] = await Promise.all([
             db.getAllUsers(userId),
             db.getAllRoles(userId),
             db.getNotice(userId),
+            db.getAllVotes(),
+            db.getDetailedVotes()
         ]);
+        const picMap = {};
+        detailedVotes.forEach(v => {
+            if (v.users_id) {
+                picMap[v.users_id] = {
+                    profile_picture: v.profile_picture,
+                    nickname: v.nickname
+                };
+            }
+        });
+        votes.forEach(vote => {
+            if (vote.users_id && picMap[vote.users_id]) {
+                vote.profile_picture = picMap[vote.users_id].profile_picture || 'default.png';
+            } else {
+                vote.profile_picture = 'default.png';
+            }
+        });
         const notice = noticeResult?.[0] || null;
         const logFilePath = path.join(__dirname, '..', 'logs', 'system.log');
         let logs = '';
@@ -124,7 +140,6 @@ router.get('/admin', isAuthenticated, isAdmin, async (req, res) => {
             const today = new Date().toISOString().slice(0, 10);
             logs = raw
                 .split('\n')
-                // .filter(line => line.startsWith(today))
                 .filter(line => line.trim() !== '')
                 .map(line => {
                     const match = line.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z)\s+(.*)$/);
@@ -142,6 +157,7 @@ router.get('/admin', isAuthenticated, isAdmin, async (req, res) => {
                     }
                 });
         }
+        req.session.error = null;
         res.render('admin', { users, roles, notice, error: errors, logs, votes });
     } catch (err) {
         console.error(`[ADMIN] Failed to load admin data (user ${userId}):`, err);
