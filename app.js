@@ -47,6 +47,7 @@ app.use(session({
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production'
+
   }
 }));
 app.use((req, res, next) => {
@@ -63,4 +64,5 @@ app.use((req, res) => {
 
 app.listen(PORT, () => {
   console.log(`✅ Server is running on ${DOMAIN}${PORT}`);
+  console.log('🌍 NODE_ENV:', process.env.NODE_ENV);
 });
