@@ -46,8 +46,7 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 * 14, // 14 days
     httpOnly: true,
     sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production'
-
+    secure: false
   }
 }));
 app.use((req, res, next) => {
@@ -64,5 +63,4 @@ app.use((req, res) => {
 
 app.listen(PORT, () => {
   console.log(`✅ Server is running on ${DOMAIN}${PORT}`);
-  console.log('🌍 NODE_ENV:', process.env.NODE_ENV);
 });
