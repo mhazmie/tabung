@@ -1,5 +1,4 @@
 const mysql = require('mysql2');
-const { logToFile } = require('./logs/logger');
 
 const connection = mysql.createPool({
   connectionLimit: 10,
