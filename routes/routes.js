@@ -15,6 +15,9 @@ const erroru = 'Error 402 : Update failed';
 router.get('/login', (req, res) => {
     const errors = req.session.error || [];
     req.session.error = null;
+    if (req.query.showVote === '1') {
+        req.session.showVoteAfterLogin = true;
+    }
     res.render('login', { error: errors });
 });
 
@@ -30,6 +33,8 @@ router.get('/', async (req, res) => {
             votecount: votecount[0]?.total || 0,
             voters: detailedVoters || [],
             error: errors,
+            showVote: req.query.showVote === '1',
+            user: req.session.user
         });
     } catch (err) {
         console.error(`[HOME] Failed to fetch data:`, err);
@@ -225,7 +230,9 @@ router.post('/login',
                 profile_picture: user.profile_picture
             };
             req.session.error = ['successlogin'];
-            return res.redirect('/');
+            const showVote = req.session.showVoteAfterLogin;
+            req.session.showVoteAfterLogin = null;
+            return res.redirect(showVote ? '/?showVote=1' : '/');
         } catch (err) {
             console.error(`[LOGIN] Error during login for ${username}:`, err);
             logToFile(`[LOGIN] Error during login for ${username}:`, err);
