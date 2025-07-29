@@ -38,7 +38,7 @@
               </span>
               <% if (user.profile_picture) { %>
                 <img src='/uploads/profile/<%= user.profile_picture %>' alt='Profile' width='36' height='36'
-                  class='rounded-circle bg-light'>
+                  class='rounded-circle bg-light' style='object-fit: cover;'>
                 <% } %>
             </a>
             <ul class='dropdown-menu dropdown-menu-end' aria-labelledby='userDropdown'>
