@@ -55,9 +55,9 @@
                                         <% votes.forEach(vote=> { %>
                                             <tr>
                                                 <td>
-                                                    <img src='/uploads/profile/<%= vote.profile_picture || "default.png" %>'
-                                                        alt='Profile' class='rounded-circle bg-light' width='32'
-                                                        height='32' style='object-fit: cover;' />
+                                                    <img src='/uploads/profile/<%= user.profile_picture %>'
+                                                        alt='Profile' width='36' height='36'
+                                                        class='rounded-circle bg-light' style='object-fit: cover;'>
                                                 </td>
                                                 <td>
                                                     <%= vote.vote_name %>
@@ -173,7 +173,7 @@
                                                 <td>
                                                     <img src='/uploads/profile/<%= user.profile_picture %>'
                                                         alt='Profile' width='36' height='36'
-                                                        class='rounded-circle bg-light'>
+                                                        class='rounded-circle bg-light' style='object-fit: cover;'>
                                                 </td>
                                                 <td>
                                                     <%= user.username %>
