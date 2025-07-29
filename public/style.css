@@ -258,3 +258,8 @@ h1 {
 .toast-stack .toast+.toast {
   margin-top: 0.5rem;
 }
+
+/* === Responsive Images === */
+.object-cover {
+  object-fit: cover;
+}
