@@ -6,31 +6,28 @@
           <h5 class='modal-title' id='editUserModalLabel'>Edit User</h5>
           <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
         </div>
-
         <div class='modal-body'>
           <input type='hidden' name='users_id' id='edit-id'>
-
           <div class='mb-3'>
             <label for='edit-username' class='form-label'>Username</label>
             <input type='text' name='username' class='form-control' id='edit-username' required>
           </div>
-
           <div class='mb-3'>
             <label for='edit-nickname' class='form-label'>Nickname</label>
             <input type='text' name='nickname' class='form-control' id='admin-edit-nickname' required>
           </div>
-
           <div class='mb-3'>
             <label for='edit-password' class='form-label'>New Password</label>
             <input type='password' name='password' class='form-control' id='edit-password'
               placeholder='Leave blank to keep current password'>
           </div>
-
           <div class='mb-3'>
-            <label for='edit-profile-picture' class='form-label'>Profile Picture</label>
-            <input type='file' name='profile_picture' class='form-control' id='edit-profile-picture' accept='image/*'>
+            <label for='edit-profile-pic' class='form-label'>Profile Picture</label>
+            <div class='form-text text-white-50'>
+              Max file size: 5MB. Allowed types: JPG, PNG, GIF.
+            </div>
+            <input type='file' name='profile_picture' class='form-control' id='edit-profile-pic' accept='image/*'>
           </div>
-
           <div class='mb-3'>
             <label for='edit-role' class='form-label'>Role</label>
             <select name='roles_id' class='form-select' id='edit-role' required>
@@ -42,7 +39,6 @@
             </select>
           </div>
         </div>
-
         <div class='modal-footer border-0'>
           <button type='submit' class='btn btn-primary'>Update</button>
           <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancel</button>
@@ -51,5 +47,4 @@
     </div>
   </div>
 </div>
-
 <script src='/js/edit_users.js'></script>
