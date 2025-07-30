@@ -1,7 +1,6 @@
 const multer = require('multer');
 const path = require('path');
 
-// Store in /public/uploads/profile/
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'public/uploads/profile');

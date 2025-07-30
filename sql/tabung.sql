@@ -14,13 +14,20 @@ nickname VARCHAR(255) UNIQUE NOT NULL,
 profile_picture VARCHAR(255) DEFAULT 'default.png',
 password VARCHAR(255) NOT NULL,
 roles_id INT NOT NULL,
+type_id INT DEFAULT '1',
 created TIMESTAMP DEFAULT NOW(),
-FOREIGN KEY (roles_id) REFERENCES roles(roles_id)
+FOREIGN KEY (roles_id) REFERENCES roles(roles_id),
+FOREIGN KEY (type_id) REFERENCES type(type_id)
 );
 
 CREATE TABLE months (
 month_id INT AUTO_INCREMENT PRIMARY KEY,
 month_name VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE type (
+type_id INT AUTO_INCREMENT PRIMARY KEY,
+type_name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE monthly (
@@ -65,8 +72,13 @@ CREATE TABLE votes (
   vote_name VARCHAR(255) NOT NULL,
   created TIMESTAMP DEFAULT NOW(),
   verified TINYINT DEFAULT 0,
-  ADD FOREIGN KEY (users_id) REFERENCES users(users_id)
+  FOREIGN KEY (users_id) REFERENCES users(users_id)
 );
+
+INSERT INTO roles(role_name) 
+VALUES 
+('user'),
+('admin');
 
 INSERT INTO months(month_name) 
 VALUES 
@@ -83,10 +95,10 @@ VALUES
 ('November'),
 ('December');
 
-INSERT INTO roles(role_name) 
+INSERT INTO type(type_name) 
 VALUES 
-('user'),
-('admin');
+('regular'),
+('member');
 
 INSERT INTO users (username, nickname, password, roles_id)
 VALUES (

@@ -164,6 +164,7 @@
                                             <th></th>
                                             <th>Username</th>
                                             <th>Nickname</th>
+                                            <th>Type</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -180,6 +181,21 @@
                                                 </td>
                                                 <td>
                                                     <%= user.nickname %>
+                                                </td>
+                                                <td>
+                                                    <% if (user.type_id===1) { %>
+                                                        <span class="badge bg-secondary">
+                                                            <%= user.type_name %>
+                                                        </span>
+                                                        <% } else if (user.type_id===2) { %>
+                                                            <span class="badge bg-primary">
+                                                                <%= user.type_name %>
+                                                            </span>
+                                                            <% } else { %>
+                                                                <span class="badge bg-warning">
+                                                                    <%= user.type_name %>
+                                                                </span>
+                                                                <% } %>
                                                 </td>
                                                 <td>
                                                     <button type='button'

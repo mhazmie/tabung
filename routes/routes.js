@@ -56,7 +56,7 @@ router.get('/vote', async (req, res) => {
 router.get('/dashboard', isAuthenticated, async (req, res) => {
     const userId = req.session.user?.id;
     try {
-        const [collected, spent, available, users, months, payments] = await Promise.all([
+        const [collected, spent, available, allUsers, months, payments] = await Promise.all([
             db.getTotalCollected(userId),
             db.getTotalSpent(userId),
             db.getTotalAvailable(userId),
@@ -64,6 +64,7 @@ router.get('/dashboard', isAuthenticated, async (req, res) => {
             db.getAllMonths(userId),
             db.getMonthlyPayments(userId),
         ]);
+        const users = allUsers.filter(user => user.type_id === 2);
         res.render('dashboard', {
             collected: collected[0]?.total_collected || 0,
             spent: spent[0]?.total_spent || 0,
@@ -114,9 +115,10 @@ router.get('/admin', isAuthenticated, isAdmin, async (req, res) => {
     const userId = req.session.user?.id;
     const errors = req.session.error || [];
     try {
-        const [users, roles, noticeResult, votes, detailedVotes] = await Promise.all([
+        const [users, roles, type, noticeResult, votes, detailedVotes] = await Promise.all([
             db.getAllUsers(userId),
             db.getAllRoles(userId),
+            db.getAllType(userId),
             db.getNotice(userId),
             db.getAllVotes(),
             db.getDetailedVotes()
@@ -163,7 +165,7 @@ router.get('/admin', isAuthenticated, isAdmin, async (req, res) => {
                 });
         }
         req.session.error = null;
-        res.render('admin', { users, roles, notice, error: errors, logs, votes });
+        res.render('admin', { users, roles, type, notice, error: errors, logs, votes });
     } catch (err) {
         console.error(`[ADMIN] Failed to load admin data (user ${userId}):`, err);
         logToFile(`[ADMIN] Failed to load admin data (user ${userId}):`, err);
@@ -367,16 +369,16 @@ router.post('/addusers',
 );
 
 router.post('/admin/user/update', upload.single('profile_picture'), async (req, res) => {
-    const { username, nickname, password, roles_id, users_id } = req.body;
+    const { username, nickname, password, type_id, roles_id, users_id } = req.body;
     const profile_picture = req.file ? req.file.filename : null;
     const currentUserId = req.session.user?.id;
     try {
         if (password) {
             const hashedPassword = await bcrypt.hash(password, 10);
-            const data = [username, nickname, hashedPassword, roles_id, users_id];
+            const data = [username, nickname, hashedPassword, type_id, roles_id, users_id];
             await db.updateUserWithPassword(data, currentUserId, profile_picture);
         } else {
-            const data = [username, nickname, roles_id, users_id];
+            const data = [username, nickname, type_id, roles_id, users_id];
             await db.updateUserWithoutPassword(data, currentUserId, profile_picture);
         }
         if (parseInt(users_id) === req.session.user.id) {

@@ -2,6 +2,7 @@ const util = require('util');
 const connection = require('../db');
 const query = util.promisify(connection.query).bind(connection);
 const { logToFile } = require('../logs/logger');
+const { type } = require('os');
 
 module.exports = {
     // Authentication & Users
@@ -15,10 +16,18 @@ module.exports = {
         return query('SELECT * FROM users WHERE username = ? OR nickname = ?', [username, nickname]);
     },
     getAllUsers: async () => {
-        return query('SELECT * FROM users');
+        return query(` 
+            SELECT 
+                users.*, 
+                type.type_name
+            FROM users
+            JOIN type ON users.type_id = type.type_id`);
     },
     getAllRoles: async () => {
         return query('SELECT * FROM roles');
+    },
+    getAllType: async () => {
+        return query('SELECT * FROM type');
     },
     insertUser: async (user, userId) => {
         console.info(`[DB] [User ${userId}] Inserting new user: ${user.username}`);
@@ -26,9 +35,9 @@ module.exports = {
         return query('INSERT INTO users SET ?', user);
     },
     updateUserWithPassword: async (data, userId, profile_picture = null) => {
-        const [username, nickname, password, roles_id, users_id] = data;
-        let sql = 'UPDATE users SET username = ?, nickname = ?, password = ?, roles_id = ?';
-        const params = [username, nickname, password, roles_id];
+        const [username, nickname, password, type_id, roles_id, users_id] = data;
+        let sql = 'UPDATE users SET username = ?, nickname = ?, password = ?, type_id= ?, roles_id = ?';
+        const params = [username, nickname, password, type_id, roles_id];
         if (profile_picture) {
             sql += ', profile_picture = ?';
             params.push(profile_picture);
@@ -40,9 +49,9 @@ module.exports = {
         return query(sql, params);
     },
     updateUserWithoutPassword: async (data, userId, profile_picture = null) => {
-        const [username, nickname, roles_id, users_id] = data;
-        let sql = 'UPDATE users SET username = ?, nickname = ?, roles_id = ?';
-        const params = [username, nickname, roles_id];
+        const [username, nickname, type_id, roles_id, users_id] = data;
+        let sql = 'UPDATE users SET username = ?, nickname = ?, type_id = ?, roles_id = ?';
+        const params = [username, nickname, type_id, roles_id];
         if (profile_picture) {
             sql += ', profile_picture = ?';
             params.push(profile_picture);

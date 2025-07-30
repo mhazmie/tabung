@@ -9,28 +9,38 @@
         <div class='modal-body'>
           <input type='hidden' name='users_id' id='edit-id'>
           <div class='mb-3'>
-            <label for='edit-username' class='form-label'>Username</label>
-            <input type='text' name='username' class='form-control' id='edit-username' required>
+            <label for='admin-edit-username' class='form-label'>Username</label>
+            <input type='text' name='username' class='form-control' id='admin-edit-username' required>
           </div>
           <div class='mb-3'>
-            <label for='edit-nickname' class='form-label'>Nickname</label>
+            <label for='admin-edit-nickname' class='form-label'>Nickname</label>
             <input type='text' name='nickname' class='form-control' id='admin-edit-nickname' required>
           </div>
           <div class='mb-3'>
-            <label for='edit-password' class='form-label'>New Password</label>
-            <input type='password' name='password' class='form-control' id='edit-password'
+            <label for='admin-edit-password' class='form-label'>New Password</label>
+            <input type='password' name='password' class='form-control' id='admin-edit-password'
               placeholder='Leave blank to keep current password'>
           </div>
           <div class='mb-3'>
-            <label for='edit-profile-pic' class='form-label'>Profile Picture</label>
+            <label for='admin-edit-profile-pic' class='form-label'>Profile Picture</label>
             <div class='form-text text-white-50'>
               Max file size: 5MB. Allowed types: JPG, PNG, GIF.
             </div>
-            <input type='file' name='profile_picture' class='form-control' id='edit-profile-pic' accept='image/*'>
+            <input type='file' name='profile_picture' class='form-control' id='admin-edit-profile-pic' accept='image/*'>
           </div>
           <div class='mb-3'>
-            <label for='edit-role' class='form-label'>Role</label>
-            <select name='roles_id' class='form-select' id='edit-role' required>
+            <label for='admin-edit-type' class='form-label'>Type</label>
+            <select name='type_id' class='form-select' id='admin-edit-type' required>
+              <% type.forEach(function(type) { %>
+                <option value='<%= type.type_id %>'>
+                  <%= type.type_name %>
+                </option>
+                <% }); %>
+            </select>
+          </div>
+          <div class='mb-3'>
+            <label for='admin-edit-role' class='form-label'>Role</label>
+            <select name='roles_id' class='form-select' id='admin-edit-role' required>
               <% roles.forEach(function(role) { %>
                 <option value='<%= role.roles_id %>'>
                   <%= role.role_name %>
