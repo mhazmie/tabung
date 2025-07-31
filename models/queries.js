@@ -202,15 +202,17 @@ module.exports = {
     },
     getDetailedVotes: async () => {
         return query(`
-        SELECT 
-            votes.vote_name,
-            votes.users_id,
-            users.nickname,
-            users.profile_picture
-        FROM votes
-        LEFT JOIN users ON votes.users_id = users.users_id
-        WHERE votes.verified = 1
-        ORDER BY votes.created DESC
+            SELECT 
+              v.*, 
+              u.nickname, 
+              u.profile_picture,
+              u.type_id,
+              t.type_name
+            FROM votes v
+            LEFT JOIN users u ON v.users_id = u.users_id
+            LEFT JOIN type t ON u.type_id = t.type_id
+            WHERE v.verified = 1
+            ORDER BY v.created DESC
     `);
     }
 };
