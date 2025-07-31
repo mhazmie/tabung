@@ -21,7 +21,9 @@ module.exports = {
                 users.*, 
                 type.type_name
             FROM users
-            JOIN type ON users.type_id = type.type_id`);
+            JOIN type ON users.type_id = type.type_id
+            ORDER BY users.created
+        `);
     },
     getAllRoles: async () => {
         return query('SELECT * FROM roles');
