@@ -257,11 +257,11 @@ router.post('/vote', async (req, res) => {
             }
             await db.insertRegisteredVote(nickname, users_id);
             req.session.error = ['votesuccess'];
-            logToFile(`[VOTE] Registered user ${nickname} (ID: ${users_id}) voted`);
+            // logToFile(`[VOTE] Registered user ${nickname} (ID: ${users_id}) voted`);
         } else if (guest_name?.trim()) {
             await db.insertGuestVote(guest_name.trim());
             req.session.error = ['votesuccess', 'votenotify'];
-            logToFile(`[VOTE] Guest voted: ${guest_name}`);
+            // logToFile(`[VOTE] Guest voted: ${guest_name}`);
         } else {
             req.session.error = ['votefail'];
         }
