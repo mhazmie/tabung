@@ -145,33 +145,38 @@ module.exports = {
 
     // Home
     getNotice: async () => {
-        return query('SELECT * FROM notice ORDER BY notice_datetime DESC LIMIT 1');
+        return query(`
+        SELECT 
+            notice_id,
+            notice_location,
+            notice_court,
+            notice_datetime,
+            notice_duration,
+            DATE_FORMAT(notice_datetime, '%Y-%m-%dT%H:%i') AS notice_datetime_local
+        FROM notice
+        ORDER BY notice_datetime DESC
+        LIMIT 1
+    `);
     },
     upsertNotice: async (data, userId) => {
         console.info(`[DB] [User ${userId}] Upserting notice...`);
         logToFile(`[DB] [User ${userId}] Upserting notice...`);
-        const count = await query('SELECT COUNT(*) AS total FROM notice');
-        if (count[0].total > 0) {
-            console.info(`[DB] [User ${userId}] Updating existing notice`);
-            logToFile(`[DB] [User ${userId}] Updating existing notice`);
-            return query(`
-                UPDATE notice SET 
-                    notice_location = ?, 
-                    notice_court = ?, 
-                    notice_datetime = ?, 
-                    notice_duration = ?
-                ORDER BY notice_id DESC
-                LIMIT 1
-            `, [
-                data.notice_location,
-                data.notice_court,
-                data.notice_datetime,
-                data.notice_duration
-            ]);
-        } else {
-            console.info(`[DB] [User ${userId}] Inserting new notice`);
-            logToFile(`[DB] [User ${userId}] Inserting new notice`);
-            return query('INSERT INTO notice SET ?', data);
+        const result = await query(`
+        UPDATE notice 
+        SET notice_location = ?, 
+            notice_court = ?, 
+            notice_datetime = ?, 
+            notice_duration = ?
+    `, [
+            data.notice_location,
+            data.notice_court,
+            data.notice_datetime,
+            data.notice_duration
+        ]);
+        if (result.affectedRows === 0) {
+            console.info(`[DB] [User ${userId}] No existing notice found, inserting new one`);
+            logToFile(`[DB] [User ${userId}] No existing notice found, inserting new one`);
+            await query('INSERT INTO notice SET ?', data);
         }
     },
 

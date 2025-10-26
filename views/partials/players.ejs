@@ -26,7 +26,11 @@
                                             class='rounded-circle bg-light object-cover'>
                                     </td>
                                     <td>
-                                        <%= voter.vote_name %>
+                                        <% if (voter.users_id) { %>
+                                            <%= voter.nickname %>
+                                                <% } else { %>
+                                                    <%= voter.vote_name %>
+                                                        <% } %>
                                     </td>
                                     <td>
                                         <% if (!voter.users_id) { %>

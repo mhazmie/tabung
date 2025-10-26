@@ -234,9 +234,8 @@
                                     <label for='notice_datetime' class='col-sm-2 col-form-label text-sm-end'>Date &
                                         Time:</label>
                                     <div class='col-sm-9'>
-                                        <input type='datetime-local' name='notice_datetime' id='notice_datetime'
-                                            class='form-control'
-                                            value='<%= notice ? new Date(notice.notice_datetime).toISOString().slice(0, 16) : '' %>'
+                                        <input type="datetime-local" name="notice_datetime" id="notice_datetime"
+                                            class="form-control" value="<%= notice?.notice_datetime_local || '' %>"
                                             required>
                                     </div>
                                 </div>
